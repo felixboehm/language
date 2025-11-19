@@ -5,11 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Language Learning</title>
-    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-```
     body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -356,7 +354,6 @@
         }
     }
 </style>
-```
 
 </head>
 <body>
@@ -370,7 +367,6 @@
             </div>
         </header>
 
-```
     <div class="content">
         <!-- Lektionsübersicht -->
         <div id="overview">
@@ -433,13 +429,13 @@
         portuguese: {
             title: '🇵🇹 Portugiesisch Lernen',
             folder: 'lessons/portuguese',
-            lessons: ['01-grundlagen.yaml', '02-modalverben.yaml'],
+            lessons: ['01-grundlagen.json', '02-modalverben.json'],
             speechLang: 'pt-PT'
         },
         english: {
             title: '🇬🇧 English Learning',
             folder: 'lessons/english',
-            lessons: ['01-basic-verbs.yaml'],
+            lessons: ['01-basic-verbs.json'],
             speechLang: 'en-US'
         }
     };
@@ -474,8 +470,7 @@
         for (const filename of config.lessons) {
             try {
                 const response = await fetch(`${config.folder}/${filename}`);
-                const yamlText = await response.text();
-                const lessonData = jsyaml.load(yamlText);
+                const lessonData = await response.json();
                 
                 // Transform YAML structure to match existing format
                 const lesson = {
@@ -1017,7 +1012,6 @@
     // Start
     document.addEventListener('DOMContentLoaded', init);
 </script>
-```
 
 </body>
 </html>

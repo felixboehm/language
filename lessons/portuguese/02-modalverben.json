@@ -1,0 +1,193 @@
+{
+  "number": 2,
+  "title": "Modalverben",
+  "description": "Können, wollen, müssen",
+  "color": "#f59e0b",
+  "sections": [
+    {
+      "verb": "QUERER",
+      "translation": "wollen",
+      "conjugation": "eu quero, tu queres, ele/ela quer, nós queremos, eles/elas querem",
+      "examples": [
+        {
+          "pt": "Eu quero aprender português.",
+          "de": "Ich will Portugiesisch lernen.",
+          "vocabulary": [
+            {
+              "pt": "aprender",
+              "de": "lernen"
+            },
+            {
+              "pt": "português",
+              "de": "Portugiesisch"
+            }
+          ]
+        },
+        {
+          "pt": "Tu queres vir connosco?",
+          "de": "Willst du mit uns kommen?",
+          "vocabulary": [
+            {
+              "pt": "vir",
+              "de": "kommen"
+            },
+            {
+              "pt": "connosco",
+              "de": "mit uns"
+            }
+          ]
+        },
+        {
+          "pt": "Ele quer mudar de emprego.",
+          "de": "Er will den Job wechseln.",
+          "vocabulary": [
+            {
+              "pt": "mudar",
+              "de": "wechseln"
+            },
+            {
+              "pt": "emprego",
+              "de": "Job"
+            }
+          ]
+        },
+        {
+          "pt": "Nós queremos uma casa nova.",
+          "de": "Wir wollen ein neues Haus.",
+          "vocabulary": [
+            {
+              "pt": "casa",
+              "de": "Haus"
+            }
+          ]
+        },
+        {
+          "pt": "Vós quereis descansar?",
+          "de": "Wollt ihr ausruhen?",
+          "vocabulary": [
+            {
+              "pt": "descansar",
+              "de": "ausruhen"
+            }
+          ]
+        },
+        {
+          "pt": "Eles querem viajar.",
+          "de": "Sie wollen reisen.",
+          "vocabulary": [
+            {
+              "pt": "viajar",
+              "de": "reisen"
+            }
+          ]
+        }
+      ],
+      "gerund": {
+        "pt": "Querendo ou não, tens de ir.",
+        "de": "Ob du willst oder nicht, du musst gehen.",
+        "vocabulary": []
+      }
+    },
+    {
+      "verb": "PODER",
+      "translation": "können",
+      "conjugation": "eu posso, tu podes, ele/ela pode, nós podemos, eles/elas podem",
+      "examples": [
+        {
+          "pt": "Eu posso ajudar.",
+          "de": "Ich kann helfen.",
+          "vocabulary": [
+            {
+              "pt": "ajudar",
+              "de": "helfen"
+            }
+          ]
+        },
+        {
+          "pt": "Tu podes fechar a janela?",
+          "de": "Kannst du das Fenster schließen?",
+          "vocabulary": [
+            {
+              "pt": "fechar",
+              "de": "schließen"
+            },
+            {
+              "pt": "janela",
+              "de": "Fenster"
+            }
+          ]
+        },
+        {
+          "pt": "Ela pode falar três línguas.",
+          "de": "Sie kann drei Sprachen sprechen.",
+          "vocabulary": [
+            {
+              "pt": "falar",
+              "de": "sprechen"
+            },
+            {
+              "pt": "línguas",
+              "de": "Sprachen"
+            }
+          ]
+        },
+        {
+          "pt": "Nós podemos marcar uma reunião.",
+          "de": "Wir können ein Meeting vereinbaren.",
+          "vocabulary": [
+            {
+              "pt": "marcar",
+              "de": "vereinbaren"
+            },
+            {
+              "pt": "reunião",
+              "de": "Meeting"
+            }
+          ]
+        },
+        {
+          "pt": "Vós podeis chegar mais cedo?",
+          "de": "Könnt ihr früher ankommen?",
+          "vocabulary": [
+            {
+              "pt": "chegar",
+              "de": "ankommen"
+            },
+            {
+              "pt": "cedo",
+              "de": "früh"
+            }
+          ]
+        },
+        {
+          "pt": "Eles podem trazer os documentos.",
+          "de": "Sie können die Dokumente mitbringen.",
+          "vocabulary": [
+            {
+              "pt": "trazer",
+              "de": "mitbringen"
+            },
+            {
+              "pt": "documentos",
+              "de": "Dokumente"
+            }
+          ]
+        }
+      ],
+      "gerund": {
+        "pt": "Podendo escolher, prefiro casa.",
+        "de": "Wenn ich wählen kann, bevorzuge ich zu Hause.",
+        "vocabulary": [
+          {
+            "pt": "escolher",
+            "de": "wählen"
+          },
+          {
+            "pt": "casa",
+            "de": "Haus"
+          }
+        ]
+      }
+    }
+  ]
+}
