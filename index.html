@@ -809,12 +809,17 @@
                                 return; // Skip
                             }
                         } else {
-                            playQueue.push({ 
-                                text: ex.pt, 
-                                verbIdx: vIdx, 
-                                exampleIdx: exIdx,
-                                isGerund: false
-                            });
+                            // Check if this sentence is filtered out
+                            const selector = `.example[data-verb="${vIdx}"][data-example="${exIdx}"]`;
+                            const element = document.querySelector(selector);
+                            if (element && !element.classList.contains('hidden-filter')) {
+                                playQueue.push({ 
+                                    text: ex.pt, 
+                                    verbIdx: vIdx, 
+                                    exampleIdx: exIdx,
+                                    isGerund: false
+                                });
+                            }
                         }
                     });
                     
@@ -825,11 +830,16 @@
                                 // Don't add current one
                             }
                         } else {
-                            playQueue.push({ 
-                                text: verb.gerund.pt, 
-                                verbIdx: vIdx,
-                                isGerund: true
-                            });
+                            // Check if this gerund sentence is filtered out
+                            const selector = `.example[data-verb="${vIdx}"][data-gerund="true"]`;
+                            const element = document.querySelector(selector);
+                            if (element && !element.classList.contains('hidden-filter')) {
+                                playQueue.push({ 
+                                    text: verb.gerund.pt, 
+                                    verbIdx: vIdx,
+                                    isGerund: true
+                                });
+                            }
                         }
                     }
                 });
@@ -893,19 +903,29 @@
         playQueue = [];
         currentLesson.verben.forEach((verb, verbIdx) => {
             verb.examples.forEach((ex, exampleIdx) => {
-                playQueue.push({ 
-                    text: ex.pt, 
-                    verbIdx: verbIdx, 
-                    exampleIdx: exampleIdx,
-                    isGerund: false
-                });
+                // Check if this sentence is filtered out
+                const selector = `.example[data-verb="${verbIdx}"][data-example="${exampleIdx}"]`;
+                const element = document.querySelector(selector);
+                if (element && !element.classList.contains('hidden-filter')) {
+                    playQueue.push({ 
+                        text: ex.pt, 
+                        verbIdx: verbIdx, 
+                        exampleIdx: exampleIdx,
+                        isGerund: false
+                    });
+                }
             });
             if (verb.gerund) {
-                playQueue.push({ 
-                    text: verb.gerund.pt, 
-                    verbIdx: verbIdx,
-                    isGerund: true
-                });
+                // Check if this gerund sentence is filtered out
+                const selector = `.example[data-verb="${verbIdx}"][data-gerund="true"]`;
+                const element = document.querySelector(selector);
+                if (element && !element.classList.contains('hidden-filter')) {
+                    playQueue.push({ 
+                        text: verb.gerund.pt, 
+                        verbIdx: verbIdx,
+                        isGerund: true
+                    });
+                }
             }
         });
 
