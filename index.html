@@ -4,924 +4,182 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Language Learning</title>
-    <script src="simple-yaml.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-            border-radius: 12px 12px 0 0;
-            position: relative;
-        }
-        
-        .settings-btn {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-        
-        .settings-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: rotate(90deg);
-        }
-        
-        h1 { font-size: 2.5em; margin-bottom: 10px; }
-        h2 { font-size: 1.8em; margin-bottom: 15px; color: #667eea; }
-        
-        .content { padding: 30px; }
-        
-        .hidden { display: none !important; }
-        
-        /* Language Selection */
-        .language-selector {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        
-        .selector-row {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .selector-row label {
-            font-weight: 600;
-            min-width: 150px;
-            color: #333;
-        }
-        
-        .selector-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .selector-btn {
-            padding: 10px 20px;
-            border: 2px solid #667eea;
-            background: white;
-            color: #667eea;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        
-        .selector-btn:hover {
-            background: #f0f4ff;
-        }
-        
-        .selector-btn.active {
-            background: #667eea;
-            color: white;
-        }
-        
-        .load-btn {
-            padding: 15px 30px;
-            background: #22c55e;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
-        }
-        
-        .load-btn:hover {
-            background: #16a34a;
-            transform: translateY(-2px);
-        }
-        
-        .load-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        /* Lessons Grid */
-        .lessons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .lesson-card {
-            border: 3px solid #667eea;
-            border-radius: 12px;
-            padding: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: white;
-        }
-        
-        .lesson-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-        
-        .lesson-number {
-            font-size: 3em;
-            font-weight: bold;
-            opacity: 0.2;
-            line-height: 1;
-            color: #667eea;
-        }
-        
-        .lesson-title {
-            font-size: 1.5em;
-            font-weight: 600;
-            margin: 10px 0;
-            color: #333;
-        }
-        
-        .lesson-desc {
-            color: #666;
-            margin-bottom: 10px;
-        }
-        
-        /* Lesson Detail */
-        .lesson-detail {
-            margin-top: 30px;
-        }
-        
-        .back-btn {
-            padding: 12px 24px;
-            background: #e5e7eb;
-            color: #333;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        
-        .back-btn:hover {
-            background: #d1d5db;
-        }
-        
-        .section-card {
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .section-title {
-            font-size: 1.5em;
-            color: #667eea;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        
-        .explanation {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            color: #555;
-        }
-        
-        .example {
-            background: #fff7ed;
-            border-left: 4px solid #fb923c;
-            padding: 15px;
-            margin-bottom: 12px;
-            border-radius: 4px;
-        }
-        
-        .example.with-label {
-            background: #f0f9ff;
-            border-left-color: #0ea5e9;
-        }
-        
-        .example-labels {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 8px;
-        }
-        
-        .label-tag {
-            background: #0ea5e9;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.75em;
-            font-weight: 600;
-        }
-        
-        .example-q {
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-        
-        .example-a {
-            color: #666;
-            font-style: italic;
-            margin-bottom: 10px;
-        }
-        
-        .vocab-box {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
-        .vocab-item {
-            background: white;
-            border: 1px solid #e9ecef;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.85em;
-        }
-        
-        .vocab-term {
-            font-weight: 600;
-            color: #667eea;
-        }
-        
-        /* Settings Section */
-        #settings-section {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        
-        .settings-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e5e7eb;
-        }
-        
-        .settings-header h2 {
-            color: #667eea;
-            margin: 0;
-        }
-        
-        .done-btn {
-            padding: 10px 24px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .done-btn:hover {
-            background: #5568d3;
-        }
-        
-        .setting-group {
-            margin-bottom: 25px;
-        }
-        
-        .setting-label {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-            display: block;
-            font-size: 1.1em;
-        }
-        
-        .setting-description {
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 12px;
-        }
-        
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-            cursor: pointer;
-        }
-        
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-        
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        .toggle-switch input:checked + .toggle-slider {
-            background-color: #667eea;
-        }
-        
-        .toggle-switch input:checked + .toggle-slider:before {
-            transform: translateX(26px);
-        }
-        
-        .hidden-translation {
-            display: none !important;
-        }
-        
-        /* Dark Mode Styles */
-        body.dark-mode {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        }
-        
-        body.dark-mode .container {
-            background: #0f1419;
-            color: #e5e7eb;
-        }
-        
-        body.dark-mode header {
-            background: linear-gradient(135deg, #3b4f8c 0%, #4a3a6e 100%);
-        }
-        
-        body.dark-mode h2 {
-            color: #818cf8;
-        }
-        
-        body.dark-mode .language-selector {
-            background: #1a1f2e;
-        }
-        
-        body.dark-mode .selector-row label {
-            color: #e5e7eb;
-        }
-        
-        body.dark-mode .selector-btn {
-            background: #0f1419;
-            color: #e5e7eb;
-            border-color: #374151;
-        }
-        
-        body.dark-mode .selector-btn:hover {
-            background: #1a1f2e;
-        }
-        
-        body.dark-mode .selector-btn.active {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-        
-        body.dark-mode .load-btn {
-            background: #22c55e;
-        }
-        
-        body.dark-mode .back-btn {
-            background: #374151;
-            color: #e5e7eb;
-        }
-        
-        body.dark-mode .back-btn:hover {
-            background: #4b5563;
-        }
-        
-        body.dark-mode .lesson-card {
-            background: #1a1f2e;
-            border-color: #374151;
-        }
-        
-        body.dark-mode .lesson-card:hover {
-            border-color: #667eea;
-        }
-        
-        body.dark-mode .lesson-number {
-            color: #667eea;
-        }
-        
-        body.dark-mode .lesson-title {
-            color: #e5e7eb;
-        }
-        
-        body.dark-mode .lesson-desc {
-            color: #9ca3af;
-        }
-        
-        body.dark-mode .section-card {
-            background: #1a1f2e;
-            border-color: #374151;
-        }
-        
-        body.dark-mode .section-title {
-            color: #818cf8;
-        }
-        
-        body.dark-mode .explanation {
-            background: #0f1419;
-            color: #d1d5db;
-        }
-        
-        body.dark-mode .example {
-            background: #1a1f2e;
-            border-left-color: #fb923c;
-        }
-        
-        body.dark-mode .example.with-label {
-            background: #0f1831;
-        }
-        
-        body.dark-mode .example-q {
-            color: #e5e7eb;
-        }
-        
-        body.dark-mode .example-a {
-            color: #9ca3af;
-        }
-        
-        body.dark-mode .vocab-item {
-            background: #0f1419;
-            border-color: #374151;
-            color: #e5e7eb;
-        }
-        
-        body.dark-mode .vocab-term {
-            color: #818cf8;
-        }
-        
-        body.dark-mode .modal-content {
-            background: #16213e;
-            color: #e5e7eb;
-        }
-        
-        body.dark-mode #settings-section {
-            background: #1a1f2e;
-        }
-        
-        body.dark-mode .settings-header {
-            border-bottom-color: #374151;
-        }
-        
-        body.dark-mode .settings-header h2 {
-            color: #818cf8;
-        }
-        
-        body.dark-mode .done-btn {
-            background: #667eea;
-        }
-        
-        body.dark-mode .done-btn:hover {
-            background: #5568d3;
-        }
-        
-        body.dark-mode .setting-label {
-            color: #e5e7eb;
-        }
-        
-        body.dark-mode .setting-description {
-            color: #9ca3af;
-        }
-        
-        @media (max-width: 768px) {
-            .lessons-grid { grid-template-columns: 1fr; }
-            h1 { font-size: 1.8em; }
-            .selector-row { flex-direction: column; align-items: flex-start; }
-            .selector-row label { min-width: auto; }
-            .settings-btn {
-                top: 20px;
-                right: 20px;
-                width: 40px;
-                height: 40px;
-                font-size: 20px;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            500: '#667eea',
+                            600: '#5568d3',
+                        },
+                        secondary: {
+                            500: '#764ba2',
+                        }
+                    }
+                }
             }
         }
-    </style>
+    </script>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <button class="settings-btn" onclick="openSettings()" title="Settings">⚙️</button>
-            <h1>🌍 Language Learning</h1>
-            <p>Learn any language with structured lessons</p>
-        </header>
-        
-        <div class="content">
-            <!-- Settings Section -->
-            <div id="settings-section" class="hidden">
-                <div class="settings-header">
-                    <h2>⚙️ Settings</h2>
-                    <button class="done-btn" onclick="closeSettings()">Done</button>
-                </div>
-                
-                <div class="setting-group">
-                    <label class="setting-label">Show Translations</label>
-                    <div class="setting-description">
-                        Show or hide answer translations in lessons
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="showTranslation" onchange="toggleTranslation()" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                
-                <div class="setting-group">
-                    <label class="setting-label">Dark Mode</label>
-                    <div class="setting-description">
-                        Dark color scheme for comfortable reading at night
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="darkMode" onchange="toggleDarkMode()">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-            </div>
+<body class="bg-gradient-to-br from-primary-500 to-secondary-500 min-h-screen p-5">
+    <div id="app">
+        <div class="max-w-6xl mx-auto bg-white dark:bg-gray-900 rounded-xl shadow-2xl">
+            <!-- Header -->
+            <header class="bg-gradient-to-br from-primary-500 to-secondary-500 text-white p-8 text-center rounded-t-xl relative">
+                <button 
+                    @click="openSettings" 
+                    class="absolute top-8 right-8 bg-white bg-opacity-20 border-2 border-white border-opacity-50 text-white w-12 h-12 rounded-full text-2xl hover:bg-opacity-30 transition-all hover:rotate-90"
+                    title="Settings">
+                    ⚙️
+                </button>
+                <h1 class="text-4xl font-bold mb-2">🌍 Language Learning</h1>
+                <p>Learn any language with structured lessons</p>
+            </header>
             
-            <!-- Language Selection -->
-            <div id="language-selection">
-                <div class="language-selector">
-                    <h2>Select Learning Options</h2>
-                    
-                    <div class="selector-row">
-                        <label>I want to learn in:</label>
-                        <div class="selector-buttons" id="learning-lang-buttons"></div>
+            <!-- Content -->
+            <div class="p-8">
+                <!-- Settings Section -->
+                <div v-show="currentView === 'settings'" class="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg mb-8">
+                    <div class="flex justify-between items-center mb-6 pb-4 border-b-2 border-gray-300 dark:border-gray-600">
+                        <h2 class="text-3xl font-bold text-primary-500 dark:text-blue-400">⚙️ Settings</h2>
+                        <button 
+                            @click="closeSettings" 
+                            class="px-6 py-2 bg-primary-500 text-white rounded-lg font-semibold hover:bg-primary-600 transition">
+                            Done
+                        </button>
                     </div>
                     
-                    <div class="selector-row">
-                        <label>What I want to learn:</label>
-                        <div class="selector-buttons" id="teaching-topic-buttons"></div>
+                    <div class="mb-6">
+                        <label class="block font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg">Show Translations</label>
+                        <div class="text-gray-600 dark:text-gray-400 text-sm mb-3">
+                            Show or hide answer translations in lessons
+                        </div>
+                        <label class="relative inline-block w-14 h-8 cursor-pointer">
+                            <input type="checkbox" v-model="settings.showTranslation" @change="saveSettings" class="opacity-0 w-0 h-0 peer">
+                            <span class="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-600 transition rounded-full peer-checked:bg-primary-500 before:content-[''] before:absolute before:h-6 before:w-6 before:left-1 before:bottom-1 before:bg-white before:transition before:rounded-full peer-checked:before:translate-x-6"></span>
+                        </label>
                     </div>
                     
-                    <button class="load-btn" id="load-lessons-btn" onclick="loadSelectedLessons()" disabled>
-                        Load Lessons
+                    <div class="mb-6">
+                        <label class="block font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg">Dark Mode</label>
+                        <div class="text-gray-600 dark:text-gray-400 text-sm mb-3">
+                            Dark color scheme for comfortable reading at night
+                        </div>
+                        <label class="relative inline-block w-14 h-8 cursor-pointer">
+                            <input type="checkbox" v-model="settings.darkMode" @change="toggleDarkMode" class="opacity-0 w-0 h-0 peer">
+                            <span class="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-600 transition rounded-full peer-checked:bg-primary-500 before:content-[''] before:absolute before:h-6 before:w-6 before:left-1 before:bottom-1 before:bg-white before:transition before:rounded-full peer-checked:before:translate-x-6"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Language Selection -->
+                <div v-show="currentView === 'selection'">
+                    <div class="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg mb-8">
+                        <h2 class="text-3xl font-bold mb-4 text-primary-500 dark:text-blue-400">Select Learning Options</h2>
+                        
+                        <div class="mb-4">
+                            <label class="block font-semibold text-gray-800 dark:text-gray-200 mb-3 min-w-[150px]">I want to learn in:</label>
+                            <div class="flex flex-wrap gap-2">
+                                <button 
+                                    v-for="lang in learningLanguages" 
+                                    :key="lang"
+                                    @click="selectLearning(lang)"
+                                    :class="['px-5 py-2 border-2 rounded-md font-semibold transition', 
+                                             selectedLearning === lang 
+                                                ? 'bg-primary-500 text-white border-primary-500' 
+                                                : 'bg-white dark:bg-gray-900 text-primary-500 dark:text-gray-200 border-primary-500 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-gray-700']">
+                                    {{ formatLangName(lang) }}
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block font-semibold text-gray-800 dark:text-gray-200 mb-3 min-w-[150px]">What I want to learn:</label>
+                            <div class="flex flex-wrap gap-2" v-if="teachingTopics.length > 0">
+                                <button 
+                                    v-for="topic in teachingTopics" 
+                                    :key="topic"
+                                    @click="selectTeaching(topic)"
+                                    :class="['px-5 py-2 border-2 rounded-md font-semibold transition',
+                                             selectedTeaching === topic 
+                                                ? 'bg-primary-500 text-white border-primary-500' 
+                                                : 'bg-white dark:bg-gray-900 text-primary-500 dark:text-gray-200 border-primary-500 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-gray-700']">
+                                    {{ formatLangName(topic) }}
+                                </button>
+                            </div>
+                            <p v-else class="text-gray-500 dark:text-gray-400">Select a learning language first</p>
+                        </div>
+                        
+                        <button 
+                            @click="loadSelectedLessons" 
+                            :disabled="!canLoadLessons"
+                            :class="['px-8 py-4 rounded-lg text-lg font-semibold transition mt-2',
+                                     canLoadLessons 
+                                        ? 'bg-green-500 text-white hover:bg-green-600 hover:-translate-y-0.5' 
+                                        : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed']">
+                            Load Lessons
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Lessons Overview -->
+                <div v-show="currentView === 'overview'">
+                    <button @click="backToSelection" class="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg font-semibold mb-5 hover:bg-gray-300 dark:hover:bg-gray-600">
+                        ← Change Selection
                     </button>
+                    <h2 class="text-3xl font-bold mb-5 text-primary-500 dark:text-blue-400">{{ overviewTitle }}</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+                        <div 
+                            v-for="lesson in loadedLessons" 
+                            :key="lesson.number"
+                            @click="openLesson(lesson.number)"
+                            class="border-3 border-primary-500 dark:border-gray-600 rounded-xl p-6 cursor-pointer transition hover:-translate-y-1 hover:shadow-xl bg-white dark:bg-gray-800">
+                            <div class="text-6xl font-bold opacity-20 text-primary-500 dark:text-blue-400">{{ lesson.number }}</div>
+                            <div class="text-2xl font-semibold my-2 text-gray-800 dark:text-gray-200">{{ lesson.title }}</div>
+                            <div class="text-gray-600 dark:text-gray-400 mb-2">{{ lesson.description || '' }}</div>
+                            <div class="text-primary-500 dark:text-blue-400 font-semibold">{{ lesson.sections.length }} sections</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Lessons Overview -->
-            <div id="lessons-overview" class="hidden">
-                <button class="back-btn" onclick="backToSelection()">← Change Selection</button>
-                <h2 id="overview-title"></h2>
-                <div id="lessons-grid" class="lessons-grid"></div>
-            </div>
-            
-            <!-- Lesson Detail -->
-            <div id="lesson-detail" class="hidden">
-                <button class="back-btn" onclick="backToOverview()">← Back to Lessons</button>
-                <div id="lesson-content"></div>
+                
+                <!-- Lesson Detail -->
+                <div v-show="currentView === 'detail'" v-if="currentLesson">
+                    <button @click="backToOverview" class="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg font-semibold mb-5 hover:bg-gray-300 dark:hover:bg-gray-600">
+                        ← Back to Lessons
+                    </button>
+                    <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200">{{ currentLesson.title }}</h1>
+                    <p class="text-gray-600 dark:text-gray-400 my-3 text-lg">{{ currentLesson.description || '' }}</p>
+                    
+                    <div v-for="(section, idx) in currentLesson.sections" :key="idx" class="border-2 border-gray-200 dark:border-gray-700 rounded-lg p-5 mb-5 bg-white dark:bg-gray-800">
+                        <div class="text-2xl text-primary-500 dark:text-blue-400 font-bold mb-4">{{ section.title }}</div>
+                        <div v-if="section.explanation" class="bg-gray-100 dark:bg-gray-900 p-4 rounded mb-4 text-gray-700 dark:text-gray-300" v-html="marked(section.explanation)"></div>
+                        
+                        <div v-for="(example, exIdx) in section.examples" :key="exIdx" 
+                             :class="['p-4 mb-3 rounded', example.labels ? 'bg-blue-50 dark:bg-blue-900 dark:bg-opacity-20 border-l-4 border-blue-500' : 'bg-orange-50 dark:bg-orange-900 dark:bg-opacity-20 border-l-4 border-orange-500']">
+                            <div v-if="example.labels" class="flex gap-1 mb-2">
+                                <span v-for="label in example.labels" :key="label" class="bg-blue-500 text-white px-2 py-0.5 rounded text-xs font-semibold">
+                                    {{ label }}
+                                </span>
+                            </div>
+                            <div class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">❓ {{ example.q }}</div>
+                            <div v-show="settings.showTranslation" class="text-gray-600 dark:text-gray-400 italic mb-2">✓ {{ example.a }}</div>
+                            <div v-if="example.rel && example.rel.length > 0" class="flex flex-wrap gap-2 mt-2">
+                                <div v-for="(item, relIdx) in example.rel" :key="relIdx" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-2 py-1 rounded text-sm">
+                                    <span class="font-semibold text-primary-500 dark:text-blue-400">{{ item[0] }}</span> → {{ item.slice(1).join(' • ') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <script>
-        // Available learning languages and topics
-        const availableContent = {
-            'deutsch': {
-                'portugiesisch': ['01-basic-verbs', '02-modal-verbs', '03-daily-activities'],
-                'englisch': ['01-greetings']
-            }
-        };
-        
-        let selectedLearning = null;
-        let selectedTeaching = null;
-        let loadedLessons = [];
-        let currentLesson = null;
-        
-        // Settings state
-        let settings = {
-            showTranslation: true,
-            darkMode: false
-        };
-        
-        // Initialize the app
-        function init() {
-            loadSettings();
-            applySettings();
-            populateSelectors();
-        }
-        
-        function populateSelectors() {
-            const learningButtons = document.getElementById('learning-lang-buttons');
-            const teachingButtons = document.getElementById('teaching-topic-buttons');
-            
-            // Populate learning languages
-            const learningLangs = Object.keys(availableContent);
-            learningButtons.innerHTML = learningLangs.map(lang => 
-                `<button class="selector-btn" onclick="selectLearning('${lang}')">${formatLangName(lang)}</button>`
-            ).join('');
-            
-            // Initially disable teaching buttons
-            teachingButtons.innerHTML = '<p style="color: #999;">Select a learning language first</p>';
-        }
-        
-        function formatLangName(name) {
-            const names = {
-                'deutsch': 'Deutsch',
-                'english': 'English',
-                'portugiesisch': 'Portugiesisch',
-                'englisch': 'Englisch',
-                'portugese': 'Portuguese'
-            };
-            return names[name] || name.charAt(0).toUpperCase() + name.slice(1);
-        }
-        
-        function selectLearning(lang) {
-            selectedLearning = lang;
-            selectedTeaching = null;
-            
-            // Update button states
-            document.querySelectorAll('#learning-lang-buttons .selector-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Populate teaching options
-            const teachingButtons = document.getElementById('teaching-topic-buttons');
-            const topics = Object.keys(availableContent[lang] || {});
-            
-            if (topics.length > 0) {
-                teachingButtons.innerHTML = topics.map(topic => 
-                    `<button class="selector-btn" onclick="selectTeaching('${topic}')">${formatLangName(topic)}</button>`
-                ).join('');
-            } else {
-                teachingButtons.innerHTML = '<p style="color: #999;">No topics available</p>';
-            }
-            
-            updateLoadButton();
-        }
-        
-        function selectTeaching(topic) {
-            selectedTeaching = topic;
-            
-            // Update button states
-            document.querySelectorAll('#teaching-topic-buttons .selector-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            updateLoadButton();
-        }
-        
-        function updateLoadButton() {
-            const btn = document.getElementById('load-lessons-btn');
-            btn.disabled = !(selectedLearning && selectedTeaching);
-        }
-        
-        async function loadSelectedLessons() {
-            if (!selectedLearning || !selectedTeaching) return;
-            
-            const lessonFiles = availableContent[selectedLearning][selectedTeaching];
-            loadedLessons = [];
-            
-            // Load each YAML file
-            for (const file of lessonFiles) {
-                try {
-                    const path = `lessons/${selectedLearning}/${selectedTeaching}/${file}.yaml`;
-                    const response = await fetch(path);
-                    const yamlText = await response.text();
-                    const lessonData = simpleYamlParse(yamlText);
-                    loadedLessons.push(lessonData);
-                } catch (error) {
-                    console.error(`Error loading ${file}:`, error);
-                }
-            }
-            
-            // Sort by lesson number
-            loadedLessons.sort((a, b) => a.number - b.number);
-            
-            showLessonsOverview();
-        }
-        
-        function showLessonsOverview() {
-            document.getElementById('language-selection').classList.add('hidden');
-            document.getElementById('lessons-overview').classList.remove('hidden');
-            document.getElementById('lesson-detail').classList.add('hidden');
-            
-            const title = document.getElementById('overview-title');
-            title.textContent = `${formatLangName(selectedTeaching)} - ${formatLangName(selectedLearning)} Interface`;
-            
-            renderLessonsGrid();
-        }
-        
-        function renderLessonsGrid() {
-            const grid = document.getElementById('lessons-grid');
-            
-            grid.innerHTML = loadedLessons.map(lesson => `
-                <div class="lesson-card" onclick="openLesson(${lesson.number})">
-                    <div class="lesson-number">${lesson.number}</div>
-                    <div class="lesson-title">${lesson.title}</div>
-                    <div class="lesson-desc">${lesson.description || ''}</div>
-                    <div style="color: #667eea; font-weight: 600;">${lesson.sections.length} sections</div>
-                </div>
-            `).join('');
-        }
-        
-        function openLesson(lessonNumber) {
-            currentLesson = loadedLessons.find(l => l.number === lessonNumber);
-            if (!currentLesson) return;
-            
-            document.getElementById('lessons-overview').classList.add('hidden');
-            document.getElementById('lesson-detail').classList.remove('hidden');
-            
-            renderLessonDetail();
-        }
-        
-        function renderLessonDetail() {
-            const content = document.getElementById('lesson-content');
-            
-            let html = `
-                <h1>${currentLesson.title}</h1>
-                <p style="color: #666; margin: 10px 0 30px 0; font-size: 1.1em;">${currentLesson.description || ''}</p>
-            `;
-            
-            currentLesson.sections.forEach(section => {
-                html += `
-                    <div class="section-card">
-                        <div class="section-title">${section.title}</div>
-                        ${section.explanation ? `<div class="explanation">${marked(section.explanation)}</div>` : ''}
-                        
-                        ${section.examples.map(example => `
-                            <div class="example ${example.labels ? 'with-label' : ''}">
-                                ${example.labels ? `
-                                    <div class="example-labels">
-                                        ${example.labels.map(label => `<span class="label-tag">${label}</span>`).join('')}
-                                    </div>
-                                ` : ''}
-                                <div class="example-q">❓ ${example.q}</div>
-                                <div class="example-a">✓ ${example.a}</div>
-                                ${example.rel && example.rel.length > 0 ? `
-                                    <div class="vocab-box">
-                                        ${example.rel.map(item => `
-                                            <div class="vocab-item">
-                                                <span class="vocab-term">${item[0]}</span> → ${item.slice(1).join(' • ')}
-                                            </div>
-                                        `).join('')}
-                                    </div>
-                                ` : ''}
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            });
-            
-            content.innerHTML = html;
-        }
-        
-        function backToOverview() {
-            currentLesson = null;
-            document.getElementById('lesson-detail').classList.add('hidden');
-            document.getElementById('lessons-overview').classList.remove('hidden');
-        }
-        
-        function backToSelection() {
-            loadedLessons = [];
-            currentLesson = null;
-            document.getElementById('lessons-overview').classList.add('hidden');
-            document.getElementById('language-selection').classList.remove('hidden');
-        }
-        
-        // Simple markdown parser for explanations
-        function marked(text) {
-            return text
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/\n-\s/g, '\n• ')
-                .replace(/\n/g, '<br>');
-        }
-        
-        // Settings functions
-        function loadSettings() {
-            const saved = localStorage.getItem('appSettings');
-            if (saved) {
-                settings = JSON.parse(saved);
-            }
-        }
-        
-        function saveSettings() {
-            localStorage.setItem('appSettings', JSON.stringify(settings));
-        }
-        
-        function applySettings() {
-            // Apply dark mode
-            if (settings.darkMode) {
-                document.body.classList.add('dark-mode');
-            } else {
-                document.body.classList.remove('dark-mode');
-            }
-            
-            // Apply translation visibility
-            applyTranslationVisibility();
-            
-            // Update UI controls
-            document.getElementById('showTranslation').checked = settings.showTranslation;
-            document.getElementById('darkMode').checked = settings.darkMode;
-        }
-        
-        function applyTranslationVisibility() {
-            const translations = document.querySelectorAll('.example-a');
-            translations.forEach(el => {
-                if (settings.showTranslation) {
-                    el.classList.remove('hidden-translation');
-                } else {
-                    el.classList.add('hidden-translation');
-                }
-            });
-        }
-        
-        function openSettings() {
-            // Hide all other sections
-            document.getElementById('language-selection').classList.add('hidden');
-            document.getElementById('lessons-overview').classList.add('hidden');
-            document.getElementById('lesson-detail').classList.add('hidden');
-            // Show settings
-            document.getElementById('settings-section').classList.remove('hidden');
-        }
-        
-        function closeSettings() {
-            // Hide settings
-            document.getElementById('settings-section').classList.add('hidden');
-            // Show language selection by default
-            document.getElementById('language-selection').classList.remove('hidden');
-            
-            // If lessons are loaded, show lessons overview instead
-            if (loadedLessons.length > 0) {
-                document.getElementById('language-selection').classList.add('hidden');
-                document.getElementById('lessons-overview').classList.remove('hidden');
-            }
-            
-            // If viewing a lesson, show lesson detail instead
-            if (currentLesson) {
-                document.getElementById('language-selection').classList.add('hidden');
-                document.getElementById('lessons-overview').classList.add('hidden');
-                document.getElementById('lesson-detail').classList.remove('hidden');
-            }
-        }
-        
-        function toggleTranslation() {
-            settings.showTranslation = document.getElementById('showTranslation').checked;
-            saveSettings(); // Save immediately on change
-            applyTranslationVisibility();
-        }
-        
-        function toggleDarkMode() {
-            settings.darkMode = document.getElementById('darkMode').checked;
-            saveSettings(); // Save immediately on change
-            applySettings();
-        }
-        
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+    
+    <script src="js/simple-yaml.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
