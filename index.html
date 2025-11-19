@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portugiesisch Lernen</title>
+    <title>Language Learning</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -361,8 +362,12 @@
 <body>
     <div class="container">
         <header>
-            <h1>🇵🇹 Portugiesisch Lernen</h1>
+            <h1 id="app-title">🌍 Language Learning</h1>
             <p>Lektionsbasiertes Lernen mit Audio</p>
+            <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                <button class="btn btn-primary" id="lang-portuguese" onclick="switchLanguage('portuguese')">🇵🇹 Portugiesisch</button>
+                <button class="btn btn-secondary" id="lang-english" onclick="switchLanguage('english')">🇬🇧 English</button>
+            </div>
         </header>
 
 ```
@@ -423,135 +428,28 @@
 </div>
 
 <script>
-    // Lektionsdaten
-    const LESSONS = [
-        {
-            id: 1,
-            titel: "Grundlagen - Sein und Haben",
-            beschreibung: "Die wichtigsten Basisverben",
-            farbe: "#667eea",
-            verben: [
-                {
-                    id: 1,
-                    verb: "SER",
-                    translation: "sein (permanent)",
-                    conjugation: "eu sou, tu és, ele/ela é, nós somos, eles/elas são",
-                    examples: [
-                        { pt: "Eu sou alemão.", de: "Ich bin Deutscher.", exp: "sou = ich bin" },
-                        { pt: "Tu és inteligente.", de: "Du bist intelligent.", exp: "és = du bist" },
-                        { pt: "Ela é médica.", de: "Sie ist Ärztin.", exp: "é = sie ist" },
-                        { pt: "Nós somos uma equipa.", de: "Wir sind ein Team.", exp: "somos = wir sind" },
-                        { pt: "Vós sois convidados.", de: "Ihr seid Gäste.", exp: "sois = ihr seid" },
-                        { pt: "Eles são programadores.", de: "Sie sind Programmierer.", exp: "são = sie sind" }
-                    ],
-                    gerund: { pt: "Sendo honesto, prefiro ficar em casa.", de: "Um ehrlich zu sein, bleibe ich lieber zu Hause.", exp: "Sendo = seiend" }
-                },
-                {
-                    id: 2,
-                    verb: "ESTAR",
-                    translation: "sein (temporär)",
-                    conjugation: "eu estou, tu estás, ele/ela está, nós estamos, eles/elas estão",
-                    examples: [
-                        { pt: "Eu estou cansado.", de: "Ich bin müde.", exp: "estou = ich bin" },
-                        { pt: "Tu estás feliz.", de: "Du bist glücklich.", exp: "estás = du bist" },
-                        { pt: "Ele está no escritório.", de: "Er ist im Büro.", exp: "está = er ist" },
-                        { pt: "Nós estamos prontos.", de: "Wir sind bereit.", exp: "estamos = wir sind" },
-                        { pt: "Vós estais atrasados.", de: "Ihr seid zu spät.", exp: "estais = ihr seid" },
-                        { pt: "Eles estão em férias.", de: "Sie sind im Urlaub.", exp: "estão = sie sind" }
-                    ],
-                    gerund: { pt: "Estando doente, não posso trabalhar.", de: "Da ich krank bin, kann ich nicht arbeiten.", exp: "Estando = seiend" }
-                },
-                {
-                    id: 3,
-                    verb: "TER",
-                    translation: "haben",
-                    conjugation: "eu tenho, tu tens, ele/ela tem, nós temos, eles/elas têm",
-                    examples: [
-                        { pt: "Eu tenho uma casa.", de: "Ich habe ein Haus.", exp: "tenho = ich habe" },
-                        { pt: "Tu tens dois irmãos?", de: "Hast du zwei Geschwister?", exp: "tens = du hast" },
-                        { pt: "Ela tem talento.", de: "Sie hat Talent.", exp: "tem = sie hat" },
-                        { pt: "Nós temos uma reunião.", de: "Wir haben ein Meeting.", exp: "temos = wir haben" },
-                        { pt: "Vós tendes razão.", de: "Ihr habt Recht.", exp: "tendes = ihr habt" },
-                        { pt: "Eles têm três filhos.", de: "Sie haben drei Kinder.", exp: "têm = sie haben" }
-                    ],
-                    gerund: { pt: "Tendo tempo, vou ler.", de: "Wenn ich Zeit habe, werde ich lesen.", exp: "Tendo = habend" }
-                },
-                {
-                    id: 4,
-                    verb: "FAZER",
-                    translation: "machen",
-                    conjugation: "eu faço, tu fazes, ele/ela faz, nós fazemos, eles/elas fazem",
-                    examples: [
-                        { pt: "Eu faço o pequeno-almoço.", de: "Ich mache das Frühstück.", exp: "faço = ich mache" },
-                        { pt: "Tu fazes um bom trabalho.", de: "Du machst gute Arbeit.", exp: "fazes = du machst" },
-                        { pt: "Ele faz exercício.", de: "Er macht Sport.", exp: "faz = er macht" },
-                        { pt: "Nós fazemos as compras.", de: "Wir machen die Einkäufe.", exp: "fazemos = wir machen" },
-                        { pt: "Vós fazeis barulho.", de: "Ihr macht Lärm.", exp: "fazeis = ihr macht" },
-                        { pt: "Eles fazem voluntariado.", de: "Sie machen Freiwilligenarbeit.", exp: "fazem = sie machen" }
-                    ],
-                    gerund: { pt: "Fazendo isto bem, terás sucesso.", de: "Wenn du das gut machst, wirst du Erfolg haben.", exp: "Fazendo = machend" }
-                },
-                {
-                    id: 5,
-                    verb: "IR",
-                    translation: "gehen",
-                    conjugation: "eu vou, tu vais, ele/ela vai, nós vamos, eles/elas vão",
-                    examples: [
-                        { pt: "Eu vou ao supermercado.", de: "Ich gehe zum Supermarkt.", exp: "vou = ich gehe" },
-                        { pt: "Tu vais à praia?", de: "Gehst du zum Strand?", exp: "vais = du gehst" },
-                        { pt: "Ela vai estudar medicina.", de: "Sie wird Medizin studieren.", exp: "vai = sie geht/wird" },
-                        { pt: "Nós vamos jantar fora.", de: "Wir gehen auswärts essen.", exp: "vamos = wir gehen" },
-                        { pt: "Vós ides ao concerto?", de: "Geht ihr zum Konzert?", exp: "ides = ihr geht" },
-                        { pt: "Eles vão viajar.", de: "Sie werden reisen.", exp: "vão = sie gehen/werden" }
-                    ],
-                    gerund: { pt: "Indo devagar, chegas longe.", de: "Langsam gehend, kommst du weit.", exp: "Indo = gehend" }
-                }
-            ]
+    // Configuration
+    const LANGUAGE_CONFIG = {
+        portuguese: {
+            title: '🇵🇹 Portugiesisch Lernen',
+            folder: 'lessons/portuguese',
+            lessons: ['01-grundlagen.yaml', '02-modalverben.yaml'],
+            speechLang: 'pt-PT'
         },
-        {
-            id: 2,
-            titel: "Modalverben",
-            beschreibung: "Können, wollen, müssen",
-            farbe: "#f59e0b",
-            verben: [
-                {
-                    id: 6,
-                    verb: "QUERER",
-                    translation: "wollen",
-                    conjugation: "eu quero, tu queres, ele/ela quer, nós queremos, eles/elas querem",
-                    examples: [
-                        { pt: "Eu quero aprender português.", de: "Ich will Portugiesisch lernen.", exp: "quero = ich will" },
-                        { pt: "Tu queres vir connosco?", de: "Willst du mit uns kommen?", exp: "queres = du willst" },
-                        { pt: "Ele quer mudar de emprego.", de: "Er will den Job wechseln.", exp: "quer = er will" },
-                        { pt: "Nós queremos uma casa nova.", de: "Wir wollen ein neues Haus.", exp: "queremos = wir wollen" },
-                        { pt: "Vós quereis descansar?", de: "Wollt ihr ausruhen?", exp: "quereis = ihr wollt" },
-                        { pt: "Eles querem viajar.", de: "Sie wollen reisen.", exp: "querem = sie wollen" }
-                    ],
-                    gerund: { pt: "Querendo ou não, tens de ir.", de: "Ob du willst oder nicht, du musst gehen.", exp: "Querendo = wollend" }
-                },
-                {
-                    id: 7,
-                    verb: "PODER",
-                    translation: "können",
-                    conjugation: "eu posso, tu podes, ele/ela pode, nós podemos, eles/elas podem",
-                    examples: [
-                        { pt: "Eu posso ajudar.", de: "Ich kann helfen.", exp: "posso = ich kann" },
-                        { pt: "Tu podes fechar a janela?", de: "Kannst du das Fenster schließen?", exp: "podes = du kannst" },
-                        { pt: "Ela pode falar três línguas.", de: "Sie kann drei Sprachen sprechen.", exp: "pode = sie kann" },
-                        { pt: "Nós podemos marcar uma reunião.", de: "Wir können ein Meeting vereinbaren.", exp: "podemos = wir können" },
-                        { pt: "Vós podeis chegar mais cedo?", de: "Könnt ihr früher ankommen?", exp: "podeis = ihr könnt" },
-                        { pt: "Eles podem trazer os documentos.", de: "Sie können die Dokumente mitbringen.", exp: "podem = sie können" }
-                    ],
-                    gerund: { pt: "Podendo escolher, prefiro casa.", de: "Wenn ich wählen kann, bevorzuge ich zu Hause.", exp: "Podendo = könnend" }
-                }
-            ]
+        english: {
+            title: '🇬🇧 English Learning',
+            folder: 'lessons/english',
+            lessons: ['01-basic-verbs.yaml'],
+            speechLang: 'en-US'
         }
-    ];
+    };
 
-    // State
+    // Global state
+    let LESSONS = [];
+    let currentLanguage = 'portuguese';
     let currentLesson = null;
-    let completedLessons = JSON.parse(localStorage.getItem('completedLessons') || '[]');
-    let learnedVocabulary = JSON.parse(localStorage.getItem('learnedVocabulary') || '[]');
+    let completedLessons = JSON.parse(localStorage.getItem('completedLessons') || '{}');
+    let learnedVocabulary = JSON.parse(localStorage.getItem('learnedVocabulary') || '{}');
     let currentFilter = 'all';
     let isPlaying = false;
     let isPaused = false;
@@ -560,15 +458,91 @@
     let synth = window.speechSynthesis;
     let currentUtterance = null;
 
+    // Initialize completed lessons structure
+    if (!completedLessons[currentLanguage]) {
+        completedLessons[currentLanguage] = [];
+    }
+    if (!learnedVocabulary[currentLanguage]) {
+        learnedVocabulary[currentLanguage] = [];
+    }
+
+    // Load YAML lessons
+    async function loadLessons(language) {
+        const config = LANGUAGE_CONFIG[language];
+        const lessons = [];
+        
+        for (const filename of config.lessons) {
+            try {
+                const response = await fetch(`${config.folder}/${filename}`);
+                const yamlText = await response.text();
+                const lessonData = jsyaml.load(yamlText);
+                
+                // Transform YAML structure to match existing format
+                const lesson = {
+                    id: lessonData.number,
+                    titel: lessonData.title,
+                    beschreibung: lessonData.description,
+                    farbe: lessonData.color,
+                    verben: lessonData.sections.map((section, idx) => ({
+                        id: idx + 1,
+                        verb: section.verb,
+                        translation: section.translation,
+                        conjugation: section.conjugation,
+                        examples: section.examples,
+                        gerund: section.gerund
+                    }))
+                };
+                
+                lessons.push(lesson);
+            } catch (error) {
+                console.error(`Error loading ${filename}:`, error);
+            }
+        }
+        
+        return lessons;
+    }
+
+    // Switch language
+    async function switchLanguage(language) {
+        currentLanguage = language;
+        
+        // Update UI buttons
+        document.querySelectorAll('[id^="lang-"]').forEach(btn => {
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-secondary');
+        });
+        document.getElementById(`lang-${language}`).classList.remove('btn-secondary');
+        document.getElementById(`lang-${language}`).classList.add('btn-primary');
+        
+        // Update title
+        document.getElementById('app-title').textContent = LANGUAGE_CONFIG[language].title;
+        
+        // Initialize language-specific storage if needed
+        if (!completedLessons[language]) {
+            completedLessons[language] = [];
+        }
+        if (!learnedVocabulary[language]) {
+            learnedVocabulary[language] = [];
+        }
+        
+        // Load lessons for this language
+        LESSONS = await loadLessons(language);
+        
+        // Reset UI
+        backToOverview();
+        renderLessons();
+    }
+
     // Init
-    function init() {
+    async function init() {
+        LESSONS = await loadLessons(currentLanguage);
         renderLessons();
     }
 
     function renderLessons() {
         const grid = document.getElementById('lessons-grid');
         grid.innerHTML = LESSONS.map(lesson => {
-            const isCompleted = completedLessons.includes(lesson.id);
+            const isCompleted = completedLessons[currentLanguage].includes(lesson.id);
             return `
                 <div class="lesson-card ${isCompleted ? 'completed' : ''}" 
                      style="border-color: ${lesson.farbe};"
@@ -590,7 +564,7 @@
         document.getElementById('detail').classList.remove('hidden');
         document.getElementById('floating-controls').classList.remove('hidden');
 
-        const isCompleted = completedLessons.includes(id);
+        const isCompleted = completedLessons[currentLanguage].includes(id);
         document.getElementById('lesson-header').innerHTML = `
             <h2>Lektion ${currentLesson.id}: ${currentLesson.titel}</h2>
             <p>${currentLesson.beschreibung}</p>
@@ -642,7 +616,7 @@
                 <div class="vocab-grid">
                     ${vocabulary.map((v, idx) => {
                         const vocabId = `${currentLesson.id}-${v.pt}`;
-                        const isLearned = learnedVocabulary.includes(vocabId);
+                        const isLearned = learnedVocabulary[currentLanguage].includes(vocabId);
                         return `
                             <div class="vocab-item ${isLearned ? 'learned' : ''}" onclick="toggleVocab('${vocabId}', this)">
                                 <div class="vocab-pt">${v.pt}</div>
@@ -656,112 +630,40 @@
     }
 
     function toggleVocab(vocabId, element) {
-        const index = learnedVocabulary.indexOf(vocabId);
+        const index = learnedVocabulary[currentLanguage].indexOf(vocabId);
         if (index > -1) {
-            learnedVocabulary.splice(index, 1);
+            learnedVocabulary[currentLanguage].splice(index, 1);
             element.classList.remove('learned');
         } else {
-            learnedVocabulary.push(vocabId);
+            learnedVocabulary[currentLanguage].push(vocabId);
             element.classList.add('learned');
         }
         localStorage.setItem('learnedVocabulary', JSON.stringify(learnedVocabulary));
     }
 
     function extractVocabulary(lesson) {
-        // Define vocabulary mappings based on the lesson content
-        const vocabMap = {
-            // Lektion 1 - Grundlagen
-            'alemão': 'Deutscher',
-            'inteligente': 'intelligent',
-            'médica': 'Ärztin',
-            'equipa': 'Team',
-            'convidados': 'Gäste',
-            'programadores': 'Programmierer',
-            'empresa': 'Firma',
-            'honesto': 'ehrlich',
-            'em casa': 'zu Hause',
-            'cansado': 'müde',
-            'feliz': 'glücklich',
-            'escritório': 'Büro',
-            'prontos': 'bereit',
-            'atrasados': 'zu spät',
-            'reunião': 'Meeting',
-            'férias': 'Urlaub',
-            'doente': 'krank',
-            'trabalhar': 'arbeiten',
-            'casa': 'Haus',
-            'irmãos': 'Geschwister',
-            'talento': 'Talent',
-            'razão': 'Recht',
-            'filhos': 'Kinder',
-            'tempo': 'Zeit',
-            'ler': 'lesen',
-            'pequeno-almoço': 'Frühstück',
-            'trabalho': 'Arbeit',
-            'exercício': 'Sport',
-            'compras': 'Einkäufe',
-            'barulho': 'Lärm',
-            'voluntariado': 'Freiwilligenarbeit',
-            'sucesso': 'Erfolg',
-            'supermercado': 'Supermarkt',
-            'praia': 'Strand',
-            'estudar': 'studieren',
-            'medicina': 'Medizin',
-            'jantar': 'Abendessen',
-            'fora': 'auswärts',
-            'concerto': 'Konzert',
-            'viajar': 'reisen',
-            'devagar': 'langsam',
-            'longe': 'weit',
-            // Lektion 2 - Modalverben
-            'aprender': 'lernen',
-            'português': 'Portugiesisch',
-            'vir': 'kommen',
-            'connosco': 'mit uns',
-            'mudar': 'wechseln',
-            'emprego': 'Job',
-            'descansar': 'ausruhen',
-            'mundo': 'Welt',
-            'dentista': 'Zahnarzt',
-            'ajudar': 'helfen',
-            'fechar': 'schließen',
-            'janela': 'Fenster',
-            'falar': 'sprechen',
-            'línguas': 'Sprachen',
-            'marcar': 'vereinbaren',
-            'chegar': 'ankommen',
-            'cedo': 'früh',
-            'trazer': 'mitbringen',
-            'documentos': 'Dokumente',
-            'escolher': 'wählen'
-        };
-
-        const vocab = new Set();
+        const vocab = new Map();
         
-        // Extract words from all examples
+        // Extract words from all examples and their vocabulary lists
         lesson.verben.forEach(verb => {
             verb.examples.forEach(ex => {
-                const words = ex.pt.toLowerCase().match(/\b[\wáàâãéêíóôõúçü-]+\b/g) || [];
-                words.forEach(word => {
-                    if (vocabMap[word]) {
-                        vocab.add(JSON.stringify({ pt: word, de: vocabMap[word] }));
-                    }
-                });
+                if (ex.vocabulary) {
+                    ex.vocabulary.forEach(v => {
+                        vocab.set(v.pt, v.de);
+                    });
+                }
             });
             
-            if (verb.gerund) {
-                const words = verb.gerund.pt.toLowerCase().match(/\b[\wáàâãéêíóôõúçü-]+\b/g) || [];
-                words.forEach(word => {
-                    if (vocabMap[word]) {
-                        vocab.add(JSON.stringify({ pt: word, de: vocabMap[word] }));
-                    }
+            if (verb.gerund && verb.gerund.vocabulary) {
+                verb.gerund.vocabulary.forEach(v => {
+                    vocab.set(v.pt, v.de);
                 });
             }
         });
 
-        // Convert back to objects and sort
-        return Array.from(vocab)
-            .map(v => JSON.parse(v))
+        // Convert to array and sort
+        return Array.from(vocab.entries())
+            .map(([pt, de]) => ({ pt, de }))
             .sort((a, b) => a.pt.localeCompare(b.pt));
     }
 
@@ -838,7 +740,7 @@
         }
 
         currentUtterance = new SpeechSynthesisUtterance(text);
-        currentUtterance.lang = 'pt-PT';
+        currentUtterance.lang = LANGUAGE_CONFIG[currentLanguage].speechLang;
         currentUtterance.rate = 0.8;
 
         currentUtterance.onend = () => {
@@ -955,8 +857,8 @@
     function markComplete() {
         if (!currentLesson) return;
         
-        if (!completedLessons.includes(currentLesson.id)) {
-            completedLessons.push(currentLesson.id);
+        if (!completedLessons[currentLanguage].includes(currentLesson.id)) {
+            completedLessons[currentLanguage].push(currentLesson.id);
             localStorage.setItem('completedLessons', JSON.stringify(completedLessons));
             alert('✓ Lektion abgeschlossen!');
             backToOverview();
@@ -988,18 +890,35 @@
     function markSentenceVocab(event, sentence) {
         event.stopPropagation();
         
+        if (!currentLesson) return;
+        
         // Extract words from sentence
         const words = sentence.toLowerCase().match(/\b[\wáàâãéêíóôõúçü-]+\b/g) || [];
         
-        // Get vocabulary map
-        const vocabMap = getVocabularyMap();
+        // Get vocabulary from current lesson
+        const vocabMap = new Map();
+        currentLesson.verben.forEach(verb => {
+            verb.examples.forEach(ex => {
+                if (ex.vocabulary) {
+                    ex.vocabulary.forEach(v => {
+                        vocabMap.set(v.pt.toLowerCase(), v);
+                    });
+                }
+            });
+            if (verb.gerund && verb.gerund.vocabulary) {
+                verb.gerund.vocabulary.forEach(v => {
+                    vocabMap.set(v.pt.toLowerCase(), v);
+                });
+            }
+        });
         
         let markedCount = 0;
         words.forEach(word => {
-            if (vocabMap[word]) {
-                const vocabId = `${currentLesson.id}-${word}`;
-                if (!learnedVocabulary.includes(vocabId)) {
-                    learnedVocabulary.push(vocabId);
+            if (vocabMap.has(word)) {
+                const vocab = vocabMap.get(word);
+                const vocabId = `${currentLesson.id}-${vocab.pt}`;
+                if (!learnedVocabulary[currentLanguage].includes(vocabId)) {
+                    learnedVocabulary[currentLanguage].push(vocabId);
                     markedCount++;
                 }
             }
@@ -1010,8 +929,9 @@
             
             // Update vocabulary display
             words.forEach(word => {
-                if (vocabMap[word]) {
-                    const vocabId = `${currentLesson.id}-${word}`;
+                if (vocabMap.has(word)) {
+                    const vocab = vocabMap.get(word);
+                    const vocabId = `${currentLesson.id}-${vocab.pt}`;
                     const vocabElements = document.querySelectorAll(`.vocab-item[onclick*="${vocabId}"]`);
                     vocabElements.forEach(el => el.classList.add('learned'));
                 }
@@ -1040,7 +960,21 @@
             });
         } else if (filter === 'unlearned') {
             // Show only sentences with unlearned vocabulary
-            const vocabMap = getVocabularyMap();
+            const vocabMap = new Map();
+            currentLesson.verben.forEach(verb => {
+                verb.examples.forEach(ex => {
+                    if (ex.vocabulary) {
+                        ex.vocabulary.forEach(v => {
+                            vocabMap.set(v.pt.toLowerCase(), v);
+                        });
+                    }
+                });
+                if (verb.gerund && verb.gerund.vocabulary) {
+                    verb.gerund.vocabulary.forEach(v => {
+                        vocabMap.set(v.pt.toLowerCase(), v);
+                    });
+                }
+            });
             
             document.querySelectorAll('.example').forEach(ex => {
                 const sentence = ex.dataset.sentence;
@@ -1051,9 +985,10 @@
                 // Check if sentence has any unlearned vocab
                 let hasUnlearnedVocab = false;
                 words.forEach(word => {
-                    if (vocabMap[word]) {
-                        const vocabId = `${currentLesson.id}-${word}`;
-                        if (!learnedVocabulary.includes(vocabId)) {
+                    if (vocabMap.has(word)) {
+                        const vocab = vocabMap.get(word);
+                        const vocabId = `${currentLesson.id}-${vocab.pt}`;
+                        if (!learnedVocabulary[currentLanguage].includes(vocabId)) {
                             hasUnlearnedVocab = true;
                         }
                     }
@@ -1068,77 +1003,10 @@
         }
     }
 
-    function getVocabularyMap() {
-        return {
-            'alemão': 'Deutscher',
-            'inteligente': 'intelligent',
-            'médica': 'Ärztin',
-            'equipa': 'Team',
-            'convidados': 'Gäste',
-            'programadores': 'Programmierer',
-            'empresa': 'Firma',
-            'honesto': 'ehrlich',
-            'em casa': 'zu Hause',
-            'cansado': 'müde',
-            'feliz': 'glücklich',
-            'escritório': 'Büro',
-            'prontos': 'bereit',
-            'atrasados': 'zu spät',
-            'reunião': 'Meeting',
-            'férias': 'Urlaub',
-            'doente': 'krank',
-            'trabalhar': 'arbeiten',
-            'casa': 'Haus',
-            'irmãos': 'Geschwister',
-            'talento': 'Talent',
-            'razão': 'Recht',
-            'filhos': 'Kinder',
-            'tempo': 'Zeit',
-            'ler': 'lesen',
-            'pequeno-almoço': 'Frühstück',
-            'trabalho': 'Arbeit',
-            'exercício': 'Sport',
-            'compras': 'Einkäufe',
-            'barulho': 'Lärm',
-            'voluntariado': 'Freiwilligenarbeit',
-            'sucesso': 'Erfolg',
-            'supermercado': 'Supermarkt',
-            'praia': 'Strand',
-            'estudar': 'studieren',
-            'medicina': 'Medizin',
-            'jantar': 'Abendessen',
-            'fora': 'auswärts',
-            'concerto': 'Konzert',
-            'viajar': 'reisen',
-            'devagar': 'langsam',
-            'longe': 'weit',
-            'aprender': 'lernen',
-            'português': 'Portugiesisch',
-            'vir': 'kommen',
-            'connosco': 'mit uns',
-            'mudar': 'wechseln',
-            'emprego': 'Job',
-            'descansar': 'ausruhen',
-            'mundo': 'Welt',
-            'dentista': 'Zahnarzt',
-            'ajudar': 'helfen',
-            'fechar': 'schließen',
-            'janela': 'Fenster',
-            'falar': 'sprechen',
-            'línguas': 'Sprachen',
-            'marcar': 'vereinbaren',
-            'chegar': 'ankommen',
-            'cedo': 'früh',
-            'trazer': 'mitbringen',
-            'documentos': 'Dokumente',
-            'escolher': 'wählen'
-        };
-    }
-
     // Media Session
     if ('mediaSession' in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({
-            title: 'Portugiesisch Lernen',
+            title: 'Language Learning',
             artist: 'Lektionen'
         });
         navigator.mediaSession.setActionHandler('play', () => currentLesson && playLesson());

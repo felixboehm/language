@@ -1,0 +1,116 @@
+number: 1
+title: "Basic Verbs - To Be and To Have"
+description: "Essential foundation verbs"
+color: "#3b82f6"
+sections:
+  - verb: "TO BE"
+    translation: "sein"
+    conjugation: "I am, you are, he/she/it is, we are, they are"
+    examples:
+      - pt: "I am a student."
+        de: "Ich bin ein Student."
+        vocabulary:
+          - pt: "student"
+            de: "Student"
+      - pt: "You are very kind."
+        de: "Du bist sehr nett."
+        vocabulary:
+          - pt: "kind"
+            de: "nett"
+      - pt: "She is a doctor."
+        de: "Sie ist Ärztin."
+        vocabulary:
+          - pt: "doctor"
+            de: "Arzt/Ärztin"
+      - pt: "We are friends."
+        de: "Wir sind Freunde."
+        vocabulary:
+          - pt: "friends"
+            de: "Freunde"
+      - pt: "They are at home."
+        de: "Sie sind zu Hause."
+        vocabulary:
+          - pt: "home"
+            de: "Zuhause"
+    gerund:
+      pt: "Being honest, I prefer staying home."
+      de: "Um ehrlich zu sein, bleibe ich lieber zu Hause."
+      vocabulary:
+        - pt: "honest"
+          de: "ehrlich"
+        - pt: "staying"
+          de: "bleiben"
+
+  - verb: "TO HAVE"
+    translation: "haben"
+    conjugation: "I have, you have, he/she/it has, we have, they have"
+    examples:
+      - pt: "I have a car."
+        de: "Ich habe ein Auto."
+        vocabulary:
+          - pt: "car"
+            de: "Auto"
+      - pt: "You have two sisters."
+        de: "Du hast zwei Schwestern."
+        vocabulary:
+          - pt: "sisters"
+            de: "Schwestern"
+      - pt: "He has a meeting."
+        de: "Er hat ein Meeting."
+        vocabulary:
+          - pt: "meeting"
+            de: "Meeting"
+      - pt: "We have time."
+        de: "Wir haben Zeit."
+        vocabulary:
+          - pt: "time"
+            de: "Zeit"
+      - pt: "They have three children."
+        de: "Sie haben drei Kinder."
+        vocabulary:
+          - pt: "children"
+            de: "Kinder"
+    gerund:
+      pt: "Having time, I will read."
+      de: "Wenn ich Zeit habe, werde ich lesen."
+      vocabulary:
+        - pt: "read"
+          de: "lesen"
+
+  - verb: "TO GO"
+    translation: "gehen"
+    conjugation: "I go, you go, he/she/it goes, we go, they go"
+    examples:
+      - pt: "I go to school."
+        de: "Ich gehe zur Schule."
+        vocabulary:
+          - pt: "school"
+            de: "Schule"
+      - pt: "You go to work."
+        de: "Du gehst zur Arbeit."
+        vocabulary:
+          - pt: "work"
+            de: "Arbeit"
+      - pt: "She goes shopping."
+        de: "Sie geht einkaufen."
+        vocabulary:
+          - pt: "shopping"
+            de: "einkaufen"
+      - pt: "We go to the cinema."
+        de: "Wir gehen ins Kino."
+        vocabulary:
+          - pt: "cinema"
+            de: "Kino"
+      - pt: "They go home."
+        de: "Sie gehen nach Hause."
+        vocabulary:
+          - pt: "home"
+            de: "nach Hause"
+    gerund:
+      pt: "Going slowly, you will succeed."
+      de: "Langsam gehend, wirst du Erfolg haben."
+      vocabulary:
+        - pt: "slowly"
+          de: "langsam"
+        - pt: "succeed"
+          de: "Erfolg haben"
