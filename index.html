@@ -30,6 +30,7 @@
         padding: 30px;
         text-align: center;
         border-radius: 12px 12px 0 0;
+        position: relative;
     }
     
     h1 { font-size: 2.5em; margin-bottom: 10px; }
@@ -341,6 +342,332 @@
         color: white;
     }
     
+    .settings-btn {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        color: white;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+    }
+    
+    .settings-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(90deg);
+    }
+    
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .modal.active {
+        display: flex;
+    }
+    
+    .modal-content {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        max-width: 500px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+    }
+    
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #e5e7eb;
+    }
+    
+    .modal-header h2 {
+        color: #667eea;
+        margin: 0;
+    }
+    
+    .close-modal {
+        background: none;
+        border: none;
+        font-size: 28px;
+        cursor: pointer;
+        color: #666;
+        padding: 0;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.3s;
+    }
+    
+    .close-modal:hover {
+        background: #f3f4f6;
+        color: #333;
+    }
+    
+    .setting-group {
+        margin-bottom: 25px;
+    }
+    
+    .setting-label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 10px;
+        display: block;
+        font-size: 1.1em;
+    }
+    
+    .setting-description {
+        color: #666;
+        font-size: 0.9em;
+        margin-bottom: 12px;
+    }
+    
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+    
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+    
+    .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .toggle-slider {
+        background-color: #667eea;
+    }
+    
+    input:checked + .toggle-slider:before {
+        transform: translateX(26px);
+    }
+    
+    .speed-options {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .speed-option {
+        flex: 1;
+        min-width: 80px;
+        padding: 12px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        background: white;
+        cursor: pointer;
+        text-align: center;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+    
+    .speed-option:hover {
+        border-color: #667eea;
+    }
+    
+    .speed-option.active {
+        background: #667eea;
+        color: white;
+        border-color: #667eea;
+    }
+    
+    /* Dark mode styles */
+    body.dark-mode {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    }
+    
+    body.dark-mode .container {
+        background: #0f3460;
+    }
+    
+    body.dark-mode .content {
+        color: #e5e7eb;
+    }
+    
+    body.dark-mode .lesson-card {
+        background: #16213e;
+        color: #e5e7eb;
+    }
+    
+    body.dark-mode .lesson-card:hover {
+        background: #1a1f3a;
+    }
+    
+    body.dark-mode .lesson-desc {
+        color: #9ca3af;
+    }
+    
+    body.dark-mode .verb-card {
+        background: #16213e;
+        border-color: #374151;
+        color: #e5e7eb;
+    }
+    
+    body.dark-mode .verb-card:hover {
+        border-color: #667eea;
+    }
+    
+    body.dark-mode .conjugation {
+        background: #0f1419;
+        color: #e5e7eb;
+    }
+    
+    body.dark-mode .example {
+        background: #1e293b;
+        border-left-color: #fb923c;
+    }
+    
+    body.dark-mode .example.gerund {
+        background: #1e293b;
+        border-left-color: #0ea5e9;
+    }
+    
+    body.dark-mode .example-pt {
+        color: #e5e7eb;
+    }
+    
+    body.dark-mode .example-de {
+        color: #9ca3af;
+    }
+    
+    body.dark-mode .explanation {
+        color: #9ca3af;
+    }
+    
+    body.dark-mode .vocab-section {
+        background: #16213e;
+        border-color: #374151;
+    }
+    
+    body.dark-mode .vocab-section h3 {
+        color: #818cf8;
+    }
+    
+    body.dark-mode .vocab-item {
+        background: #0f1419;
+        border-color: #374151;
+        color: #e5e7eb;
+    }
+    
+    body.dark-mode .vocab-item:hover {
+        border-color: #667eea;
+    }
+    
+    body.dark-mode .vocab-de {
+        color: #9ca3af;
+    }
+    
+    body.dark-mode .btn-secondary {
+        background: #374151;
+        color: #e5e7eb;
+    }
+    
+    body.dark-mode .btn-secondary:hover {
+        background: #4b5563;
+    }
+    
+    body.dark-mode .modal-content {
+        background: #16213e;
+        color: #e5e7eb;
+    }
+    
+    body.dark-mode .modal-header {
+        border-bottom-color: #374151;
+    }
+    
+    body.dark-mode .modal-header h2 {
+        color: #818cf8;
+    }
+    
+    body.dark-mode .close-modal {
+        color: #9ca3af;
+    }
+    
+    body.dark-mode .close-modal:hover {
+        background: #374151;
+        color: #e5e7eb;
+    }
+    
+    body.dark-mode .setting-label {
+        color: #e5e7eb;
+    }
+    
+    body.dark-mode .setting-description {
+        color: #9ca3af;
+    }
+    
+    body.dark-mode .speed-option {
+        background: #0f1419;
+        border-color: #374151;
+        color: #e5e7eb;
+    }
+    
+    body.dark-mode .speed-option:hover {
+        border-color: #667eea;
+    }
+    
+    body.dark-mode .speed-option.active {
+        background: #667eea;
+        color: white;
+    }
+    
+    body.dark-mode h2 {
+        color: #e5e7eb;
+    }
+    
+    .example-de.hidden-translation {
+        display: none;
+    }
+    
     @media (max-width: 768px) {
         .lessons-grid { grid-template-columns: 1fr; }
         h1 { font-size: 1.8em; }
@@ -353,6 +680,13 @@
             height: 50px;
             font-size: 20px;
         }
+        .settings-btn {
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+        }
     }
 </style>
 ```
@@ -361,6 +695,7 @@
 <body>
     <div class="container">
         <header>
+            <button class="settings-btn" onclick="openSettings()" title="Einstellungen">⚙️</button>
             <h1>🇵🇹 Portugiesisch Lernen</h1>
             <p>Lektionsbasiertes Lernen mit Audio</p>
         </header>
@@ -420,6 +755,51 @@
     <button class="floating-btn stop" id="floatingStopBtn" onclick="stopLesson()" title="Stoppen">
         ⏹️
     </button>
+</div>
+
+<!-- Settings Modal -->
+<div id="settingsModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>⚙️ Einstellungen</h2>
+            <button class="close-modal" onclick="closeSettings()">×</button>
+        </div>
+        
+        <div class="setting-group">
+            <label class="setting-label">Deutsche Übersetzung anzeigen</label>
+            <div class="setting-description">
+                Zeige oder verstecke die deutschen Übersetzungen der portugiesischen Sätze
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="showTranslation" onchange="toggleTranslation()" checked>
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        
+        <div class="setting-group">
+            <label class="setting-label">Lesegeschwindigkeit</label>
+            <div class="setting-description">
+                Wähle die Geschwindigkeit für die Audio-Wiedergabe
+            </div>
+            <div class="speed-options">
+                <div class="speed-option" onclick="setSpeed(0.7)" data-speed="0.7">0.7x</div>
+                <div class="speed-option" onclick="setSpeed(0.8)" data-speed="0.8">0.8x</div>
+                <div class="speed-option" onclick="setSpeed(0.9)" data-speed="0.9">0.9x</div>
+                <div class="speed-option active" onclick="setSpeed(1.0)" data-speed="1.0">1.0x</div>
+            </div>
+        </div>
+        
+        <div class="setting-group">
+            <label class="setting-label">Dark Mode</label>
+            <div class="setting-description">
+                Dunkles Farbschema für angenehmeres Lesen bei Nacht
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="darkMode" onchange="toggleDarkMode()">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -559,9 +939,18 @@
     let currentElement = null;
     let synth = window.speechSynthesis;
     let currentUtterance = null;
+    
+    // Settings state
+    let settings = {
+        showTranslation: true,
+        readingSpeed: 1.0,
+        darkMode: false
+    };
 
     // Init
     function init() {
+        loadSettings();
+        applySettings();
         renderLessons();
     }
 
@@ -653,6 +1042,9 @@
                 </div>
             </div>
         `;
+        
+        // Apply translation visibility based on settings
+        applyTranslationVisibility();
     }
 
     function toggleVocab(vocabId, element) {
@@ -849,7 +1241,7 @@
 
         currentUtterance = new SpeechSynthesisUtterance(text);
         currentUtterance.lang = 'pt-PT';
-        currentUtterance.rate = 0.8;
+        currentUtterance.rate = settings.readingSpeed;
 
         currentUtterance.onend = () => {
             if (element) element.classList.remove('playing');
@@ -1164,6 +1556,90 @@
         navigator.mediaSession.setActionHandler('play', () => currentLesson && playLesson());
         navigator.mediaSession.setActionHandler('pause', stopLesson);
         navigator.mediaSession.setActionHandler('stop', stopLesson);
+    }
+    
+    // Settings functions
+    function loadSettings() {
+        const saved = localStorage.getItem('appSettings');
+        if (saved) {
+            settings = JSON.parse(saved);
+        }
+    }
+    
+    function saveSettings() {
+        localStorage.setItem('appSettings', JSON.stringify(settings));
+    }
+    
+    function applySettings() {
+        // Apply dark mode
+        if (settings.darkMode) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+        
+        // Apply translation visibility
+        applyTranslationVisibility();
+        
+        // Update UI controls
+        document.getElementById('showTranslation').checked = settings.showTranslation;
+        document.getElementById('darkMode').checked = settings.darkMode;
+        
+        // Update speed buttons
+        document.querySelectorAll('.speed-option').forEach(btn => {
+            const speed = parseFloat(btn.dataset.speed);
+            if (speed === settings.readingSpeed) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+    
+    function applyTranslationVisibility() {
+        const translations = document.querySelectorAll('.example-de');
+        translations.forEach(el => {
+            if (settings.showTranslation) {
+                el.classList.remove('hidden-translation');
+            } else {
+                el.classList.add('hidden-translation');
+            }
+        });
+    }
+    
+    function openSettings() {
+        document.getElementById('settingsModal').classList.add('active');
+    }
+    
+    function closeSettings() {
+        document.getElementById('settingsModal').classList.remove('active');
+    }
+    
+    function toggleTranslation() {
+        settings.showTranslation = document.getElementById('showTranslation').checked;
+        saveSettings();
+        applyTranslationVisibility();
+    }
+    
+    function setSpeed(speed) {
+        settings.readingSpeed = speed;
+        saveSettings();
+        
+        // Update active button
+        document.querySelectorAll('.speed-option').forEach(btn => {
+            const btnSpeed = parseFloat(btn.dataset.speed);
+            if (btnSpeed === speed) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+    
+    function toggleDarkMode() {
+        settings.darkMode = document.getElementById('darkMode').checked;
+        saveSettings();
+        applySettings();
     }
 
     // Start
