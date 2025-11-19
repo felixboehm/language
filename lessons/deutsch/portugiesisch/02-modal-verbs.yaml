@@ -1,0 +1,183 @@
+number: 2
+title: "Modal Verbs"
+description: "Essential modal verbs - can, want, must, should"
+sections:
+  - title: "QUERER - To Want"
+    explanation: |
+      **QUERER** expresses desire or wish:
+      - Wanting things or actions
+      - Making polite requests (queria...)
+      - Expressing preferences
+      
+      **Conjugation**: eu quero, tu queres, ele/ela quer, nós queremos, vós quereis, eles/elas querem
+    examples:
+      - q: "Eu quero aprender português."
+        a: "Ich will Portugiesisch lernen."
+        rel:
+          - ["quero", "will (ich)", "verb - querer"]
+          - ["aprender", "lernen", "verb"]
+          - ["português", "Portugiesisch", "noun"]
+      - q: "Tu queres vir connosco?"
+        a: "Willst du mit uns kommen?"
+        rel:
+          - ["queres", "willst (du)", "verb - querer"]
+          - ["vir", "kommen", "verb"]
+          - ["connosco", "mit uns", "preposition + pronoun"]
+      - q: "Ele quer mudar de emprego."
+        a: "Er will den Job wechseln."
+        rel:
+          - ["quer", "will (er/sie)", "verb - querer"]
+          - ["mudar", "wechseln", "verb"]
+          - ["emprego", "Job", "noun"]
+      - q: "Nós queremos uma casa nova."
+        a: "Wir wollen ein neues Haus."
+        rel:
+          - ["queremos", "wollen (wir)", "verb - querer"]
+          - ["casa", "Haus", "noun"]
+          - ["nova", "neu", "adjective"]
+      - q: "Eles querem viajar."
+        a: "Sie wollen reisen."
+        rel:
+          - ["querem", "wollen (sie)", "verb - querer"]
+          - ["viajar", "reisen", "verb"]
+  
+  - title: "PODER - Can/May"
+    explanation: |
+      **PODER** expresses ability or permission:
+      - Physical or mental ability
+      - Permission to do something
+      - Possibility
+      
+      **Conjugation**: eu posso, tu podes, ele/ela pode, nós podemos, vós podeis, eles/elas podem
+    examples:
+      - q: "Eu posso ajudar."
+        a: "Ich kann helfen."
+        rel:
+          - ["posso", "kann (ich)", "verb - poder"]
+          - ["ajudar", "helfen", "verb"]
+      - q: "Tu podes fechar a janela?"
+        a: "Kannst du das Fenster schließen?"
+        rel:
+          - ["podes", "kannst (du)", "verb - poder"]
+          - ["fechar", "schließen", "verb"]
+          - ["janela", "Fenster", "noun"]
+      - q: "Ela pode falar três línguas."
+        a: "Sie kann drei Sprachen sprechen."
+        rel:
+          - ["pode", "kann (sie/er)", "verb - poder"]
+          - ["falar", "sprechen", "verb"]
+          - ["línguas", "Sprachen", "noun"]
+          - ["três", "drei", "number"]
+      - q: "Nós podemos marcar uma reunião."
+        a: "Wir können ein Meeting vereinbaren."
+        rel:
+          - ["podemos", "können (wir)", "verb - poder"]
+          - ["marcar", "vereinbaren", "verb"]
+          - ["reunião", "Meeting", "noun"]
+      - q: "Eles podem trazer os documentos."
+        a: "Sie können die Dokumente mitbringen."
+        rel:
+          - ["podem", "können (sie)", "verb - poder"]
+          - ["trazer", "mitbringen", "verb"]
+          - ["documentos", "Dokumente", "noun"]
+  
+  - title: "DEVER - Should/Must"
+    explanation: |
+      **DEVER** expresses obligation or duty:
+      - Moral obligation (should)
+      - Strong recommendation
+      - Debt (dever dinheiro)
+      
+      **Conjugation**: eu devo, tu deves, ele/ela deve, nós devemos, vós deveis, eles/elas devem
+    examples:
+      - q: "Eu devo estudar mais."
+        a: "Ich sollte mehr lernen."
+        rel:
+          - ["devo", "sollte/muss (ich)", "verb - dever"]
+          - ["estudar", "lernen/studieren", "verb"]
+          - ["mais", "mehr", "adverb"]
+      - q: "Tu deves descansar."
+        a: "Du solltest ausruhen."
+        rel:
+          - ["deves", "solltest (du)", "verb - dever"]
+          - ["descansar", "ausruhen", "verb"]
+      - q: "Ele deve chegar cedo."
+        a: "Er sollte früh ankommen."
+        rel:
+          - ["deve", "sollte/muss (er/sie)", "verb - dever"]
+          - ["chegar", "ankommen", "verb"]
+          - ["cedo", "früh", "adverb"]
+      - q: "Nós devemos ser honestos."
+        a: "Wir sollten ehrlich sein."
+        rel:
+          - ["devemos", "sollten (wir)", "verb - dever"]
+          - ["ser", "sein", "verb"]
+          - ["honestos", "ehrlich", "adjective"]
+  
+  - title: "SABER - To Know (Facts)"
+    explanation: |
+      **SABER** means "to know" for facts and skills:
+      - Knowing facts or information
+      - Knowing how to do something (saber + infinitive)
+      - Knowledge that can be learned
+      
+      **Conjugation**: eu sei, tu sabes, ele/ela sabe, nós sabemos, vós sabeis, eles/elas sabem
+    examples:
+      - q: "Eu sei falar português."
+        a: "Ich kann Portugiesisch sprechen."
+        rel:
+          - ["sei", "weiß/kann (ich)", "verb - saber"]
+          - ["falar", "sprechen", "verb"]
+          - ["português", "Portugiesisch", "noun"]
+      - q: "Tu sabes a resposta?"
+        a: "Weißt du die Antwort?"
+        rel:
+          - ["sabes", "weißt (du)", "verb - saber"]
+          - ["resposta", "Antwort", "noun"]
+      - q: "Ela sabe nadar."
+        a: "Sie kann schwimmen."
+        rel:
+          - ["sabe", "weiß/kann (sie/er)", "verb - saber"]
+          - ["nadar", "schwimmen", "verb"]
+      - q: "Nós sabemos a verdade."
+        a: "Wir kennen die Wahrheit."
+        rel:
+          - ["sabemos", "wissen (wir)", "verb - saber"]
+          - ["verdade", "Wahrheit", "noun"]
+  
+  - title: "CONHECER - To Know (People/Places)"
+    explanation: |
+      **CONHECER** means "to know" for people and places:
+      - Being acquainted with people
+      - Being familiar with places
+      - Meeting someone for the first time
+      
+      **Conjugation**: eu conheço, tu conheces, ele/ela conhece, nós conhecemos, vós conheceis, eles/elas conhecem
+    examples:
+      - q: "Eu conheço o João."
+        a: "Ich kenne João."
+        rel:
+          - ["conheço", "kenne (ich)", "verb - conhecer"]
+          - ["João", "João", "proper noun"]
+      - q: "Tu conheces Lisboa?"
+        a: "Kennst du Lissabon?"
+        rel:
+          - ["conheces", "kennst (du)", "verb - conhecer"]
+          - ["Lisboa", "Lissabon", "proper noun"]
+      - q: "Ela conhece muitas pessoas."
+        a: "Sie kennt viele Leute."
+        rel:
+          - ["conhece", "kennt (sie/er)", "verb - conhecer"]
+          - ["pessoas", "Leute/Personen", "noun"]
+          - ["muitas", "viele", "quantifier"]
+      - q: "Nós conhecemos este restaurante."
+        a: "Wir kennen dieses Restaurant."
+        rel:
+          - ["conhecemos", "kennen (wir)", "verb - conhecer"]
+          - ["restaurante", "Restaurant", "noun"]
+          - ["este", "dieses", "demonstrative"]
+      - q: "Eles conhecem a cidade."
+        a: "Sie kennen die Stadt."
+        rel:
+          - ["conhecem", "kennen (sie)", "verb - conhecer"]
+          - ["cidade", "Stadt", "noun"]

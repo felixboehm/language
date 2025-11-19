@@ -1,1701 +1,927 @@
 <!DOCTYPE html>
-
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portugiesisch Lernen</title>
+    <title>Language Learning</title>
+    <script src="simple-yaml.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-```
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        padding: 20px;
-    }
-    
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-    
-    header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 30px;
-        text-align: center;
-        border-radius: 12px 12px 0 0;
-        position: relative;
-    }
-    
-    h1 { font-size: 2.5em; margin-bottom: 10px; }
-    
-    .content { padding: 30px; }
-    
-    .lessons-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 20px;
-        margin-top: 20px;
-    }
-    
-    .lesson-card {
-        border: 3px solid;
-        border-radius: 12px;
-        padding: 25px;
-        cursor: pointer;
-        transition: all 0.3s;
-        position: relative;
-    }
-    
-    .lesson-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-    
-    .lesson-card.completed {
-        background: #f0fdf4;
-    }
-    
-    .lesson-card.completed::after {
-        content: '✓';
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: #22c55e;
-        color: white;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-    }
-    
-    .lesson-number {
-        font-size: 3em;
-        font-weight: bold;
-        opacity: 0.2;
-        line-height: 1;
-    }
-    
-    .lesson-title {
-        font-size: 1.5em;
-        font-weight: 600;
-        margin: 10px 0;
-    }
-    
-    .lesson-desc {
-        color: #666;
-        margin-bottom: 15px;
-    }
-    
-    .btn {
-        padding: 12px 24px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 600;
-        transition: all 0.3s;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin: 5px;
-    }
-    
-    .btn-primary { background: #0ea5e9; color: white; }
-    .btn-primary:hover { background: #0284c7; }
-    .btn-success { background: #22c55e; color: white; }
-    .btn-success:hover { background: #16a34a; }
-    .btn-danger { background: #ef4444; color: white; }
-    .btn-danger:hover { background: #dc2626; }
-    .btn-secondary { background: #e5e7eb; color: #333; }
-    .btn-secondary:hover { background: #d1d5db; }
-    
-    .hidden { display: none !important; }
-    
-    .verb-card {
-        border: 2px solid #e9ecef;
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 20px;
-    }
-    
-    .verb-card:hover {
-        border-color: #667eea;
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-    }
-    
-    .verb-header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 15px;
-    }
-    
-    .verb-title {
-        font-size: 1.8em;
-        color: #667eea;
-        font-weight: bold;
-    }
-    
-    .conjugation {
-        background: #f8f9fa;
-        padding: 12px;
-        border-radius: 6px;
-        margin-bottom: 15px;
-        font-family: monospace;
-    }
-    
-    .example {
-        background: #fff7ed;
-        border-left: 4px solid #fb923c;
-        padding: 15px;
-        margin-bottom: 12px;
-        position: relative;
-    }
-
-    .example.hidden-filter {
-        display: none;
-    }
-    
-    .example.gerund {
-        background: #f0f9ff;
-        border-left: 4px solid #0ea5e9;
-    }
-    
-    .example-pt {
-        font-size: 1.1em;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 8px;
-        cursor: pointer;
-        display: flex;
-        gap: 10px;
-        user-select: none;
-        position: relative;
-    }
-    
-    .example-pt:hover { color: #0ea5e9; }
-
-    .mark-sentence-btn {
-        position: absolute;
-        right: 0;
-        top: 0;
-        padding: 4px 10px;
-        font-size: 0.75em;
-        background: #22c55e;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        opacity: 0;
-        transition: opacity 0.2s;
-        z-index: 10;
-    }
-
-    .example:hover .mark-sentence-btn {
-        opacity: 1;
-    }
-
-    .mark-sentence-btn:hover {
-        background: #16a34a;
-    }
-    
-    .example-de {
-        color: #666;
-        font-style: italic;
-        margin-bottom: 8px;
-    }
-    
-    .explanation {
-        color: #555;
-        font-size: 0.9em;
-    }
-    
-    .playing {
-        color: #0ea5e9 !important;
-        animation: pulse 1s infinite;
-    }
-    
-    @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
-    }
-    
-    .vocab-section {
-        margin-top: 40px;
-        padding: 25px;
-        background: #f8f9fa;
-        border-radius: 12px;
-        border: 2px solid #e9ecef;
-    }
-    
-    .vocab-section h3 {
-        color: #667eea;
-        font-size: 1.5em;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .vocab-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 8px;
-    }
-    
-    .vocab-item {
-        background: white;
-        padding: 8px 12px;
-        border-radius: 6px;
-        border: 2px solid #e9ecef;
-        transition: all 0.2s;
-        cursor: pointer;
-        user-select: none;
-    }
-    
-    .vocab-item:hover {
-        border-color: #667eea;
-        transform: translateY(-1px);
-    }
-    
-    .vocab-item.learned {
-        background: #f0fdf4;
-        border-color: #86efac;
-    }
-    
-    .vocab-item.learned::before {
-        content: '✓ ';
-        color: #22c55e;
-        font-weight: bold;
-    }
-    
-    .vocab-pt {
-        font-weight: 600;
-        color: #333;
-        font-size: 1em;
-        margin-bottom: 2px;
-    }
-    
-    .vocab-de {
-        color: #666;
-        font-size: 0.85em;
-    }
-    
-    .lesson-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 30px;
-        border-radius: 12px;
-        margin-bottom: 30px;
-    }
-    
-    .floating-controls {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .floating-btn {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        transition: all 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .floating-btn:hover {
-        transform: scale(1.1);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    }
-    
-    .floating-btn.play {
-        background: #0ea5e9;
-        color: white;
-    }
-    
-    .floating-btn.pause {
-        background: #f59e0b;
-        color: white;
-    }
-    
-    .floating-btn.stop {
-        background: #ef4444;
-        color: white;
-    }
-    
-    .settings-btn {
-        position: absolute;
-        top: 30px;
-        right: 30px;
-        background: rgba(255, 255, 255, 0.2);
-        border: 2px solid rgba(255, 255, 255, 0.5);
-        color: white;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s;
-    }
-    
-    .settings-btn:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: rotate(90deg);
-    }
-    
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 2000;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .modal.active {
-        display: flex;
-    }
-    
-    .modal-content {
-        background: white;
-        border-radius: 12px;
-        padding: 30px;
-        max-width: 500px;
-        width: 90%;
-        max-height: 90vh;
-        overflow-y: auto;
-        position: relative;
-    }
-    
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 25px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid #e5e7eb;
-    }
-    
-    .modal-header h2 {
-        color: #667eea;
-        margin: 0;
-    }
-    
-    .close-modal {
-        background: none;
-        border: none;
-        font-size: 28px;
-        cursor: pointer;
-        color: #666;
-        padding: 0;
-        width: 35px;
-        height: 35px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        transition: all 0.3s;
-    }
-    
-    .close-modal:hover {
-        background: #f3f4f6;
-        color: #333;
-    }
-    
-    .setting-group {
-        margin-bottom: 25px;
-    }
-    
-    .setting-label {
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 10px;
-        display: block;
-        font-size: 1.1em;
-    }
-    
-    .setting-description {
-        color: #666;
-        font-size: 0.9em;
-        margin-bottom: 12px;
-    }
-    
-    .toggle-switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
-    }
-    
-    .toggle-switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-    
-    .toggle-slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 34px;
-    }
-    
-    .toggle-slider:before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-    }
-    
-    input:checked + .toggle-slider {
-        background-color: #667eea;
-    }
-    
-    input:checked + .toggle-slider:before {
-        transform: translateX(26px);
-    }
-    
-    .speed-options {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-    
-    .speed-option {
-        flex: 1;
-        min-width: 80px;
-        padding: 12px;
-        border: 2px solid #e5e7eb;
-        border-radius: 8px;
-        background: white;
-        cursor: pointer;
-        text-align: center;
-        font-weight: 600;
-        transition: all 0.3s;
-    }
-    
-    .speed-option:hover {
-        border-color: #667eea;
-    }
-    
-    .speed-option.active {
-        background: #667eea;
-        color: white;
-        border-color: #667eea;
-    }
-    
-    /* Dark mode styles */
-    body.dark-mode {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    }
-    
-    body.dark-mode .container {
-        background: #0f3460;
-    }
-    
-    body.dark-mode .content {
-        color: #e5e7eb;
-    }
-    
-    body.dark-mode .lesson-card {
-        background: #16213e;
-        color: #e5e7eb;
-    }
-    
-    body.dark-mode .lesson-card:hover {
-        background: #1a1f3a;
-    }
-    
-    body.dark-mode .lesson-desc {
-        color: #9ca3af;
-    }
-    
-    body.dark-mode .verb-card {
-        background: #16213e;
-        border-color: #374151;
-        color: #e5e7eb;
-    }
-    
-    body.dark-mode .verb-card:hover {
-        border-color: #667eea;
-    }
-    
-    body.dark-mode .conjugation {
-        background: #0f1419;
-        color: #e5e7eb;
-    }
-    
-    body.dark-mode .example {
-        background: #1e293b;
-        border-left-color: #fb923c;
-    }
-    
-    body.dark-mode .example.gerund {
-        background: #1e293b;
-        border-left-color: #0ea5e9;
-    }
-    
-    body.dark-mode .example-pt {
-        color: #e5e7eb;
-    }
-    
-    body.dark-mode .example-de {
-        color: #9ca3af;
-    }
-    
-    body.dark-mode .explanation {
-        color: #9ca3af;
-    }
-    
-    body.dark-mode .vocab-section {
-        background: #16213e;
-        border-color: #374151;
-    }
-    
-    body.dark-mode .vocab-section h3 {
-        color: #818cf8;
-    }
-    
-    body.dark-mode .vocab-item {
-        background: #0f1419;
-        border-color: #374151;
-        color: #e5e7eb;
-    }
-    
-    body.dark-mode .vocab-item:hover {
-        border-color: #667eea;
-    }
-    
-    body.dark-mode .vocab-de {
-        color: #9ca3af;
-    }
-    
-    body.dark-mode .btn-secondary {
-        background: #374151;
-        color: #e5e7eb;
-    }
-    
-    body.dark-mode .btn-secondary:hover {
-        background: #4b5563;
-    }
-    
-    body.dark-mode .modal-content {
-        background: #16213e;
-        color: #e5e7eb;
-    }
-    
-    body.dark-mode .modal-header {
-        border-bottom-color: #374151;
-    }
-    
-    body.dark-mode .modal-header h2 {
-        color: #818cf8;
-    }
-    
-    body.dark-mode .close-modal {
-        color: #9ca3af;
-    }
-    
-    body.dark-mode .close-modal:hover {
-        background: #374151;
-        color: #e5e7eb;
-    }
-    
-    body.dark-mode .setting-label {
-        color: #e5e7eb;
-    }
-    
-    body.dark-mode .setting-description {
-        color: #9ca3af;
-    }
-    
-    body.dark-mode .speed-option {
-        background: #0f1419;
-        border-color: #374151;
-        color: #e5e7eb;
-    }
-    
-    body.dark-mode .speed-option:hover {
-        border-color: #667eea;
-    }
-    
-    body.dark-mode .speed-option.active {
-        background: #667eea;
-        color: white;
-    }
-    
-    body.dark-mode h2 {
-        color: #e5e7eb;
-    }
-    
-    .example-de.hidden-translation {
-        display: none;
-    }
-    
-    @media (max-width: 768px) {
-        .lessons-grid { grid-template-columns: 1fr; }
-        h1 { font-size: 1.8em; }
-        .floating-controls {
-            bottom: 20px;
-            right: 20px;
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
-        .floating-btn {
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+            position: relative;
+        }
+        
+        .settings-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: white;
             width: 50px;
             height: 50px;
-            font-size: 20px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
         }
-        .settings-btn {
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
+        
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
         }
-    }
-</style>
-```
-
+        
+        h1 { font-size: 2.5em; margin-bottom: 10px; }
+        h2 { font-size: 1.8em; margin-bottom: 15px; color: #667eea; }
+        
+        .content { padding: 30px; }
+        
+        .hidden { display: none !important; }
+        
+        /* Language Selection */
+        .language-selector {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .selector-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .selector-row label {
+            font-weight: 600;
+            min-width: 150px;
+            color: #333;
+        }
+        
+        .selector-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .selector-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .selector-btn:hover {
+            background: #f0f4ff;
+        }
+        
+        .selector-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .load-btn {
+            padding: 15px 30px;
+            background: #22c55e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .load-btn:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+        }
+        
+        .load-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Lessons Grid */
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .lesson-card {
+            border: 3px solid #667eea;
+            border-radius: 12px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .lesson-number {
+            font-size: 3em;
+            font-weight: bold;
+            opacity: 0.2;
+            line-height: 1;
+            color: #667eea;
+        }
+        
+        .lesson-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin: 10px 0;
+            color: #333;
+        }
+        
+        .lesson-desc {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        /* Lesson Detail */
+        .lesson-detail {
+            margin-top: 30px;
+        }
+        
+        .back-btn {
+            padding: 12px 24px;
+            background: #e5e7eb;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn:hover {
+            background: #d1d5db;
+        }
+        
+        .section-card {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .explanation {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .example {
+            background: #fff7ed;
+            border-left: 4px solid #fb923c;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        
+        .example.with-label {
+            background: #f0f9ff;
+            border-left-color: #0ea5e9;
+        }
+        
+        .example-labels {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 8px;
+        }
+        
+        .label-tag {
+            background: #0ea5e9;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+        
+        .example-q {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .example-a {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .vocab-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .vocab-item {
+            background: white;
+            border: 1px solid #e9ecef;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        
+        .vocab-term {
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        /* Settings Section */
+        #settings-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .settings-header h2 {
+            color: #667eea;
+            margin: 0;
+        }
+        
+        .done-btn {
+            padding: 10px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .done-btn:hover {
+            background: #5568d3;
+        }
+        
+        .setting-group {
+            margin-bottom: 25px;
+        }
+        
+        .setting-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: block;
+            font-size: 1.1em;
+        }
+        
+        .setting-description {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            cursor: pointer;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #667eea;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .hidden-translation {
+            display: none !important;
+        }
+        
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        
+        body.dark-mode .container {
+            background: #0f1419;
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode header {
+            background: linear-gradient(135deg, #3b4f8c 0%, #4a3a6e 100%);
+        }
+        
+        body.dark-mode h2 {
+            color: #818cf8;
+        }
+        
+        body.dark-mode .language-selector {
+            background: #1a1f2e;
+        }
+        
+        body.dark-mode .selector-row label {
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode .selector-btn {
+            background: #0f1419;
+            color: #e5e7eb;
+            border-color: #374151;
+        }
+        
+        body.dark-mode .selector-btn:hover {
+            background: #1a1f2e;
+        }
+        
+        body.dark-mode .selector-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        body.dark-mode .load-btn {
+            background: #22c55e;
+        }
+        
+        body.dark-mode .back-btn {
+            background: #374151;
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode .back-btn:hover {
+            background: #4b5563;
+        }
+        
+        body.dark-mode .lesson-card {
+            background: #1a1f2e;
+            border-color: #374151;
+        }
+        
+        body.dark-mode .lesson-card:hover {
+            border-color: #667eea;
+        }
+        
+        body.dark-mode .lesson-number {
+            color: #667eea;
+        }
+        
+        body.dark-mode .lesson-title {
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode .lesson-desc {
+            color: #9ca3af;
+        }
+        
+        body.dark-mode .section-card {
+            background: #1a1f2e;
+            border-color: #374151;
+        }
+        
+        body.dark-mode .section-title {
+            color: #818cf8;
+        }
+        
+        body.dark-mode .explanation {
+            background: #0f1419;
+            color: #d1d5db;
+        }
+        
+        body.dark-mode .example {
+            background: #1a1f2e;
+            border-left-color: #fb923c;
+        }
+        
+        body.dark-mode .example.with-label {
+            background: #0f1831;
+        }
+        
+        body.dark-mode .example-q {
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode .example-a {
+            color: #9ca3af;
+        }
+        
+        body.dark-mode .vocab-item {
+            background: #0f1419;
+            border-color: #374151;
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode .vocab-term {
+            color: #818cf8;
+        }
+        
+        body.dark-mode .modal-content {
+            background: #16213e;
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode #settings-section {
+            background: #1a1f2e;
+        }
+        
+        body.dark-mode .settings-header {
+            border-bottom-color: #374151;
+        }
+        
+        body.dark-mode .settings-header h2 {
+            color: #818cf8;
+        }
+        
+        body.dark-mode .done-btn {
+            background: #667eea;
+        }
+        
+        body.dark-mode .done-btn:hover {
+            background: #5568d3;
+        }
+        
+        body.dark-mode .setting-label {
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode .setting-description {
+            color: #9ca3af;
+        }
+        
+        @media (max-width: 768px) {
+            .lessons-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8em; }
+            .selector-row { flex-direction: column; align-items: flex-start; }
+            .selector-row label { min-width: auto; }
+            .settings-btn {
+                top: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <button class="settings-btn" onclick="openSettings()" title="Einstellungen">⚙️</button>
-            <h1>🇵🇹 Portugiesisch Lernen</h1>
-            <p>Lektionsbasiertes Lernen mit Audio</p>
+            <button class="settings-btn" onclick="openSettings()" title="Settings">⚙️</button>
+            <h1>🌍 Language Learning</h1>
+            <p>Learn any language with structured lessons</p>
         </header>
-
-```
-    <div class="content">
-        <!-- Lektionsübersicht -->
-        <div id="overview">
-            <h2 style="color: #667eea; margin-bottom: 20px;">Deine Lektionen</h2>
-            <div id="lessons-grid" class="lessons-grid"></div>
-        </div>
-
-        <!-- Lektionsdetail -->
-        <div id="detail" class="hidden">
-            <button class="btn btn-secondary" onclick="backToOverview()">← Zurück</button>
-            
-            <div id="lesson-header" class="lesson-header"></div>
-            
-            <div>
-                <button class="btn btn-primary" id="playBtn" onclick="playLesson()">
-                    🔊 Lektion abspielen
-                </button>
-                <button class="btn btn-danger hidden" id="stopBtn" onclick="stopLesson()">
-                    ⏹ Stoppen
-                </button>
-                <button class="btn btn-success" onclick="markComplete()">
-                    ✓ Als gelernt markieren
-                </button>
-                <button class="btn btn-secondary" onclick="scrollToVocabulary()">
-                    📚 Zur Vokabelliste
-                </button>
-            </div>
-
-            <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-                <span style="font-weight: 600; color: #666;">Filter:</span>
-                <button class="btn btn-secondary" id="filterAll" onclick="filterSentences('all')" style="background: #667eea; color: white;">
-                    Alle Sätze
-                </button>
-                <button class="btn btn-secondary" id="filterUnlearned" onclick="filterSentences('unlearned')">
-                    Nur ungelernte Vokabeln
-                </button>
-            </div>
-            
-            <div id="verbs" style="margin-top: 30px;"></div>
-        </div>
-    </div>
-</div>
-
-<!-- Floating Controls -->
-<div id="floating-controls" class="floating-controls hidden">
-    <button class="floating-btn play" id="floatingPlayBtn" onclick="playLesson()" title="Abspielen">
-        ▶️
-    </button>
-    <button class="floating-btn pause hidden" id="floatingPauseBtn" onclick="pauseLesson()" title="Pausieren">
-        ⏸️
-    </button>
-    <button class="floating-btn stop" id="floatingStopBtn" onclick="stopLesson()" title="Stoppen">
-        ⏹️
-    </button>
-</div>
-
-<!-- Settings Modal -->
-<div id="settingsModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>⚙️ Einstellungen</h2>
-            <button class="close-modal" onclick="closeSettings()">×</button>
-        </div>
         
-        <div class="setting-group">
-            <label class="setting-label">Deutsche Übersetzung anzeigen</label>
-            <div class="setting-description">
-                Zeige oder verstecke die deutschen Übersetzungen der portugiesischen Sätze
-            </div>
-            <label class="toggle-switch">
-                <input type="checkbox" id="showTranslation" onchange="toggleTranslation()" checked>
-                <span class="toggle-slider"></span>
-            </label>
-        </div>
-        
-        <div class="setting-group">
-            <label class="setting-label">Lesegeschwindigkeit</label>
-            <div class="setting-description">
-                Wähle die Geschwindigkeit für die Audio-Wiedergabe
-            </div>
-            <div class="speed-options">
-                <div class="speed-option" onclick="setSpeed(0.7)" data-speed="0.7">0.7x</div>
-                <div class="speed-option" onclick="setSpeed(0.8)" data-speed="0.8">0.8x</div>
-                <div class="speed-option" onclick="setSpeed(0.9)" data-speed="0.9">0.9x</div>
-                <div class="speed-option active" onclick="setSpeed(1.0)" data-speed="1.0">1.0x</div>
-            </div>
-        </div>
-        
-        <div class="setting-group">
-            <label class="setting-label">Dark Mode</label>
-            <div class="setting-description">
-                Dunkles Farbschema für angenehmeres Lesen bei Nacht
-            </div>
-            <label class="toggle-switch">
-                <input type="checkbox" id="darkMode" onchange="toggleDarkMode()">
-                <span class="toggle-slider"></span>
-            </label>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Lektionsdaten
-    const LESSONS = [
-        {
-            id: 1,
-            titel: "Grundlagen - Sein und Haben",
-            beschreibung: "Die wichtigsten Basisverben",
-            farbe: "#667eea",
-            verben: [
-                {
-                    id: 1,
-                    verb: "SER",
-                    translation: "sein (permanent)",
-                    conjugation: "eu sou, tu és, ele/ela é, nós somos, eles/elas são",
-                    examples: [
-                        { pt: "Eu sou alemão.", de: "Ich bin Deutscher.", exp: "sou = ich bin" },
-                        { pt: "Tu és inteligente.", de: "Du bist intelligent.", exp: "és = du bist" },
-                        { pt: "Ela é médica.", de: "Sie ist Ärztin.", exp: "é = sie ist" },
-                        { pt: "Nós somos uma equipa.", de: "Wir sind ein Team.", exp: "somos = wir sind" },
-                        { pt: "Vós sois convidados.", de: "Ihr seid Gäste.", exp: "sois = ihr seid" },
-                        { pt: "Eles são programadores.", de: "Sie sind Programmierer.", exp: "são = sie sind" }
-                    ],
-                    gerund: { pt: "Sendo honesto, prefiro ficar em casa.", de: "Um ehrlich zu sein, bleibe ich lieber zu Hause.", exp: "Sendo = seiend" }
-                },
-                {
-                    id: 2,
-                    verb: "ESTAR",
-                    translation: "sein (temporär)",
-                    conjugation: "eu estou, tu estás, ele/ela está, nós estamos, eles/elas estão",
-                    examples: [
-                        { pt: "Eu estou cansado.", de: "Ich bin müde.", exp: "estou = ich bin" },
-                        { pt: "Tu estás feliz.", de: "Du bist glücklich.", exp: "estás = du bist" },
-                        { pt: "Ele está no escritório.", de: "Er ist im Büro.", exp: "está = er ist" },
-                        { pt: "Nós estamos prontos.", de: "Wir sind bereit.", exp: "estamos = wir sind" },
-                        { pt: "Vós estais atrasados.", de: "Ihr seid zu spät.", exp: "estais = ihr seid" },
-                        { pt: "Eles estão em férias.", de: "Sie sind im Urlaub.", exp: "estão = sie sind" }
-                    ],
-                    gerund: { pt: "Estando doente, não posso trabalhar.", de: "Da ich krank bin, kann ich nicht arbeiten.", exp: "Estando = seiend" }
-                },
-                {
-                    id: 3,
-                    verb: "TER",
-                    translation: "haben",
-                    conjugation: "eu tenho, tu tens, ele/ela tem, nós temos, eles/elas têm",
-                    examples: [
-                        { pt: "Eu tenho uma casa.", de: "Ich habe ein Haus.", exp: "tenho = ich habe" },
-                        { pt: "Tu tens dois irmãos?", de: "Hast du zwei Geschwister?", exp: "tens = du hast" },
-                        { pt: "Ela tem talento.", de: "Sie hat Talent.", exp: "tem = sie hat" },
-                        { pt: "Nós temos uma reunião.", de: "Wir haben ein Meeting.", exp: "temos = wir haben" },
-                        { pt: "Vós tendes razão.", de: "Ihr habt Recht.", exp: "tendes = ihr habt" },
-                        { pt: "Eles têm três filhos.", de: "Sie haben drei Kinder.", exp: "têm = sie haben" }
-                    ],
-                    gerund: { pt: "Tendo tempo, vou ler.", de: "Wenn ich Zeit habe, werde ich lesen.", exp: "Tendo = habend" }
-                },
-                {
-                    id: 4,
-                    verb: "FAZER",
-                    translation: "machen",
-                    conjugation: "eu faço, tu fazes, ele/ela faz, nós fazemos, eles/elas fazem",
-                    examples: [
-                        { pt: "Eu faço o pequeno-almoço.", de: "Ich mache das Frühstück.", exp: "faço = ich mache" },
-                        { pt: "Tu fazes um bom trabalho.", de: "Du machst gute Arbeit.", exp: "fazes = du machst" },
-                        { pt: "Ele faz exercício.", de: "Er macht Sport.", exp: "faz = er macht" },
-                        { pt: "Nós fazemos as compras.", de: "Wir machen die Einkäufe.", exp: "fazemos = wir machen" },
-                        { pt: "Vós fazeis barulho.", de: "Ihr macht Lärm.", exp: "fazeis = ihr macht" },
-                        { pt: "Eles fazem voluntariado.", de: "Sie machen Freiwilligenarbeit.", exp: "fazem = sie machen" }
-                    ],
-                    gerund: { pt: "Fazendo isto bem, terás sucesso.", de: "Wenn du das gut machst, wirst du Erfolg haben.", exp: "Fazendo = machend" }
-                },
-                {
-                    id: 5,
-                    verb: "IR",
-                    translation: "gehen",
-                    conjugation: "eu vou, tu vais, ele/ela vai, nós vamos, eles/elas vão",
-                    examples: [
-                        { pt: "Eu vou ao supermercado.", de: "Ich gehe zum Supermarkt.", exp: "vou = ich gehe" },
-                        { pt: "Tu vais à praia?", de: "Gehst du zum Strand?", exp: "vais = du gehst" },
-                        { pt: "Ela vai estudar medicina.", de: "Sie wird Medizin studieren.", exp: "vai = sie geht/wird" },
-                        { pt: "Nós vamos jantar fora.", de: "Wir gehen auswärts essen.", exp: "vamos = wir gehen" },
-                        { pt: "Vós ides ao concerto?", de: "Geht ihr zum Konzert?", exp: "ides = ihr geht" },
-                        { pt: "Eles vão viajar.", de: "Sie werden reisen.", exp: "vão = sie gehen/werden" }
-                    ],
-                    gerund: { pt: "Indo devagar, chegas longe.", de: "Langsam gehend, kommst du weit.", exp: "Indo = gehend" }
-                }
-            ]
-        },
-        {
-            id: 2,
-            titel: "Modalverben",
-            beschreibung: "Können, wollen, müssen",
-            farbe: "#f59e0b",
-            verben: [
-                {
-                    id: 6,
-                    verb: "QUERER",
-                    translation: "wollen",
-                    conjugation: "eu quero, tu queres, ele/ela quer, nós queremos, eles/elas querem",
-                    examples: [
-                        { pt: "Eu quero aprender português.", de: "Ich will Portugiesisch lernen.", exp: "quero = ich will" },
-                        { pt: "Tu queres vir connosco?", de: "Willst du mit uns kommen?", exp: "queres = du willst" },
-                        { pt: "Ele quer mudar de emprego.", de: "Er will den Job wechseln.", exp: "quer = er will" },
-                        { pt: "Nós queremos uma casa nova.", de: "Wir wollen ein neues Haus.", exp: "queremos = wir wollen" },
-                        { pt: "Vós quereis descansar?", de: "Wollt ihr ausruhen?", exp: "quereis = ihr wollt" },
-                        { pt: "Eles querem viajar.", de: "Sie wollen reisen.", exp: "querem = sie wollen" }
-                    ],
-                    gerund: { pt: "Querendo ou não, tens de ir.", de: "Ob du willst oder nicht, du musst gehen.", exp: "Querendo = wollend" }
-                },
-                {
-                    id: 7,
-                    verb: "PODER",
-                    translation: "können",
-                    conjugation: "eu posso, tu podes, ele/ela pode, nós podemos, eles/elas podem",
-                    examples: [
-                        { pt: "Eu posso ajudar.", de: "Ich kann helfen.", exp: "posso = ich kann" },
-                        { pt: "Tu podes fechar a janela?", de: "Kannst du das Fenster schließen?", exp: "podes = du kannst" },
-                        { pt: "Ela pode falar três línguas.", de: "Sie kann drei Sprachen sprechen.", exp: "pode = sie kann" },
-                        { pt: "Nós podemos marcar uma reunião.", de: "Wir können ein Meeting vereinbaren.", exp: "podemos = wir können" },
-                        { pt: "Vós podeis chegar mais cedo?", de: "Könnt ihr früher ankommen?", exp: "podeis = ihr könnt" },
-                        { pt: "Eles podem trazer os documentos.", de: "Sie können die Dokumente mitbringen.", exp: "podem = sie können" }
-                    ],
-                    gerund: { pt: "Podendo escolher, prefiro casa.", de: "Wenn ich wählen kann, bevorzuge ich zu Hause.", exp: "Podendo = könnend" }
-                }
-            ]
-        }
-    ];
-
-    // State
-    let currentLesson = null;
-    let completedLessons = JSON.parse(localStorage.getItem('completedLessons') || '[]');
-    let learnedVocabulary = JSON.parse(localStorage.getItem('learnedVocabulary') || '[]');
-    let currentFilter = 'all';
-    let isPlaying = false;
-    let isPaused = false;
-    let playQueue = [];
-    let currentElement = null;
-    let synth = window.speechSynthesis;
-    let currentUtterance = null;
-    
-    // Settings state
-    let settings = {
-        showTranslation: true,
-        readingSpeed: 1.0,
-        darkMode: false
-    };
-
-    // Init
-    function init() {
-        loadSettings();
-        applySettings();
-        renderLessons();
-    }
-
-    function renderLessons() {
-        const grid = document.getElementById('lessons-grid');
-        grid.innerHTML = LESSONS.map(lesson => {
-            const isCompleted = completedLessons.includes(lesson.id);
-            return `
-                <div class="lesson-card ${isCompleted ? 'completed' : ''}" 
-                     style="border-color: ${lesson.farbe};"
-                     onclick="openLesson(${lesson.id})">
-                    <div class="lesson-number" style="color: ${lesson.farbe};">${lesson.id}</div>
-                    <div class="lesson-title">${lesson.titel}</div>
-                    <div class="lesson-desc">${lesson.beschreibung}</div>
-                    <div>${lesson.verben.length} Verben</div>
+        <div class="content">
+            <!-- Settings Section -->
+            <div id="settings-section" class="hidden">
+                <div class="settings-header">
+                    <h2>⚙️ Settings</h2>
+                    <button class="done-btn" onclick="closeSettings()">Done</button>
                 </div>
-            `;
-        }).join('');
-    }
-
-    function openLesson(id) {
-        currentLesson = LESSONS.find(l => l.id === id);
-        if (!currentLesson) return;
-
-        document.getElementById('overview').classList.add('hidden');
-        document.getElementById('detail').classList.remove('hidden');
-        document.getElementById('floating-controls').classList.remove('hidden');
-
-        const isCompleted = completedLessons.includes(id);
-        document.getElementById('lesson-header').innerHTML = `
-            <h2>Lektion ${currentLesson.id}: ${currentLesson.titel}</h2>
-            <p>${currentLesson.beschreibung}</p>
-            <p>${currentLesson.verben.length} Verben ${isCompleted ? '✓ Abgeschlossen' : ''}</p>
-        `;
-
-        const verbsDiv = document.getElementById('verbs');
-        verbsDiv.innerHTML = currentLesson.verben.map((verb, verbIdx) => {
-            const examplesHTML = verb.examples.map((ex, i) => `
-                <div class="example" data-verb="${verbIdx}" data-example="${i}" data-sentence="${ex.pt}">
-                    <button class="mark-sentence-btn" onclick="markSentenceVocab(event, '${ex.pt.replace(/'/g, "\\'")}')">✓ Wörter gelernt</button>
-                    <div class="example-pt" onclick="handleSentenceClick(event, '${ex.pt.replace(/'/g, "\\'")}', this)">
-                        🔊 ${ex.pt}
+                
+                <div class="setting-group">
+                    <label class="setting-label">Show Translations</label>
+                    <div class="setting-description">
+                        Show or hide answer translations in lessons
                     </div>
-                    <div class="example-de">${ex.de}</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="showTranslation" onchange="toggleTranslation()" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Dark Mode</label>
+                    <div class="setting-description">
+                        Dark color scheme for comfortable reading at night
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkMode" onchange="toggleDarkMode()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Language Selection -->
+            <div id="language-selection">
+                <div class="language-selector">
+                    <h2>Select Learning Options</h2>
+                    
+                    <div class="selector-row">
+                        <label>I want to learn in:</label>
+                        <div class="selector-buttons" id="learning-lang-buttons"></div>
+                    </div>
+                    
+                    <div class="selector-row">
+                        <label>What I want to learn:</label>
+                        <div class="selector-buttons" id="teaching-topic-buttons"></div>
+                    </div>
+                    
+                    <button class="load-btn" id="load-lessons-btn" onclick="loadSelectedLessons()" disabled>
+                        Load Lessons
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Lessons Overview -->
+            <div id="lessons-overview" class="hidden">
+                <button class="back-btn" onclick="backToSelection()">← Change Selection</button>
+                <h2 id="overview-title"></h2>
+                <div id="lessons-grid" class="lessons-grid"></div>
+            </div>
+            
+            <!-- Lesson Detail -->
+            <div id="lesson-detail" class="hidden">
+                <button class="back-btn" onclick="backToOverview()">← Back to Lessons</button>
+                <div id="lesson-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Available learning languages and topics
+        const availableContent = {
+            'deutsch': {
+                'portugiesisch': ['01-basic-verbs', '02-modal-verbs', '03-daily-activities'],
+                'englisch': ['01-greetings']
+            }
+        };
+        
+        let selectedLearning = null;
+        let selectedTeaching = null;
+        let loadedLessons = [];
+        let currentLesson = null;
+        
+        // Settings state
+        let settings = {
+            showTranslation: true,
+            darkMode: false
+        };
+        
+        // Initialize the app
+        function init() {
+            loadSettings();
+            applySettings();
+            populateSelectors();
+        }
+        
+        function populateSelectors() {
+            const learningButtons = document.getElementById('learning-lang-buttons');
+            const teachingButtons = document.getElementById('teaching-topic-buttons');
+            
+            // Populate learning languages
+            const learningLangs = Object.keys(availableContent);
+            learningButtons.innerHTML = learningLangs.map(lang => 
+                `<button class="selector-btn" onclick="selectLearning('${lang}')">${formatLangName(lang)}</button>`
+            ).join('');
+            
+            // Initially disable teaching buttons
+            teachingButtons.innerHTML = '<p style="color: #999;">Select a learning language first</p>';
+        }
+        
+        function formatLangName(name) {
+            const names = {
+                'deutsch': 'Deutsch',
+                'english': 'English',
+                'portugiesisch': 'Portugiesisch',
+                'englisch': 'Englisch',
+                'portugese': 'Portuguese'
+            };
+            return names[name] || name.charAt(0).toUpperCase() + name.slice(1);
+        }
+        
+        function selectLearning(lang) {
+            selectedLearning = lang;
+            selectedTeaching = null;
+            
+            // Update button states
+            document.querySelectorAll('#learning-lang-buttons .selector-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Populate teaching options
+            const teachingButtons = document.getElementById('teaching-topic-buttons');
+            const topics = Object.keys(availableContent[lang] || {});
+            
+            if (topics.length > 0) {
+                teachingButtons.innerHTML = topics.map(topic => 
+                    `<button class="selector-btn" onclick="selectTeaching('${topic}')">${formatLangName(topic)}</button>`
+                ).join('');
+            } else {
+                teachingButtons.innerHTML = '<p style="color: #999;">No topics available</p>';
+            }
+            
+            updateLoadButton();
+        }
+        
+        function selectTeaching(topic) {
+            selectedTeaching = topic;
+            
+            // Update button states
+            document.querySelectorAll('#teaching-topic-buttons .selector-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            updateLoadButton();
+        }
+        
+        function updateLoadButton() {
+            const btn = document.getElementById('load-lessons-btn');
+            btn.disabled = !(selectedLearning && selectedTeaching);
+        }
+        
+        async function loadSelectedLessons() {
+            if (!selectedLearning || !selectedTeaching) return;
+            
+            const lessonFiles = availableContent[selectedLearning][selectedTeaching];
+            loadedLessons = [];
+            
+            // Load each YAML file
+            for (const file of lessonFiles) {
+                try {
+                    const path = `lessons/${selectedLearning}/${selectedTeaching}/${file}.yaml`;
+                    const response = await fetch(path);
+                    const yamlText = await response.text();
+                    const lessonData = simpleYamlParse(yamlText);
+                    loadedLessons.push(lessonData);
+                } catch (error) {
+                    console.error(`Error loading ${file}:`, error);
+                }
+            }
+            
+            // Sort by lesson number
+            loadedLessons.sort((a, b) => a.number - b.number);
+            
+            showLessonsOverview();
+        }
+        
+        function showLessonsOverview() {
+            document.getElementById('language-selection').classList.add('hidden');
+            document.getElementById('lessons-overview').classList.remove('hidden');
+            document.getElementById('lesson-detail').classList.add('hidden');
+            
+            const title = document.getElementById('overview-title');
+            title.textContent = `${formatLangName(selectedTeaching)} - ${formatLangName(selectedLearning)} Interface`;
+            
+            renderLessonsGrid();
+        }
+        
+        function renderLessonsGrid() {
+            const grid = document.getElementById('lessons-grid');
+            
+            grid.innerHTML = loadedLessons.map(lesson => `
+                <div class="lesson-card" onclick="openLesson(${lesson.number})">
+                    <div class="lesson-number">${lesson.number}</div>
+                    <div class="lesson-title">${lesson.title}</div>
+                    <div class="lesson-desc">${lesson.description || ''}</div>
+                    <div style="color: #667eea; font-weight: 600;">${lesson.sections.length} sections</div>
                 </div>
             `).join('');
-
-            const gerundHTML = verb.gerund ? `
-                <div class="example gerund" data-verb="${verbIdx}" data-gerund="true" data-sentence="${verb.gerund.pt}">
-                    <button class="mark-sentence-btn" onclick="markSentenceVocab(event, '${verb.gerund.pt.replace(/'/g, "\\'")}')">✓ Wörter gelernt</button>
-                    <div style="font-size: 0.75em; color: #0ea5e9; font-weight: 600; margin-bottom: 5px;">GERUNDIUM</div>
-                    <div class="example-pt" onclick="handleSentenceClick(event, '${verb.gerund.pt.replace(/'/g, "\\'")}', this)">
-                        🔊 ${verb.gerund.pt}
-                    </div>
-                    <div class="example-de">${verb.gerund.de}</div>
-                </div>
-            ` : '';
-
-            return `
-                <div class="verb-card">
-                    <div class="verb-header">
-                        <div class="verb-title">${verb.verb}</div>
-                        <div>#${verb.id}</div>
-                    </div>
-                    <div style="color: #666; margin-bottom: 15px; font-size: 1.1em;">${verb.translation}</div>
-                    <div class="conjugation">${verb.conjugation}</div>
-                    ${examplesHTML}
-                    ${gerundHTML}
-                </div>
+        }
+        
+        function openLesson(lessonNumber) {
+            currentLesson = loadedLessons.find(l => l.number === lessonNumber);
+            if (!currentLesson) return;
+            
+            document.getElementById('lessons-overview').classList.add('hidden');
+            document.getElementById('lesson-detail').classList.remove('hidden');
+            
+            renderLessonDetail();
+        }
+        
+        function renderLessonDetail() {
+            const content = document.getElementById('lesson-content');
+            
+            let html = `
+                <h1>${currentLesson.title}</h1>
+                <p style="color: #666; margin: 10px 0 30px 0; font-size: 1.1em;">${currentLesson.description || ''}</p>
             `;
-        }).join('');
-
-        // Extract and display vocabulary
-        const vocabulary = extractVocabulary(currentLesson);
-        verbsDiv.innerHTML += `
-            <div class="vocab-section">
-                <h3>📚 Vokabeln dieser Lektion (${vocabulary.length})</h3>
-                <div class="vocab-grid">
-                    ${vocabulary.map((v, idx) => {
-                        const vocabId = `${currentLesson.id}-${v.pt}`;
-                        const isLearned = learnedVocabulary.includes(vocabId);
-                        return `
-                            <div class="vocab-item ${isLearned ? 'learned' : ''}" onclick="toggleVocab('${vocabId}', this)">
-                                <div class="vocab-pt">${v.pt}</div>
-                                <div class="vocab-de">${v.de}</div>
+            
+            currentLesson.sections.forEach(section => {
+                html += `
+                    <div class="section-card">
+                        <div class="section-title">${section.title}</div>
+                        ${section.explanation ? `<div class="explanation">${marked(section.explanation)}</div>` : ''}
+                        
+                        ${section.examples.map(example => `
+                            <div class="example ${example.labels ? 'with-label' : ''}">
+                                ${example.labels ? `
+                                    <div class="example-labels">
+                                        ${example.labels.map(label => `<span class="label-tag">${label}</span>`).join('')}
+                                    </div>
+                                ` : ''}
+                                <div class="example-q">❓ ${example.q}</div>
+                                <div class="example-a">✓ ${example.a}</div>
+                                ${example.rel && example.rel.length > 0 ? `
+                                    <div class="vocab-box">
+                                        ${example.rel.map(item => `
+                                            <div class="vocab-item">
+                                                <span class="vocab-term">${item[0]}</span> → ${item.slice(1).join(' • ')}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
                             </div>
-                        `;
-                    }).join('')}
-                </div>
-            </div>
-        `;
-        
-        // Apply translation visibility based on settings
-        applyTranslationVisibility();
-    }
-
-    function toggleVocab(vocabId, element) {
-        const index = learnedVocabulary.indexOf(vocabId);
-        if (index > -1) {
-            learnedVocabulary.splice(index, 1);
-            element.classList.remove('learned');
-        } else {
-            learnedVocabulary.push(vocabId);
-            element.classList.add('learned');
-        }
-        localStorage.setItem('learnedVocabulary', JSON.stringify(learnedVocabulary));
-    }
-
-    function extractVocabulary(lesson) {
-        // Define vocabulary mappings based on the lesson content
-        const vocabMap = {
-            // Lektion 1 - Grundlagen
-            'alemão': 'Deutscher',
-            'inteligente': 'intelligent',
-            'médica': 'Ärztin',
-            'equipa': 'Team',
-            'convidados': 'Gäste',
-            'programadores': 'Programmierer',
-            'empresa': 'Firma',
-            'honesto': 'ehrlich',
-            'em casa': 'zu Hause',
-            'cansado': 'müde',
-            'feliz': 'glücklich',
-            'escritório': 'Büro',
-            'prontos': 'bereit',
-            'atrasados': 'zu spät',
-            'reunião': 'Meeting',
-            'férias': 'Urlaub',
-            'doente': 'krank',
-            'trabalhar': 'arbeiten',
-            'casa': 'Haus',
-            'irmãos': 'Geschwister',
-            'talento': 'Talent',
-            'razão': 'Recht',
-            'filhos': 'Kinder',
-            'tempo': 'Zeit',
-            'ler': 'lesen',
-            'pequeno-almoço': 'Frühstück',
-            'trabalho': 'Arbeit',
-            'exercício': 'Sport',
-            'compras': 'Einkäufe',
-            'barulho': 'Lärm',
-            'voluntariado': 'Freiwilligenarbeit',
-            'sucesso': 'Erfolg',
-            'supermercado': 'Supermarkt',
-            'praia': 'Strand',
-            'estudar': 'studieren',
-            'medicina': 'Medizin',
-            'jantar': 'Abendessen',
-            'fora': 'auswärts',
-            'concerto': 'Konzert',
-            'viajar': 'reisen',
-            'devagar': 'langsam',
-            'longe': 'weit',
-            // Lektion 2 - Modalverben
-            'aprender': 'lernen',
-            'português': 'Portugiesisch',
-            'vir': 'kommen',
-            'connosco': 'mit uns',
-            'mudar': 'wechseln',
-            'emprego': 'Job',
-            'descansar': 'ausruhen',
-            'mundo': 'Welt',
-            'dentista': 'Zahnarzt',
-            'ajudar': 'helfen',
-            'fechar': 'schließen',
-            'janela': 'Fenster',
-            'falar': 'sprechen',
-            'línguas': 'Sprachen',
-            'marcar': 'vereinbaren',
-            'chegar': 'ankommen',
-            'cedo': 'früh',
-            'trazer': 'mitbringen',
-            'documentos': 'Dokumente',
-            'escolher': 'wählen'
-        };
-
-        const vocab = new Set();
-        
-        // Extract words from all examples
-        lesson.verben.forEach(verb => {
-            verb.examples.forEach(ex => {
-                const words = ex.pt.toLowerCase().match(/\b[\wáàâãéêíóôõúçü-]+\b/g) || [];
-                words.forEach(word => {
-                    if (vocabMap[word]) {
-                        vocab.add(JSON.stringify({ pt: word, de: vocabMap[word] }));
-                    }
-                });
+                        `).join('')}
+                    </div>
+                `;
             });
             
-            if (verb.gerund) {
-                const words = verb.gerund.pt.toLowerCase().match(/\b[\wáàâãéêíóôõúçü-]+\b/g) || [];
-                words.forEach(word => {
-                    if (vocabMap[word]) {
-                        vocab.add(JSON.stringify({ pt: word, de: vocabMap[word] }));
-                    }
-                });
-            }
-        });
-
-        // Convert back to objects and sort
-        return Array.from(vocab)
-            .map(v => JSON.parse(v))
-            .sort((a, b) => a.pt.localeCompare(b.pt));
-    }
-
-    function backToOverview() {
-        stopLesson();
-        document.getElementById('detail').classList.add('hidden');
-        document.getElementById('overview').classList.remove('hidden');
-        document.getElementById('floating-controls').classList.add('hidden');
-        currentLesson = null;
-    }
-
-    function speak(text, element, manualClick = false) {
-        if (!synth) return;
-        
-        synth.cancel();
-        document.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
-        
-        // Find the example container for scrolling
-        if (element) {
-            currentElement = element.closest('.example');
-            if (!currentElement) {
-                // For verb titles, use the verb-card as the container
-                currentElement = element.closest('.verb-card');
-            }
-            if (currentElement) {
-                currentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            element.classList.add('playing');
+            content.innerHTML = html;
         }
-
-        // If manually clicked on a sentence
-        if (manualClick && currentElement) {
-            const verbIdx = parseInt(currentElement.dataset.verb);
-            const isGerund = currentElement.dataset.gerund === 'true';
-            
-            // If autoplay is on, rebuild queue from this point
-            if (isPlaying) {
-                playQueue = [];
-                let foundCurrent = false;
-                let lastAddedVerbIdx = -1;
-                
-                currentLesson.verben.forEach((verb, vIdx) => {
-                    verb.examples.forEach((ex, exIdx) => {
-                        // Skip until we find current sentence
-                        if (!foundCurrent) {
-                            if (vIdx === verbIdx && !isGerund && currentElement.dataset.example === String(exIdx)) {
-                                foundCurrent = true;
-                                // Don't add current one, it's already playing
-                            } else {
-                                return; // Skip
-                            }
-                        } else {
-                            // Add verb title when entering a new verb
-                            if (vIdx !== lastAddedVerbIdx) {
-                                playQueue.push({
-                                    text: verb.verb,
-                                    verbIdx: vIdx,
-                                    isVerbTitle: true
-                                });
-                                lastAddedVerbIdx = vIdx;
-                            }
-                            
-                            // Check if this sentence is filtered out
-                            const selector = `.example[data-verb="${vIdx}"][data-example="${exIdx}"]`;
-                            const element = document.querySelector(selector);
-                            if (element && !element.classList.contains('hidden-filter')) {
-                                playQueue.push({ 
-                                    text: ex.pt, 
-                                    verbIdx: vIdx, 
-                                    exampleIdx: exIdx,
-                                    isGerund: false
-                                });
-                            }
-                        }
-                    });
-                    
-                    if (verb.gerund) {
-                        if (!foundCurrent) {
-                            if (vIdx === verbIdx && isGerund) {
-                                foundCurrent = true;
-                                // Don't add current one
-                            }
-                        } else {
-                            // Add verb title when entering a new verb (for gerund)
-                            if (vIdx !== lastAddedVerbIdx) {
-                                playQueue.push({
-                                    text: verb.verb,
-                                    verbIdx: vIdx,
-                                    isVerbTitle: true
-                                });
-                                lastAddedVerbIdx = vIdx;
-                            }
-                            
-                            // Check if this gerund sentence is filtered out
-                            const selector = `.example[data-verb="${vIdx}"][data-gerund="true"]`;
-                            const element = document.querySelector(selector);
-                            if (element && !element.classList.contains('hidden-filter')) {
-                                playQueue.push({ 
-                                    text: verb.gerund.pt, 
-                                    verbIdx: vIdx,
-                                    isGerund: true
-                                });
-                            }
-                        }
-                    }
-                });
-            }
-            // If autoplay is off, just play this one sentence (queue stays empty)
+        
+        function backToOverview() {
+            currentLesson = null;
+            document.getElementById('lesson-detail').classList.add('hidden');
+            document.getElementById('lessons-overview').classList.remove('hidden');
         }
-
-        currentUtterance = new SpeechSynthesisUtterance(text);
-        currentUtterance.lang = 'pt-PT';
-        currentUtterance.rate = settings.readingSpeed;
-
-        currentUtterance.onend = () => {
-            if (element) element.classList.remove('playing');
-            currentElement = null;
+        
+        function backToSelection() {
+            loadedLessons = [];
+            currentLesson = null;
+            document.getElementById('lessons-overview').classList.add('hidden');
+            document.getElementById('language-selection').classList.remove('hidden');
+        }
+        
+        // Simple markdown parser for explanations
+        function marked(text) {
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n-\s/g, '\n• ')
+                .replace(/\n/g, '<br>');
+        }
+        
+        // Settings functions
+        function loadSettings() {
+            const saved = localStorage.getItem('appSettings');
+            if (saved) {
+                settings = JSON.parse(saved);
+            }
+        }
+        
+        function saveSettings() {
+            localStorage.setItem('appSettings', JSON.stringify(settings));
+        }
+        
+        function applySettings() {
+            // Apply dark mode
+            if (settings.darkMode) {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
             
-            if (playQueue.length > 0 && isPlaying && !isPaused) {
-                const next = playQueue.shift();
-                setTimeout(() => {
-                    // Find the element to highlight
-                    let nextElement, playElement;
-                    
-                    if (next.isVerbTitle) {
-                        // For verb titles, highlight the verb card
-                        const verbCards = document.querySelectorAll('.verb-card');
-                        nextElement = verbCards[next.verbIdx];
-                        playElement = nextElement ? nextElement.querySelector('.verb-title') : null;
-                    } else {
-                        const selector = next.isGerund 
-                            ? `.example[data-verb="${next.verbIdx}"][data-gerund="true"]`
-                            : `.example[data-verb="${next.verbIdx}"][data-example="${next.exampleIdx}"]`;
-                        nextElement = document.querySelector(selector);
-                        playElement = nextElement ? nextElement.querySelector('.example-pt') : null;
-                    }
-                    speak(next.text, playElement, false);
-                }, 1000);
-            } else if (isPlaying && playQueue.length === 0 && !isPaused) {
-                const nextLesson = LESSONS.find(l => l.id === currentLesson.id + 1);
-                if (nextLesson) {
-                    setTimeout(() => {
-                        openLesson(nextLesson.id);
-                        playLesson();
-                    }, 2000);
+            // Apply translation visibility
+            applyTranslationVisibility();
+            
+            // Update UI controls
+            document.getElementById('showTranslation').checked = settings.showTranslation;
+            document.getElementById('darkMode').checked = settings.darkMode;
+        }
+        
+        function applyTranslationVisibility() {
+            const translations = document.querySelectorAll('.example-a');
+            translations.forEach(el => {
+                if (settings.showTranslation) {
+                    el.classList.remove('hidden-translation');
                 } else {
-                    stopLesson();
-                    alert('🎉 Alle Lektionen abgeschlossen!');
-                }
-            }
-        };
-
-        synth.speak(currentUtterance);
-    }
-
-    function playLesson() {
-        if (!currentLesson) return;
-
-        // If resuming from pause
-        if (isPaused) {
-            isPaused = false;
-            synth.resume();
-            updateFloatingButtons();
-            return;
-        }
-
-        isPlaying = true;
-        isPaused = false;
-        document.getElementById('playBtn').classList.add('hidden');
-        document.getElementById('stopBtn').classList.remove('hidden');
-        updateFloatingButtons();
-
-        playQueue = [];
-        currentLesson.verben.forEach((verb, verbIdx) => {
-            // Add verb title announcement first
-            playQueue.push({
-                text: verb.verb,
-                verbIdx: verbIdx,
-                isVerbTitle: true
-            });
-            
-            verb.examples.forEach((ex, exampleIdx) => {
-                // Check if this sentence is filtered out
-                const selector = `.example[data-verb="${verbIdx}"][data-example="${exampleIdx}"]`;
-                const element = document.querySelector(selector);
-                if (element && !element.classList.contains('hidden-filter')) {
-                    playQueue.push({ 
-                        text: ex.pt, 
-                        verbIdx: verbIdx, 
-                        exampleIdx: exampleIdx,
-                        isGerund: false
-                    });
-                }
-            });
-            if (verb.gerund) {
-                // Check if this gerund sentence is filtered out
-                const selector = `.example[data-verb="${verbIdx}"][data-gerund="true"]`;
-                const element = document.querySelector(selector);
-                if (element && !element.classList.contains('hidden-filter')) {
-                    playQueue.push({ 
-                        text: verb.gerund.pt, 
-                        verbIdx: verbIdx,
-                        isGerund: true
-                    });
-                }
-            }
-        });
-
-        if (playQueue.length > 0) {
-            const first = playQueue.shift();
-            let element, playElement;
-            
-            if (first.isVerbTitle) {
-                // For verb titles, highlight the verb card
-                const verbCards = document.querySelectorAll('.verb-card');
-                element = verbCards[first.verbIdx];
-                playElement = element ? element.querySelector('.verb-title') : null;
-            } else {
-                const selector = first.isGerund 
-                    ? `.example[data-verb="${first.verbIdx}"][data-gerund="true"]`
-                    : `.example[data-verb="${first.verbIdx}"][data-example="${first.exampleIdx}"]`;
-                element = document.querySelector(selector);
-                playElement = element ? element.querySelector('.example-pt') : null;
-            }
-            speak(first.text, playElement);
-        }
-    }
-
-    function pauseLesson() {
-        if (!isPlaying || isPaused) return;
-        
-        isPaused = true;
-        synth.pause();
-        updateFloatingButtons();
-    }
-
-    function updateFloatingButtons() {
-        const playBtn = document.getElementById('floatingPlayBtn');
-        const pauseBtn = document.getElementById('floatingPauseBtn');
-        
-        if (isPlaying && !isPaused) {
-            playBtn.classList.add('hidden');
-            pauseBtn.classList.remove('hidden');
-        } else {
-            playBtn.classList.remove('hidden');
-            pauseBtn.classList.add('hidden');
-        }
-    }
-
-    function stopLesson() {
-        isPlaying = false;
-        isPaused = false;
-        playQueue = [];
-        synth.cancel();
-        document.getElementById('playBtn').classList.remove('hidden');
-        document.getElementById('stopBtn').classList.add('hidden');
-        document.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
-        updateFloatingButtons();
-    }
-
-    function markComplete() {
-        if (!currentLesson) return;
-        
-        if (!completedLessons.includes(currentLesson.id)) {
-            completedLessons.push(currentLesson.id);
-            localStorage.setItem('completedLessons', JSON.stringify(completedLessons));
-            alert('✓ Lektion abgeschlossen!');
-            backToOverview();
-        }
-    }
-
-    function scrollToVocabulary() {
-        const vocabSection = document.querySelector('.vocab-section');
-        if (vocabSection) {
-            vocabSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    }
-
-    function handleSentenceClick(event, text, element) {
-        // Check if click is on right side (for marking as learned)
-        const rect = element.getBoundingClientRect();
-        const clickX = event.clientX - rect.left;
-        const width = rect.width;
-        
-        // Right 30% of the sentence = mark as learned
-        if (clickX > width * 0.7) {
-            markSentenceVocab(event, text);
-        } else {
-            // Left side = play/continue
-            speak(text, element, true);
-        }
-    }
-
-    function markSentenceVocab(event, sentence) {
-        event.stopPropagation();
-        
-        // Extract words from sentence
-        const words = sentence.toLowerCase().match(/\b[\wáàâãéêíóôõúçü-]+\b/g) || [];
-        
-        // Get vocabulary map
-        const vocabMap = getVocabularyMap();
-        
-        let markedCount = 0;
-        words.forEach(word => {
-            if (vocabMap[word]) {
-                const vocabId = `${currentLesson.id}-${word}`;
-                if (!learnedVocabulary.includes(vocabId)) {
-                    learnedVocabulary.push(vocabId);
-                    markedCount++;
-                }
-            }
-        });
-        
-        if (markedCount > 0) {
-            localStorage.setItem('learnedVocabulary', JSON.stringify(learnedVocabulary));
-            
-            // Update vocabulary display
-            words.forEach(word => {
-                if (vocabMap[word]) {
-                    const vocabId = `${currentLesson.id}-${word}`;
-                    const vocabElements = document.querySelectorAll(`.vocab-item[onclick*="${vocabId}"]`);
-                    vocabElements.forEach(el => el.classList.add('learned'));
-                }
-            });
-            
-            // Apply filter if active
-            if (currentFilter === 'unlearned') {
-                filterSentences('unlearned');
-            }
-        }
-    }
-
-    function filterSentences(filter) {
-        currentFilter = filter;
-        
-        // Update button styles
-        document.getElementById('filterAll').style.background = filter === 'all' ? '#667eea' : '#e5e7eb';
-        document.getElementById('filterAll').style.color = filter === 'all' ? 'white' : '#333';
-        document.getElementById('filterUnlearned').style.background = filter === 'unlearned' ? '#667eea' : '#e5e7eb';
-        document.getElementById('filterUnlearned').style.color = filter === 'unlearned' ? 'white' : '#333';
-        
-        if (filter === 'all') {
-            // Show all sentences
-            document.querySelectorAll('.example').forEach(ex => {
-                ex.classList.remove('hidden-filter');
-            });
-        } else if (filter === 'unlearned') {
-            // Show only sentences with unlearned vocabulary
-            const vocabMap = getVocabularyMap();
-            
-            document.querySelectorAll('.example').forEach(ex => {
-                const sentence = ex.dataset.sentence;
-                if (!sentence) return;
-                
-                const words = sentence.toLowerCase().match(/\b[\wáàâãéêíóôõúçü-]+\b/g) || [];
-                
-                // Check if sentence has any unlearned vocab
-                let hasUnlearnedVocab = false;
-                words.forEach(word => {
-                    if (vocabMap[word]) {
-                        const vocabId = `${currentLesson.id}-${word}`;
-                        if (!learnedVocabulary.includes(vocabId)) {
-                            hasUnlearnedVocab = true;
-                        }
-                    }
-                });
-                
-                if (hasUnlearnedVocab) {
-                    ex.classList.remove('hidden-filter');
-                } else {
-                    ex.classList.add('hidden-filter');
+                    el.classList.add('hidden-translation');
                 }
             });
         }
-    }
-
-    function getVocabularyMap() {
-        return {
-            'alemão': 'Deutscher',
-            'inteligente': 'intelligent',
-            'médica': 'Ärztin',
-            'equipa': 'Team',
-            'convidados': 'Gäste',
-            'programadores': 'Programmierer',
-            'empresa': 'Firma',
-            'honesto': 'ehrlich',
-            'em casa': 'zu Hause',
-            'cansado': 'müde',
-            'feliz': 'glücklich',
-            'escritório': 'Büro',
-            'prontos': 'bereit',
-            'atrasados': 'zu spät',
-            'reunião': 'Meeting',
-            'férias': 'Urlaub',
-            'doente': 'krank',
-            'trabalhar': 'arbeiten',
-            'casa': 'Haus',
-            'irmãos': 'Geschwister',
-            'talento': 'Talent',
-            'razão': 'Recht',
-            'filhos': 'Kinder',
-            'tempo': 'Zeit',
-            'ler': 'lesen',
-            'pequeno-almoço': 'Frühstück',
-            'trabalho': 'Arbeit',
-            'exercício': 'Sport',
-            'compras': 'Einkäufe',
-            'barulho': 'Lärm',
-            'voluntariado': 'Freiwilligenarbeit',
-            'sucesso': 'Erfolg',
-            'supermercado': 'Supermarkt',
-            'praia': 'Strand',
-            'estudar': 'studieren',
-            'medicina': 'Medizin',
-            'jantar': 'Abendessen',
-            'fora': 'auswärts',
-            'concerto': 'Konzert',
-            'viajar': 'reisen',
-            'devagar': 'langsam',
-            'longe': 'weit',
-            'aprender': 'lernen',
-            'português': 'Portugiesisch',
-            'vir': 'kommen',
-            'connosco': 'mit uns',
-            'mudar': 'wechseln',
-            'emprego': 'Job',
-            'descansar': 'ausruhen',
-            'mundo': 'Welt',
-            'dentista': 'Zahnarzt',
-            'ajudar': 'helfen',
-            'fechar': 'schließen',
-            'janela': 'Fenster',
-            'falar': 'sprechen',
-            'línguas': 'Sprachen',
-            'marcar': 'vereinbaren',
-            'chegar': 'ankommen',
-            'cedo': 'früh',
-            'trazer': 'mitbringen',
-            'documentos': 'Dokumente',
-            'escolher': 'wählen'
-        };
-    }
-
-    // Media Session
-    if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-            title: 'Portugiesisch Lernen',
-            artist: 'Lektionen'
-        });
-        navigator.mediaSession.setActionHandler('play', () => currentLesson && playLesson());
-        navigator.mediaSession.setActionHandler('pause', stopLesson);
-        navigator.mediaSession.setActionHandler('stop', stopLesson);
-    }
-    
-    // Settings functions
-    function loadSettings() {
-        const saved = localStorage.getItem('appSettings');
-        if (saved) {
-            settings = JSON.parse(saved);
-        }
-    }
-    
-    function saveSettings() {
-        localStorage.setItem('appSettings', JSON.stringify(settings));
-    }
-    
-    function applySettings() {
-        // Apply dark mode
-        if (settings.darkMode) {
-            document.body.classList.add('dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
+        
+        function openSettings() {
+            // Hide all other sections
+            document.getElementById('language-selection').classList.add('hidden');
+            document.getElementById('lessons-overview').classList.add('hidden');
+            document.getElementById('lesson-detail').classList.add('hidden');
+            // Show settings
+            document.getElementById('settings-section').classList.remove('hidden');
         }
         
-        // Apply translation visibility
-        applyTranslationVisibility();
-        
-        // Update UI controls
-        document.getElementById('showTranslation').checked = settings.showTranslation;
-        document.getElementById('darkMode').checked = settings.darkMode;
-        
-        // Update speed buttons
-        document.querySelectorAll('.speed-option').forEach(btn => {
-            const speed = parseFloat(btn.dataset.speed);
-            if (speed === settings.readingSpeed) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
+        function closeSettings() {
+            // Hide settings
+            document.getElementById('settings-section').classList.add('hidden');
+            // Show language selection by default
+            document.getElementById('language-selection').classList.remove('hidden');
+            
+            // If lessons are loaded, show lessons overview instead
+            if (loadedLessons.length > 0) {
+                document.getElementById('language-selection').classList.add('hidden');
+                document.getElementById('lessons-overview').classList.remove('hidden');
             }
-        });
-    }
-    
-    function applyTranslationVisibility() {
-        const translations = document.querySelectorAll('.example-de');
-        translations.forEach(el => {
-            if (settings.showTranslation) {
-                el.classList.remove('hidden-translation');
-            } else {
-                el.classList.add('hidden-translation');
+            
+            // If viewing a lesson, show lesson detail instead
+            if (currentLesson) {
+                document.getElementById('language-selection').classList.add('hidden');
+                document.getElementById('lessons-overview').classList.add('hidden');
+                document.getElementById('lesson-detail').classList.remove('hidden');
             }
-        });
-    }
-    
-    function openSettings() {
-        document.getElementById('settingsModal').classList.add('active');
-    }
-    
-    function closeSettings() {
-        document.getElementById('settingsModal').classList.remove('active');
-    }
-    
-    function toggleTranslation() {
-        settings.showTranslation = document.getElementById('showTranslation').checked;
-        saveSettings();
-        applyTranslationVisibility();
-    }
-    
-    function setSpeed(speed) {
-        settings.readingSpeed = speed;
-        saveSettings();
+        }
         
-        // Update active button
-        document.querySelectorAll('.speed-option').forEach(btn => {
-            const btnSpeed = parseFloat(btn.dataset.speed);
-            if (btnSpeed === speed) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        });
-    }
-    
-    function toggleDarkMode() {
-        settings.darkMode = document.getElementById('darkMode').checked;
-        saveSettings();
-        applySettings();
-    }
-
-    // Start
-    document.addEventListener('DOMContentLoaded', init);
-</script>
-```
-
+        function toggleTranslation() {
+            settings.showTranslation = document.getElementById('showTranslation').checked;
+            saveSettings(); // Save immediately on change
+            applyTranslationVisibility();
+        }
+        
+        function toggleDarkMode() {
+            settings.darkMode = document.getElementById('darkMode').checked;
+            saveSettings(); // Save immediately on change
+            applySettings();
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
