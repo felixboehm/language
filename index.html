@@ -782,6 +782,10 @@
         // Find the example container for scrolling
         if (element) {
             currentElement = element.closest('.example');
+            if (!currentElement) {
+                // For verb titles, use the verb-card as the container
+                currentElement = element.closest('.verb-card');
+            }
             if (currentElement) {
                 currentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
@@ -797,6 +801,7 @@
             if (isPlaying) {
                 playQueue = [];
                 let foundCurrent = false;
+                let lastAddedVerbIdx = -1;
                 
                 currentLesson.verben.forEach((verb, vIdx) => {
                     verb.examples.forEach((ex, exIdx) => {
@@ -809,6 +814,16 @@
                                 return; // Skip
                             }
                         } else {
+                            // Add verb title when entering a new verb
+                            if (vIdx !== lastAddedVerbIdx) {
+                                playQueue.push({
+                                    text: verb.verb,
+                                    verbIdx: vIdx,
+                                    isVerbTitle: true
+                                });
+                                lastAddedVerbIdx = vIdx;
+                            }
+                            
                             // Check if this sentence is filtered out
                             const selector = `.example[data-verb="${vIdx}"][data-example="${exIdx}"]`;
                             const element = document.querySelector(selector);
@@ -830,6 +845,16 @@
                                 // Don't add current one
                             }
                         } else {
+                            // Add verb title when entering a new verb (for gerund)
+                            if (vIdx !== lastAddedVerbIdx) {
+                                playQueue.push({
+                                    text: verb.verb,
+                                    verbIdx: vIdx,
+                                    isVerbTitle: true
+                                });
+                                lastAddedVerbIdx = vIdx;
+                            }
+                            
                             // Check if this gerund sentence is filtered out
                             const selector = `.example[data-verb="${vIdx}"][data-gerund="true"]`;
                             const element = document.querySelector(selector);
@@ -859,11 +884,20 @@
                 const next = playQueue.shift();
                 setTimeout(() => {
                     // Find the element to highlight
-                    const selector = next.isGerund 
-                        ? `.example[data-verb="${next.verbIdx}"][data-gerund="true"]`
-                        : `.example[data-verb="${next.verbIdx}"][data-example="${next.exampleIdx}"]`;
-                    const nextElement = document.querySelector(selector);
-                    const playElement = nextElement ? nextElement.querySelector('.example-pt') : null;
+                    let nextElement, playElement;
+                    
+                    if (next.isVerbTitle) {
+                        // For verb titles, highlight the verb card
+                        const verbCards = document.querySelectorAll('.verb-card');
+                        nextElement = verbCards[next.verbIdx];
+                        playElement = nextElement ? nextElement.querySelector('.verb-title') : null;
+                    } else {
+                        const selector = next.isGerund 
+                            ? `.example[data-verb="${next.verbIdx}"][data-gerund="true"]`
+                            : `.example[data-verb="${next.verbIdx}"][data-example="${next.exampleIdx}"]`;
+                        nextElement = document.querySelector(selector);
+                        playElement = nextElement ? nextElement.querySelector('.example-pt') : null;
+                    }
                     speak(next.text, playElement, false);
                 }, 1000);
             } else if (isPlaying && playQueue.length === 0 && !isPaused) {
@@ -902,6 +936,13 @@
 
         playQueue = [];
         currentLesson.verben.forEach((verb, verbIdx) => {
+            // Add verb title announcement first
+            playQueue.push({
+                text: verb.verb,
+                verbIdx: verbIdx,
+                isVerbTitle: true
+            });
+            
             verb.examples.forEach((ex, exampleIdx) => {
                 // Check if this sentence is filtered out
                 const selector = `.example[data-verb="${verbIdx}"][data-example="${exampleIdx}"]`;
@@ -931,11 +972,20 @@
 
         if (playQueue.length > 0) {
             const first = playQueue.shift();
-            const selector = first.isGerund 
-                ? `.example[data-verb="${first.verbIdx}"][data-gerund="true"]`
-                : `.example[data-verb="${first.verbIdx}"][data-example="${first.exampleIdx}"]`;
-            const element = document.querySelector(selector);
-            const playElement = element ? element.querySelector('.example-pt') : null;
+            let element, playElement;
+            
+            if (first.isVerbTitle) {
+                // For verb titles, highlight the verb card
+                const verbCards = document.querySelectorAll('.verb-card');
+                element = verbCards[first.verbIdx];
+                playElement = element ? element.querySelector('.verb-title') : null;
+            } else {
+                const selector = first.isGerund 
+                    ? `.example[data-verb="${first.verbIdx}"][data-gerund="true"]`
+                    : `.example[data-verb="${first.verbIdx}"][data-example="${first.exampleIdx}"]`;
+                element = document.querySelector(selector);
+                playElement = element ? element.querySelector('.example-pt') : null;
+            }
             speak(first.text, playElement);
         }
     }
