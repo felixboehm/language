@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Language Learning</title>
-    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="simple-yaml.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -405,7 +405,7 @@
                     const path = `lessons/${selectedLearning}/${selectedTeaching}/${file}.yaml`;
                     const response = await fetch(path);
                     const yamlText = await response.text();
-                    const lessonData = jsyaml.load(yamlText);
+                    const lessonData = simpleYamlParse(yamlText);
                     loadedLessons.push(lessonData);
                 } catch (error) {
                     console.error(`Error loading ${file}:`, error);
