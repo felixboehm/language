@@ -1,8 +1,6 @@
 number: 3
 title: "Daily Activities"
 description: "Common verbs for everyday activities and routines"
-language_from: "pt"
-language_to: "de"
 sections:
   - title: "Morning Routine"
     explanation: |

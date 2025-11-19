@@ -1,8 +1,6 @@
 number: 1
 title: "Basic Verbs - Ser and Estar"
 description: "Learn the fundamental Portuguese verbs for 'to be' - permanent vs temporary states"
-language_from: "pt"
-language_to: "de"
 sections:
   - title: "SER - Permanent Being"
     explanation: |
@@ -168,6 +166,7 @@ sections:
           - ["à", "zur (zu der)", "contraction"]
       - q: "Ela vai estudar medicina."
         a: "Sie wird Medizin studieren."
+        labels: ["Futur"]
         rel:
           - ["vai", "geht/wird (sie/er)", "verb - ir"]
           - ["estudar", "studieren", "verb"]
@@ -180,6 +179,7 @@ sections:
           - ["fora", "auswärts/draußen", "adverb"]
       - q: "Eles vão viajar."
         a: "Sie werden reisen."
+        labels: ["Futur"]
         rel:
           - ["vão", "gehen/werden (sie)", "verb - ir"]
           - ["viajar", "reisen", "verb"]

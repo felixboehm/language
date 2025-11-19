@@ -12,18 +12,29 @@ Lessons are stored in **YAML** format for human readability and ease of editing.
 
 ```
 lessons/
-├── portuguese/
-│   ├── 01-basics.yaml
-│   ├── 02-verbs.yaml
-│   └── ...
-├── english/
-│   ├── 01-greetings.yaml
-│   └── ...
-└── [other-languages]/
-    └── ...
+├── deutsch/                    # Learning language
+│   ├── portugiesisch/         # Teaching language
+│   │   ├── 01-basics.yaml
+│   │   ├── 02-verbs.yaml
+│   │   └── ...
+│   └── englisch/
+│       ├── 01-greetings.yaml
+│       └── ...
+├── english/                    # Learning language
+│   ├── portugese/             # Teaching language
+│   │   └── ...
+│   └── math-algebra/          # Non-language topics
+│       └── ...
+└── [learning-language]/
+    └── [teaching-language-or-topic]/
+        └── ...
 ```
 
-Each language has its own subfolder under `lessons/`. Lesson files are numbered for ordering.
+Lessons are organized in a two-level hierarchy:
+1. **First level** (`learning`): The language you're learning in (e.g., `deutsch`, `english`)
+2. **Second level** (`teaching`): The language or topic being taught (e.g., `portugiesisch`, `englisch`, `math-algebra`)
+
+This structure allows for maximum flexibility - you can learn Portuguese from a German perspective (`deutsch/portugiesisch/`) or from an English perspective (`english/portugese/`), or even learn non-language topics like `english/driver-license/`.
 
 ## Lesson Structure
 
@@ -33,8 +44,6 @@ Each language has its own subfolder under `lessons/`. Lesson files are numbered 
 number: 1                           # Lesson number (integer)
 title: "Lesson Title"               # Lesson title (string)
 description: "Brief description"    # Optional lesson description
-language_from: "pt"                 # Source language code
-language_to: "de"                   # Target language code
 sections: [...]                     # Array of sections (see below)
 ```
 
@@ -59,9 +68,31 @@ Examples follow the q/a/rel pattern:
 examples:
   - q: "Question or source sentence"    # Question/source language
     a: "Answer or target sentence"      # Answer/target language
+    labels: ["Futur", "Gerundium"]      # Optional labels for categorization
     rel:                                # Related items (vocabulary, etc.)
       - ["term1", "translation1"]       # Each item is an array of strings
       - ["term2", "translation2"]       # First element is the item ID
+```
+
+### Labels (Optional)
+
+Examples can have optional labels to categorize them by grammar concepts or topics:
+
+- **Format**: Array of strings
+- **Usage**: Labels like "Gerundium", "Futur", "Passiv", "Präteritum", etc.
+- **Display**: Shown on example cards, not as titles
+- **Searchability**: Allows filtering and searching examples by label
+
+#### Example:
+
+```yaml
+examples:
+  - q: "Ela vai estudar medicina."
+    a: "Sie wird Medizin studieren."
+    labels: ["Futur"]
+    rel:
+      - ["vai", "geht/wird (sie/er)", "verb - ir"]
+      - ["estudar", "studieren", "verb"]
 ```
 
 ### Related Items (`rel`)
@@ -93,8 +124,6 @@ Here's a complete lesson file example:
 number: 1
 title: "Basic Verbs - Ser and Estar"
 description: "Learn the difference between permanent and temporary states of being"
-language_from: "pt"
-language_to: "de"
 sections:
   - title: "SER - Permanent Being"
     explanation: |
@@ -194,16 +223,38 @@ examples:
 
 Both examples reference the same vocabulary item. When marked as learned from either example, it's considered learned globally.
 
-## Language Codes
+### Filtering by Labels
 
-Use standard ISO 639-1 language codes:
+Labels enable filtering and searching examples by grammar concepts:
 
-- `en` - English
-- `de` - German
-- `pt` - Portuguese
-- `es` - Spanish
-- `fr` - French
-- etc.
+```javascript
+// Get all examples with "Futur" label
+function getExamplesByLabel(lesson, label) {
+  const results = [];
+  lesson.sections.forEach(section => {
+    section.examples.forEach(example => {
+      if (example.labels && example.labels.includes(label)) {
+        results.push(example);
+      }
+    });
+  });
+  return results;
+}
+
+// Usage
+const futurExamples = getExamplesByLabel(lesson, "Futur");
+```
+
+## Folder Structure and Language Specification
+
+The language pair is determined by the folder structure, not by fields in the lesson file:
+
+- **Path**: `lessons/<learning>/<teaching>/lesson.yaml`
+- **Example**: `lessons/deutsch/portugiesisch/01-verbs.yaml`
+  - Learning language: German (deutsch)
+  - Teaching language: Portuguese (portugiesisch)
+
+This allows the same lesson content to be reused in different contexts without modification.
 
 ## Best Practices
 
@@ -214,6 +265,8 @@ Use standard ISO 639-1 language codes:
 5. **Be consistent** with vocabulary terms (same term = same ID)
 6. **Add context** in rel items (part of speech, usage notes)
 7. **Progressive difficulty** - order lessons from simple to complex
+8. **Use labels** to categorize examples by grammar concepts
+9. **Organize folders** by learning/teaching language hierarchy
 
 ## Schema Flexibility
 

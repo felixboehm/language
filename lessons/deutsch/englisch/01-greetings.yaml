@@ -1,8 +1,6 @@
 number: 1
 title: "Greetings and Introductions"
 description: "Basic greetings and how to introduce yourself in English"
-language_from: "en"
-language_to: "de"
 sections:
   - title: "Basic Greetings"
     explanation: |
