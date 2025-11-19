@@ -29,6 +29,30 @@
             padding: 30px;
             text-align: center;
             border-radius: 12px 12px 0 0;
+            position: relative;
+        }
+        
+        .settings-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
         }
         
         h1 { font-size: 2.5em; margin-bottom: 10px; }
@@ -255,22 +279,315 @@
             color: #667eea;
         }
         
+        /* Settings Section */
+        #settings-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .settings-header h2 {
+            color: #667eea;
+            margin: 0;
+        }
+        
+        .done-btn {
+            padding: 10px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .done-btn:hover {
+            background: #5568d3;
+        }
+        
+        .setting-group {
+            margin-bottom: 25px;
+        }
+        
+        .setting-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: block;
+            font-size: 1.1em;
+        }
+        
+        .setting-description {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            cursor: pointer;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #667eea;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .hidden-translation {
+            display: none !important;
+        }
+        
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        
+        body.dark-mode .container {
+            background: #0f1419;
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode header {
+            background: linear-gradient(135deg, #3b4f8c 0%, #4a3a6e 100%);
+        }
+        
+        body.dark-mode h2 {
+            color: #818cf8;
+        }
+        
+        body.dark-mode .language-selector {
+            background: #1a1f2e;
+        }
+        
+        body.dark-mode .selector-row label {
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode .selector-btn {
+            background: #0f1419;
+            color: #e5e7eb;
+            border-color: #374151;
+        }
+        
+        body.dark-mode .selector-btn:hover {
+            background: #1a1f2e;
+        }
+        
+        body.dark-mode .selector-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        body.dark-mode .load-btn {
+            background: #22c55e;
+        }
+        
+        body.dark-mode .back-btn {
+            background: #374151;
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode .back-btn:hover {
+            background: #4b5563;
+        }
+        
+        body.dark-mode .lesson-card {
+            background: #1a1f2e;
+            border-color: #374151;
+        }
+        
+        body.dark-mode .lesson-card:hover {
+            border-color: #667eea;
+        }
+        
+        body.dark-mode .lesson-number {
+            color: #667eea;
+        }
+        
+        body.dark-mode .lesson-title {
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode .lesson-desc {
+            color: #9ca3af;
+        }
+        
+        body.dark-mode .section-card {
+            background: #1a1f2e;
+            border-color: #374151;
+        }
+        
+        body.dark-mode .section-title {
+            color: #818cf8;
+        }
+        
+        body.dark-mode .explanation {
+            background: #0f1419;
+            color: #d1d5db;
+        }
+        
+        body.dark-mode .example {
+            background: #1a1f2e;
+            border-left-color: #fb923c;
+        }
+        
+        body.dark-mode .example.with-label {
+            background: #0f1831;
+        }
+        
+        body.dark-mode .example-q {
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode .example-a {
+            color: #9ca3af;
+        }
+        
+        body.dark-mode .vocab-item {
+            background: #0f1419;
+            border-color: #374151;
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode .vocab-term {
+            color: #818cf8;
+        }
+        
+        body.dark-mode .modal-content {
+            background: #16213e;
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode #settings-section {
+            background: #1a1f2e;
+        }
+        
+        body.dark-mode .settings-header {
+            border-bottom-color: #374151;
+        }
+        
+        body.dark-mode .settings-header h2 {
+            color: #818cf8;
+        }
+        
+        body.dark-mode .done-btn {
+            background: #667eea;
+        }
+        
+        body.dark-mode .done-btn:hover {
+            background: #5568d3;
+        }
+        
+        body.dark-mode .setting-label {
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode .setting-description {
+            color: #9ca3af;
+        }
+        
         @media (max-width: 768px) {
             .lessons-grid { grid-template-columns: 1fr; }
             h1 { font-size: 1.8em; }
             .selector-row { flex-direction: column; align-items: flex-start; }
             .selector-row label { min-width: auto; }
+            .settings-btn {
+                top: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
+            <button class="settings-btn" onclick="openSettings()" title="Settings">⚙️</button>
             <h1>🌍 Language Learning</h1>
             <p>Learn any language with structured lessons</p>
         </header>
         
         <div class="content">
+            <!-- Settings Section -->
+            <div id="settings-section" class="hidden">
+                <div class="settings-header">
+                    <h2>⚙️ Settings</h2>
+                    <button class="done-btn" onclick="closeSettings()">Done</button>
+                </div>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Show Translations</label>
+                    <div class="setting-description">
+                        Show or hide answer translations in lessons
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="showTranslation" onchange="toggleTranslation()" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Dark Mode</label>
+                    <div class="setting-description">
+                        Dark color scheme for comfortable reading at night
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkMode" onchange="toggleDarkMode()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
             <!-- Language Selection -->
             <div id="language-selection">
                 <div class="language-selector">
@@ -321,8 +638,16 @@
         let loadedLessons = [];
         let currentLesson = null;
         
+        // Settings state
+        let settings = {
+            showTranslation: true,
+            darkMode: false
+        };
+        
         // Initialize the app
         function init() {
+            loadSettings();
+            applySettings();
             populateSelectors();
         }
         
@@ -513,6 +838,86 @@
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
                 .replace(/\n-\s/g, '\n• ')
                 .replace(/\n/g, '<br>');
+        }
+        
+        // Settings functions
+        function loadSettings() {
+            const saved = localStorage.getItem('appSettings');
+            if (saved) {
+                settings = JSON.parse(saved);
+            }
+        }
+        
+        function saveSettings() {
+            localStorage.setItem('appSettings', JSON.stringify(settings));
+        }
+        
+        function applySettings() {
+            // Apply dark mode
+            if (settings.darkMode) {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+            
+            // Apply translation visibility
+            applyTranslationVisibility();
+            
+            // Update UI controls
+            document.getElementById('showTranslation').checked = settings.showTranslation;
+            document.getElementById('darkMode').checked = settings.darkMode;
+        }
+        
+        function applyTranslationVisibility() {
+            const translations = document.querySelectorAll('.example-a');
+            translations.forEach(el => {
+                if (settings.showTranslation) {
+                    el.classList.remove('hidden-translation');
+                } else {
+                    el.classList.add('hidden-translation');
+                }
+            });
+        }
+        
+        function openSettings() {
+            // Hide all other sections
+            document.getElementById('language-selection').classList.add('hidden');
+            document.getElementById('lessons-overview').classList.add('hidden');
+            document.getElementById('lesson-detail').classList.add('hidden');
+            // Show settings
+            document.getElementById('settings-section').classList.remove('hidden');
+        }
+        
+        function closeSettings() {
+            // Hide settings
+            document.getElementById('settings-section').classList.add('hidden');
+            // Show language selection by default
+            document.getElementById('language-selection').classList.remove('hidden');
+            
+            // If lessons are loaded, show lessons overview instead
+            if (loadedLessons.length > 0) {
+                document.getElementById('language-selection').classList.add('hidden');
+                document.getElementById('lessons-overview').classList.remove('hidden');
+            }
+            
+            // If viewing a lesson, show lesson detail instead
+            if (currentLesson) {
+                document.getElementById('language-selection').classList.add('hidden');
+                document.getElementById('lessons-overview').classList.add('hidden');
+                document.getElementById('lesson-detail').classList.remove('hidden');
+            }
+        }
+        
+        function toggleTranslation() {
+            settings.showTranslation = document.getElementById('showTranslation').checked;
+            saveSettings(); // Save immediately on change
+            applyTranslationVisibility();
+        }
+        
+        function toggleDarkMode() {
+            settings.darkMode = document.getElementById('darkMode').checked;
+            saveSettings(); // Save immediately on change
+            applySettings();
         }
         
         // Initialize on page load
