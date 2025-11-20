@@ -1,7 +1,6 @@
 index-old.html
 node_modules/
 dist/
-pnpm-lock.yaml
 .pnpm-debug.log
 test-results/
 playwright-report/
