@@ -2,11 +2,28 @@
   "name": "language-learning",
   "version": "1.0.0",
   "description": "Language learning application",
+  "type": "module",
   "scripts": {
-    "build": "echo 'Build complete'"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
-    "vue": "^3.4.21",
-    "tailwindcss": "^3.4.1"
+    "vue": "^3.4.21"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@vitejs/plugin-vue": "^5.0.0",
+    "@vitest/ui": "1.6.1",
+    "autoprefixer": "^10.4.16",
+    "happy-dom": "^20.0.10",
+    "jsdom": "^27.2.0",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0"
   }
 }
