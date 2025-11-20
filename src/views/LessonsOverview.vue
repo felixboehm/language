@@ -7,11 +7,13 @@
         :key="lesson.number"
         @click="openLesson(lesson.number)"
         class="border-3 border-primary-500 dark:border-gray-600 rounded-xl p-6 cursor-pointer transition hover:-translate-y-1 hover:shadow-xl bg-white dark:bg-gray-800">
-        <div class="text-6xl font-bold opacity-20 text-primary-500 dark:text-blue-400">
-          {{ lesson.number }}
-        </div>
-        <div class="text-2xl font-semibold my-2 text-gray-800 dark:text-gray-200">
-          {{ lesson.title }}
+        <div class="flex items-baseline gap-3 mb-3">
+          <div class="text-3xl font-bold text-primary-500 dark:text-blue-400">
+            {{ lesson.number }}
+          </div>
+          <div class="text-2xl font-semibold text-gray-800 dark:text-gray-200 flex-1">
+            {{ lesson.title }}
+          </div>
         </div>
         <div class="text-gray-600 dark:text-gray-400 mb-2">
           {{ lesson.description || '' }}
