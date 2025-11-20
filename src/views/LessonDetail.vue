@@ -1,10 +1,8 @@
 <template>
   <div v-if="lesson">
-    <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
-      {{ lesson.title }}
-    </h2>
-    <p class="text-gray-600 dark:text-gray-400 mb-5 text-lg">
-      {{ lesson.description || '' }}
+    <!-- Description only - title is shown in the header -->
+    <p v-if="lesson.description" class="text-gray-600 dark:text-gray-400 mb-5 text-lg">
+      {{ lesson.description }}
     </p>
 
     <!-- Sections -->
