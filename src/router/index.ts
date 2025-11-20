@@ -1,10 +1,17 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import LessonsOverview from '../views/LessonsOverview.vue'
-import LessonDetail from '../views/LessonDetail.vue'
-import Settings from '../views/Settings.vue'
+import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
+import Home from '@/views/Home.vue'
+import LessonsOverview from '@/views/LessonsOverview.vue'
+import LessonDetail from '@/views/LessonDetail.vue'
+import Settings from '@/views/Settings.vue'
 
-const routes = [
+// Extend route meta type
+declare module 'vue-router' {
+  interface RouteMeta {
+    title?: string | null
+  }
+}
+
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'home',
