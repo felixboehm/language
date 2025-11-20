@@ -1,5 +1,8 @@
 <template>
   <div class="max-w-6xl mx-auto bg-white dark:bg-gray-900 rounded-xl shadow-2xl">
+    <!-- Error Banner -->
+    <ErrorBanner />
+
     <!-- Header with unified navigation -->
     <header class="bg-gradient-to-br from-primary-500 to-secondary-500 text-white p-8 rounded-t-xl relative">
       <div class="flex items-center justify-between">
@@ -39,9 +42,10 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import ErrorBanner from '@/components/ErrorBanner.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -62,13 +66,13 @@ function goToSettings() {
   }
 }
 
-function updatePageTitle(title) {
+function updatePageTitle(title: string) {
   pageTitle.value = title
 }
 
 // Update title based on route
 watch(() => route.meta.title, (newTitle) => {
-  if (newTitle) {
+  if (newTitle && typeof newTitle === 'string') {
     pageTitle.value = newTitle
   }
 }, { immediate: true })
