@@ -192,7 +192,6 @@ createApp({
         },
         
         toggleDarkMode() {
-            this.settings.darkMode = !this.settings.darkMode;
             this.saveSettings();
             this.applyDarkMode();
         },

@@ -36,4 +36,64 @@ test.describe('Language Learning App', () => {
     const body = page.locator('body');
     await expect(body).toHaveClass(/bg-gradient-to-br/);
   });
+
+  test('should toggle dark mode on and off correctly', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForTimeout(1000);
+
+    // Open settings
+    const settingsButton = page.locator('button[title="Settings"]');
+    await settingsButton.click();
+    await page.waitForTimeout(500);
+
+    // Verify dark mode is initially off
+    const body = page.locator('body');
+    await expect(body).not.toHaveClass(/dark/);
+
+    // Find and click the dark mode toggle label (checkbox is hidden with opacity-0)
+    // Get the second label with the toggle class (first is Show Translations, second is Dark Mode)
+    const darkModeLabel = page.locator('label.relative.inline-block').nth(1);
+    await darkModeLabel.click();
+    await page.waitForTimeout(500);
+
+    // Verify dark mode is enabled
+    await expect(body).toHaveClass(/dark/);
+
+    // Toggle dark mode off
+    await darkModeLabel.click();
+    await page.waitForTimeout(500);
+
+    // Verify dark mode is disabled
+    await expect(body).not.toHaveClass(/dark/);
+  });
+
+  test('should persist dark mode setting after reload', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForTimeout(1000);
+
+    // Open settings and enable dark mode
+    const settingsButton = page.locator('button[title="Settings"]');
+    await settingsButton.click();
+    await page.waitForTimeout(500);
+
+    const darkModeLabel = page.locator('label.relative.inline-block').nth(1);
+    await darkModeLabel.click();
+    await page.waitForTimeout(500);
+
+    // Verify dark mode is enabled
+    const body = page.locator('body');
+    await expect(body).toHaveClass(/dark/);
+
+    // Reload the page
+    await page.reload();
+    await page.waitForTimeout(1000);
+
+    // Verify dark mode persists after reload
+    await expect(body).toHaveClass(/dark/);
+
+    // Clean up - disable dark mode
+    await settingsButton.click();
+    await page.waitForTimeout(500);
+    await darkModeLabel.click();
+  });
 });
