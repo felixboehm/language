@@ -78,7 +78,12 @@
                 
                 <!-- Language Selection -->
                 <div v-show="currentView === 'selection'">
-                    <div class="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg mb-8">
+                    <div v-if="isLoadingContent" class="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg mb-8 text-center">
+                        <div class="text-2xl font-bold text-primary-500 dark:text-blue-400 mb-4">Loading available content...</div>
+                        <div class="text-gray-600 dark:text-gray-400">Please wait while we load the lesson catalog.</div>
+                    </div>
+                    
+                    <div v-else class="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg mb-8">
                         <h2 class="text-3xl font-bold mb-4 text-primary-500 dark:text-blue-400">Select Learning Options</h2>
                         
                         <div class="mb-4">

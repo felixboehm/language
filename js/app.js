@@ -1,11 +1,3 @@
-// Available learning languages and topics
-const availableContent = {
-    'deutsch': {
-        'portugiesisch': ['01-basic-verbs', '02-modal-verbs', '03-daily-activities'],
-        'englisch': ['01-greetings']
-    }
-};
-
 // Create Vue app
 const { createApp } = Vue;
 
@@ -13,7 +5,7 @@ createApp({
     data() {
         return {
             // Content and selection
-            availableContent: availableContent,
+            availableContent: {},
             selectedLearning: null,
             selectedTeaching: null,
             loadedLessons: [],
@@ -27,6 +19,9 @@ createApp({
             
             // View states
             currentView: 'selection', // 'selection', 'overview', 'detail', 'settings'
+            
+            // Loading state
+            isLoadingContent: true,
         };
     },
     
@@ -50,6 +45,51 @@ createApp({
     },
     
     methods: {
+        async loadAvailableContent() {
+            try {
+                this.isLoadingContent = true;
+                
+                // Load lessons/index.yaml to get available learning languages
+                const mainIndexResponse = await fetch('lessons/index.yaml');
+                const mainIndexText = await mainIndexResponse.text();
+                const mainIndex = simpleYamlParse(mainIndexText);
+                
+                const content = {};
+                
+                // For each learning language, load its index.yaml
+                for (const lang of mainIndex.languages) {
+                    try {
+                        const langIndexResponse = await fetch(`lessons/${lang}/index.yaml`);
+                        const langIndexText = await langIndexResponse.text();
+                        const langIndex = simpleYamlParse(langIndexText);
+                        
+                        content[lang] = {};
+                        
+                        // For each topic, load its index.yaml to get lesson files
+                        for (const topic of langIndex.topics) {
+                            try {
+                                const topicIndexResponse = await fetch(`lessons/${lang}/${topic}/index.yaml`);
+                                const topicIndexText = await topicIndexResponse.text();
+                                const topicIndex = simpleYamlParse(topicIndexText);
+                                
+                                content[lang][topic] = topicIndex.lessons;
+                            } catch (error) {
+                                console.error(`Error loading topic index for ${lang}/${topic}:`, error);
+                            }
+                        }
+                    } catch (error) {
+                        console.error(`Error loading language index for ${lang}:`, error);
+                    }
+                }
+                
+                this.availableContent = content;
+                this.isLoadingContent = false;
+            } catch (error) {
+                console.error('Error loading available content:', error);
+                this.isLoadingContent = false;
+            }
+        },
+        
         formatLangName(name) {
             const names = {
                 'deutsch': 'Deutsch',
@@ -169,5 +209,6 @@ createApp({
     mounted() {
         this.loadSettings();
         this.applyDarkMode();
+        this.loadAvailableContent();
     }
 }).mount('#app');
