@@ -105,11 +105,16 @@ const canLoadLessons = computed(() => {
 async function selectLearning(lang) {
   selectedLearning.value = lang
   selectedTeaching.value = null
+  // Save to localStorage
+  localStorage.setItem('lastLearningLanguage', lang)
+  localStorage.removeItem('lastTeachingTopic')
   await loadTopicsForLanguage(lang)
 }
 
 function selectTeaching(topic) {
   selectedTeaching.value = topic
+  // Save to localStorage
+  localStorage.setItem('lastTeachingTopic', topic)
 }
 
 function loadLessons() {
@@ -124,7 +129,22 @@ function loadLessons() {
   }
 }
 
-onMounted(() => {
-  loadAvailableContent()
+async function restorePreviousSelection() {
+  const lastLearning = localStorage.getItem('lastLearningLanguage')
+  const lastTeaching = localStorage.getItem('lastTeachingTopic')
+
+  if (lastLearning && learningLanguages.value.includes(lastLearning)) {
+    selectedLearning.value = lastLearning
+    await loadTopicsForLanguage(lastLearning)
+
+    if (lastTeaching && teachingTopics.value.includes(lastTeaching)) {
+      selectedTeaching.value = lastTeaching
+    }
+  }
+}
+
+onMounted(async () => {
+  await loadAvailableContent()
+  await restorePreviousSelection()
 })
 </script>

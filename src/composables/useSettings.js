@@ -2,10 +2,13 @@ import { ref, watch } from 'vue'
 
 // Shared state across all component instances (singleton pattern)
 const settings = ref({
-  showTranslation: true,
+  showAnswers: true, // Renamed from showTranslation
   showLearningItems: true,
   showLabels: true,
-  darkMode: false
+  darkMode: false,
+  audioSpeed: 1.0, // Audio playback speed: 0.6, 0.8, 1.0
+  readAnswers: true, // Whether to read the answer/translation during auto-play
+  hideLearnedExamples: true // Whether to hide examples where all items are learned
 })
 
 let isInitialized = false
@@ -48,7 +51,7 @@ function initializeWatchers() {
   isInitialized = true
 
   // Watch for settings changes and save to localStorage
-  watch(() => settings.value.showTranslation, () => {
+  watch(() => settings.value.showAnswers, () => {
     saveSettings()
   })
 
@@ -62,6 +65,18 @@ function initializeWatchers() {
 
   watch(() => settings.value.darkMode, (newValue) => {
     applyDarkMode(newValue)
+    saveSettings()
+  })
+
+  watch(() => settings.value.audioSpeed, () => {
+    saveSettings()
+  })
+
+  watch(() => settings.value.readAnswers, () => {
+    saveSettings()
+  })
+
+  watch(() => settings.value.hideLearnedExamples, () => {
     saveSettings()
   })
 }

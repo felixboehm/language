@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import LessonsOverview from '../views/LessonsOverview.vue'
 import LessonDetail from '../views/LessonDetail.vue'
+import LearningItems from '../views/LearningItems.vue'
 import Settings from '../views/Settings.vue'
 
 const routes = [
@@ -12,15 +13,21 @@ const routes = [
     meta: { title: '🌍 Language Learning' }
   },
   {
-    path: '/lessons/:learning/:teaching',
+    path: '/:learning/:teaching/lessons',
     name: 'lessons-overview',
     component: LessonsOverview,
     meta: { title: null } // Will be set dynamically
   },
   {
-    path: '/lesson/:learning/:teaching/:number',
+    path: '/:learning/:teaching/lesson/:number',
     name: 'lesson-detail',
     component: LessonDetail,
+    meta: { title: null } // Will be set dynamically
+  },
+  {
+    path: '/:learning/:teaching/items/:number?',
+    name: 'learning-items',
+    component: LearningItems,
     meta: { title: null } // Will be set dynamically
   },
   {

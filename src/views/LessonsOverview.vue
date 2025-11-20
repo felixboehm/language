@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useLessons } from '../composables/useLessons'
 import { formatLangName } from '../utils/formatters'
@@ -53,27 +53,34 @@ const { loadAllLessonsForTopic } = useLessons()
 const lessons = ref([])
 const isLoading = ref(true)
 
-const learning = route.params.learning
-const teaching = route.params.teaching
+// Use computed to get current route params
+const learning = computed(() => route.params.learning)
+const teaching = computed(() => route.params.teaching)
 
 function openLesson(number) {
   router.push({
     name: 'lesson-detail',
     params: {
-      learning,
-      teaching,
+      learning: learning.value,
+      teaching: teaching.value,
       number
     }
   })
 }
 
-onMounted(async () => {
+async function loadLessons() {
+  if (!learning.value || !teaching.value) return
+
   isLoading.value = true
-  lessons.value = await loadAllLessonsForTopic(learning, teaching)
+  lessons.value = await loadAllLessonsForTopic(learning.value, teaching.value)
   isLoading.value = false
 
   // Update page title
-  const title = formatLangName(teaching)
-  emit('update-title', title)
-})
+  emit('update-title', 'Lessons')
+}
+
+// Watch for route changes and reload lessons
+watch([learning, teaching], () => {
+  loadLessons()
+}, { immediate: true })
 </script>
