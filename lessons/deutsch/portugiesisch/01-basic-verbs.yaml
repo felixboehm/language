@@ -2,14 +2,14 @@ number: 1
 title: "Basic Verbs - Ser and Estar"
 description: "Learn the fundamental Portuguese verbs for 'to be' - permanent vs temporary states"
 sections:
-  - title: "SER - Permanent Being"
+  - title: "SER - Permanentes Sein"
     explanation: |
-      **SER** is used for permanent or inherent characteristics:
-      - Identity (nationality, profession)
-      - Characteristics (personality, physical traits)
-      - Ownership and relationships
+      **SER** wird für permanente oder inhärente Eigenschaften verwendet:
+      - Identität (Nationalität, Beruf)
+      - Eigenschaften (Persönlichkeit, physische Merkmale)
+      - Besitz und Beziehungen
       
-      **Conjugation**: eu sou, tu és, ele/ela é, nós somos, vós sois, eles/elas são
+      **Konjugation**: eu sou, tu és, ele/ela é, nós somos, vós sois, eles/elas são
     examples:
       - q: "Eu sou alemão."
         a: "Ich bin Deutscher."
@@ -37,14 +37,14 @@ sections:
           - ["são", "sind (sie)", "verb - ser"]
           - ["programadores", "Programmierer", "noun"]
   
-  - title: "ESTAR - Temporary Being"
+  - title: "ESTAR - Temporäres Sein"
     explanation: |
-      **ESTAR** is used for temporary states or locations:
-      - Emotions and feelings
-      - Physical location
-      - Temporary conditions or states
+      **ESTAR** wird für temporäre Zustände oder Orte verwendet:
+      - Emotionen und Gefühle
+      - Physischer Standort
+      - Temporäre Bedingungen oder Zustände
       
-      **Conjugation**: eu estou, tu estás, ele/ela está, nós estamos, vós estais, eles/elas estão
+      **Konjugation**: eu estou, tu estás, ele/ela está, nós estamos, vós estais, eles/elas estão
     examples:
       - q: "Eu estou cansado."
         a: "Ich bin müde."
@@ -74,14 +74,14 @@ sections:
           - ["férias", "Urlaub", "noun"]
           - ["em", "in/im", "preposition"]
   
-  - title: "TER - To Have"
+  - title: "TER - Haben"
     explanation: |
-      **TER** means "to have" and is used for:
-      - Possession
-      - Age (ter ... anos)
-      - Obligations (ter de/que + infinitive)
+      **TER** bedeutet "haben" und wird verwendet für:
+      - Besitz
+      - Alter (ter ... anos)
+      - Verpflichtungen (ter de/que + Infinitiv)
       
-      **Conjugation**: eu tenho, tu tens, ele/ela tem, nós temos, vós tendes, eles/elas têm
+      **Konjugation**: eu tenho, tu tens, ele/ela tem, nós temos, vós tendes, eles/elas têm
     examples:
       - q: "Eu tenho uma casa."
         a: "Ich habe ein Haus."
@@ -112,14 +112,14 @@ sections:
           - ["filhos", "Kinder", "noun"]
           - ["três", "drei", "number"]
   
-  - title: "FAZER - To Do/Make"
+  - title: "FAZER - Tun/Machen"
     explanation: |
-      **FAZER** means "to do" or "to make":
-      - Making or creating things
-      - Doing activities
-      - Weather expressions (faz calor - it's hot)
+      **FAZER** bedeutet "tun" oder "machen":
+      - Dinge herstellen oder kreieren
+      - Aktivitäten ausführen
+      - Wetterausdrücke (faz calor - es ist heiß)
       
-      **Conjugation**: eu faço, tu fazes, ele/ela faz, nós fazemos, vós fazeis, eles/elas fazem
+      **Konjugation**: eu faço, tu fazes, ele/ela faz, nós fazemos, vós fazeis, eles/elas fazem
     examples:
       - q: "Eu faço o pequeno-almoço."
         a: "Ich mache das Frühstück."
@@ -143,14 +143,14 @@ sections:
           - ["fazemos", "machen (wir)", "verb - fazer"]
           - ["compras", "Einkäufe", "noun"]
   
-  - title: "IR - To Go"
+  - title: "IR - Gehen"
     explanation: |
-      **IR** means "to go":
-      - Going to places
-      - Future tense construction (ir + infinitive)
-      - Movement and travel
+      **IR** bedeutet "gehen":
+      - Zu Orten gehen
+      - Futur-Konstruktion (ir + Infinitiv)
+      - Bewegung und Reisen
       
-      **Conjugation**: eu vou, tu vais, ele/ela vai, nós vamos, vós ides, eles/elas vão
+      **Konjugation**: eu vou, tu vais, ele/ela vai, nós vamos, vós ides, eles/elas vão
     examples:
       - q: "Eu vou ao supermercado."
         a: "Ich gehe zum Supermarkt."

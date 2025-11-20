@@ -2,14 +2,14 @@ number: 2
 title: "Modal Verbs"
 description: "Essential modal verbs - can, want, must, should"
 sections:
-  - title: "QUERER - To Want"
+  - title: "QUERER - Wollen"
     explanation: |
-      **QUERER** expresses desire or wish:
-      - Wanting things or actions
-      - Making polite requests (queria...)
-      - Expressing preferences
+      **QUERER** drückt Wunsch oder Verlangen aus:
+      - Dinge oder Handlungen wollen
+      - Höfliche Bitten stellen (queria...)
+      - Vorlieben ausdrücken
       
-      **Conjugation**: eu quero, tu queres, ele/ela quer, nós queremos, vós quereis, eles/elas querem
+      **Konjugation**: eu quero, tu queres, ele/ela quer, nós queremos, vós quereis, eles/elas querem
     examples:
       - q: "Eu quero aprender português."
         a: "Ich will Portugiesisch lernen."
@@ -41,14 +41,14 @@ sections:
           - ["querem", "wollen (sie)", "verb - querer"]
           - ["viajar", "reisen", "verb"]
   
-  - title: "PODER - Can/May"
+  - title: "PODER - Können/Dürfen"
     explanation: |
-      **PODER** expresses ability or permission:
-      - Physical or mental ability
-      - Permission to do something
-      - Possibility
+      **PODER** drückt Fähigkeit oder Erlaubnis aus:
+      - Physische oder mentale Fähigkeit
+      - Erlaubnis etwas zu tun
+      - Möglichkeit
       
-      **Conjugation**: eu posso, tu podes, ele/ela pode, nós podemos, vós podeis, eles/elas podem
+      **Konjugation**: eu posso, tu podes, ele/ela pode, nós podemos, vós podeis, eles/elas podem
     examples:
       - q: "Eu posso ajudar."
         a: "Ich kann helfen."
@@ -81,14 +81,14 @@ sections:
           - ["trazer", "mitbringen", "verb"]
           - ["documentos", "Dokumente", "noun"]
   
-  - title: "DEVER - Should/Must"
+  - title: "DEVER - Sollen/Müssen"
     explanation: |
-      **DEVER** expresses obligation or duty:
-      - Moral obligation (should)
-      - Strong recommendation
-      - Debt (dever dinheiro)
+      **DEVER** drückt Verpflichtung oder Pflicht aus:
+      - Moralische Verpflichtung (sollen)
+      - Starke Empfehlung
+      - Schulden (dever dinheiro)
       
-      **Conjugation**: eu devo, tu deves, ele/ela deve, nós devemos, vós deveis, eles/elas devem
+      **Konjugation**: eu devo, tu deves, ele/ela deve, nós devemos, vós deveis, eles/elas devem
     examples:
       - q: "Eu devo estudar mais."
         a: "Ich sollte mehr lernen."
@@ -114,14 +114,14 @@ sections:
           - ["ser", "sein", "verb"]
           - ["honestos", "ehrlich", "adjective"]
   
-  - title: "SABER - To Know (Facts)"
+  - title: "SABER - Wissen (Fakten)"
     explanation: |
-      **SABER** means "to know" for facts and skills:
-      - Knowing facts or information
-      - Knowing how to do something (saber + infinitive)
-      - Knowledge that can be learned
+      **SABER** bedeutet "wissen" für Fakten und Fähigkeiten:
+      - Fakten oder Informationen wissen
+      - Wissen wie man etwas tut (saber + Infinitiv)
+      - Wissen das gelernt werden kann
       
-      **Conjugation**: eu sei, tu sabes, ele/ela sabe, nós sabemos, vós sabeis, eles/elas sabem
+      **Konjugation**: eu sei, tu sabes, ele/ela sabe, nós sabemos, vós sabeis, eles/elas sabem
     examples:
       - q: "Eu sei falar português."
         a: "Ich kann Portugiesisch sprechen."
@@ -145,14 +145,14 @@ sections:
           - ["sabemos", "wissen (wir)", "verb - saber"]
           - ["verdade", "Wahrheit", "noun"]
   
-  - title: "CONHECER - To Know (People/Places)"
+  - title: "CONHECER - Kennen (Personen/Orte)"
     explanation: |
-      **CONHECER** means "to know" for people and places:
-      - Being acquainted with people
-      - Being familiar with places
-      - Meeting someone for the first time
+      **CONHECER** bedeutet "kennen" für Personen und Orte:
+      - Mit Personen bekannt sein
+      - Mit Orten vertraut sein
+      - Jemanden zum ersten Mal treffen
       
-      **Conjugation**: eu conheço, tu conheces, ele/ela conhece, nós conhecemos, vós conheceis, eles/elas conhecem
+      **Konjugation**: eu conheço, tu conheces, ele/ela conhece, nós conhecemos, vós conheceis, eles/elas conhecem
     examples:
       - q: "Eu conheço o João."
         a: "Ich kenne João."
