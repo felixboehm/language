@@ -106,7 +106,7 @@ onMounted(async () => {
   lesson.value = lessons.find(l => l.number === lessonNumber)
 
   if (lesson.value) {
-    emit('update-title', lesson.value.title)
+    emit('update-title', `Lesson ${lesson.value.number}: ${lesson.value.title}`)
   }
 })
 </script>
