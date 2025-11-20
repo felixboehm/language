@@ -8,10 +8,6 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'lessons',
-          dest: ''
-        },
-        {
           src: 'docs',
           dest: ''
         }

@@ -1,0 +1,172 @@
+number: 3
+title: "Daily Activities"
+description: "Common verbs for everyday activities and routines"
+sections:
+  - title: "Morgenroutine"
+    explanation: |
+      Wesentliche Verben zur Beschreibung deiner Morgenroutine:
+      - Aufwachen und fertig machen
+      - Frühstücken
+      - Den Tag beginnen
+    examples:
+      - q: "Eu acordo às sete horas."
+        a: "Ich wache um sieben Uhr auf."
+        rel:
+          - ["acordo", "wache auf (ich)", "verb - acordar"]
+          - ["às", "um (Uhrzeit)", "preposition"]
+          - ["horas", "Uhr/Stunden", "noun"]
+          - ["sete", "sieben", "number"]
+      - q: "Tu tomas banho de manhã?"
+        a: "Duschst du morgens?"
+        rel:
+          - ["tomas", "nimmst (du)", "verb - tomar"]
+          - ["banho", "Bad/Dusche", "noun"]
+          - ["manhã", "Morgen", "noun"]
+      - q: "Ela toma café."
+        a: "Sie trinkt Kaffee."
+        rel:
+          - ["toma", "nimmt/trinkt (sie)", "verb - tomar"]
+          - ["café", "Kaffee", "noun"]
+      - q: "Nós saímos de casa às oito."
+        a: "Wir verlassen das Haus um acht."
+        rel:
+          - ["saímos", "verlassen (wir)", "verb - sair"]
+          - ["casa", "Haus", "noun"]
+          - ["oito", "acht", "number"]
+  
+  - title: "Arbeit und Studium"
+    explanation: |
+      Verben im Zusammenhang mit Arbeits- und Lernaktivitäten:
+      - Arbeiten und berufliche Aktivitäten
+      - Studieren und Lernen
+      - Kommunikation
+    examples:
+      - q: "Eu trabalho num escritório."
+        a: "Ich arbeite in einem Büro."
+        rel:
+          - ["trabalho", "arbeite (ich)", "verb - trabalhar"]
+          - ["num", "in einem", "contraction"]
+          - ["escritório", "Büro", "noun"]
+      - q: "Tu escreves emails."
+        a: "Du schreibst E-Mails."
+        rel:
+          - ["escreves", "schreibst (du)", "verb - escrever"]
+          - ["emails", "E-Mails", "noun"]
+      - q: "Ele lê documentos."
+        a: "Er liest Dokumente."
+        rel:
+          - ["lê", "liest (er/sie)", "verb - ler"]
+          - ["documentos", "Dokumente", "noun"]
+      - q: "Nós aprendemos muito."
+        a: "Wir lernen viel."
+        rel:
+          - ["aprendemos", "lernen (wir)", "verb - aprender"]
+          - ["muito", "viel", "adverb"]
+      - q: "Eles falam ao telefone."
+        a: "Sie sprechen am Telefon."
+        rel:
+          - ["falam", "sprechen (sie)", "verb - falar"]
+          - ["telefone", "Telefon", "noun"]
+  
+  - title: "Mahlzeiten und Essen"
+    explanation: |
+      Verben und Ausdrücke für Mahlzeiten:
+      - Verschiedene Mahlzeiten des Tages
+      - Kochen und Essen
+      - Essenspräferenzen
+    examples:
+      - q: "Eu como pão ao pequeno-almoço."
+        a: "Ich esse Brot zum Frühstück."
+        rel:
+          - ["como", "esse (ich)", "verb - comer"]
+          - ["pão", "Brot", "noun"]
+          - ["pequeno-almoço", "Frühstück", "noun"]
+      - q: "Tu bebes sumo de laranja?"
+        a: "Trinkst du Orangensaft?"
+        rel:
+          - ["bebes", "trinkst (du)", "verb - beber"]
+          - ["sumo", "Saft", "noun"]
+          - ["laranja", "Orange", "noun"]
+      - q: "Ela prepara o almoço."
+        a: "Sie bereitet das Mittagessen vor."
+        rel:
+          - ["prepara", "bereitet vor (sie/er)", "verb - preparar"]
+          - ["almoço", "Mittagessen", "noun"]
+      - q: "Nós jantamos às sete."
+        a: "Wir essen um sieben zu Abend."
+        rel:
+          - ["jantamos", "essen zu Abend (wir)", "verb - jantar"]
+          - ["às", "um", "preposition"]
+          - ["sete", "sieben", "number"]
+      - q: "Eles cozinham juntos."
+        a: "Sie kochen zusammen."
+        rel:
+          - ["cozinham", "kochen (sie)", "verb - cozinhar"]
+          - ["juntos", "zusammen", "adverb"]
+  
+  - title: "Freizeit und Unterhaltung"
+    explanation: |
+      Aktivitäten für die Freizeit:
+      - Hobbys und Sport
+      - Unterhaltung
+      - Entspannung
+    examples:
+      - q: "Eu vejo televisão."
+        a: "Ich sehe fern."
+        rel:
+          - ["vejo", "sehe (ich)", "verb - ver"]
+          - ["televisão", "Fernsehen", "noun"]
+      - q: "Tu ouves música?"
+        a: "Hörst du Musik?"
+        rel:
+          - ["ouves", "hörst (du)", "verb - ouvir"]
+          - ["música", "Musik", "noun"]
+      - q: "Ele joga futebol."
+        a: "Er spielt Fußball."
+        rel:
+          - ["joga", "spielt (er/sie)", "verb - jogar"]
+          - ["futebol", "Fußball", "noun"]
+      - q: "Nós lemos livros."
+        a: "Wir lesen Bücher."
+        rel:
+          - ["lemos", "lesen (wir)", "verb - ler"]
+          - ["livros", "Bücher", "noun"]
+      - q: "Eles visitam museus."
+        a: "Sie besuchen Museen."
+        rel:
+          - ["visitam", "besuchen (sie)", "verb - visitar"]
+          - ["museus", "Museen", "noun"]
+  
+  - title: "Abendroutine"
+    explanation: |
+      Den Tag ausklingen lassen:
+      - Abendliche Aktivitäten
+      - Vorbereitung fürs Bett
+      - Schlafen und Ausruhen
+    examples:
+      - q: "Eu chego a casa tarde."
+        a: "Ich komme spät nach Hause."
+        rel:
+          - ["chego", "komme an (ich)", "verb - chegar"]
+          - ["casa", "Haus/Zuhause", "noun"]
+          - ["tarde", "spät", "adverb"]
+      - q: "Tu relaxas no sofá."
+        a: "Du entspannst auf dem Sofa."
+        rel:
+          - ["relaxas", "entspannst (du)", "verb - relaxar"]
+          - ["sofá", "Sofa", "noun"]
+      - q: "Ela dorme cedo."
+        a: "Sie schläft früh."
+        rel:
+          - ["dorme", "schläft (sie/er)", "verb - dormir"]
+          - ["cedo", "früh", "adverb"]
+      - q: "Nós descansamos."
+        a: "Wir ruhen uns aus."
+        rel:
+          - ["descansamos", "ruhen aus (wir)", "verb - descansar"]
+      - q: "Eles vão para a cama."
+        a: "Sie gehen ins Bett."
+        rel:
+          - ["vão", "gehen (sie)", "verb - ir"]
+          - ["cama", "Bett", "noun"]
+          - ["para", "zu/nach/für", "preposition"]
