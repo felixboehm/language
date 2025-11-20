@@ -46,25 +46,26 @@ test.describe('Language Learning App', () => {
     await settingsButton.click();
     await page.waitForTimeout(500);
 
-    // Verify dark mode is initially off
-    const body = page.locator('body');
-    await expect(body).not.toHaveClass(/dark/);
+    // Verify dark mode is initially off (check html element, not body)
+    const html = page.locator('html');
+    await expect(html).not.toHaveClass(/dark/);
 
-    // Find and click the dark mode toggle label (checkbox is hidden with opacity-0)
-    // Get the second label with the toggle class (first is Show Translations, second is Dark Mode)
-    const darkModeLabel = page.locator('label.relative.inline-block').nth(1);
-    await darkModeLabel.click();
+    // Find the Dark Mode toggle by finding the label that contains "Dark Mode" text
+    // then finding its associated toggle label
+    const darkModeSection = page.locator('text=Dark Mode').locator('..');
+    const darkModeToggle = darkModeSection.locator('label.relative.inline-block');
+    await darkModeToggle.click();
     await page.waitForTimeout(500);
 
     // Verify dark mode is enabled
-    await expect(body).toHaveClass(/dark/);
+    await expect(html).toHaveClass(/dark/);
 
     // Toggle dark mode off
-    await darkModeLabel.click();
+    await darkModeToggle.click();
     await page.waitForTimeout(500);
 
     // Verify dark mode is disabled
-    await expect(body).not.toHaveClass(/dark/);
+    await expect(html).not.toHaveClass(/dark/);
   });
 
   test('should persist dark mode setting after reload', async ({ page }) => {
@@ -76,24 +77,28 @@ test.describe('Language Learning App', () => {
     await settingsButton.click();
     await page.waitForTimeout(500);
 
-    const darkModeLabel = page.locator('label.relative.inline-block').nth(1);
-    await darkModeLabel.click();
+    // Find the Dark Mode toggle
+    const darkModeSection = page.locator('text=Dark Mode').locator('..');
+    const darkModeToggle = darkModeSection.locator('label.relative.inline-block');
+    await darkModeToggle.click();
     await page.waitForTimeout(500);
 
-    // Verify dark mode is enabled
-    const body = page.locator('body');
-    await expect(body).toHaveClass(/dark/);
+    // Verify dark mode is enabled (check html element, not body)
+    const html = page.locator('html');
+    await expect(html).toHaveClass(/dark/);
 
     // Reload the page
     await page.reload();
     await page.waitForTimeout(1000);
 
     // Verify dark mode persists after reload
-    await expect(body).toHaveClass(/dark/);
+    await expect(html).toHaveClass(/dark/);
 
     // Clean up - disable dark mode
     await settingsButton.click();
     await page.waitForTimeout(500);
-    await darkModeLabel.click();
+    const darkModeSection2 = page.locator('text=Dark Mode').locator('..');
+    const darkModeToggle2 = darkModeSection2.locator('label.relative.inline-block');
+    await darkModeToggle2.click();
   });
 });

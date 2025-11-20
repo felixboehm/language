@@ -1,0 +1,95 @@
+number: 1
+title: "Greetings and Introductions"
+description: "Basic greetings and how to introduce yourself in German"
+sections:
+  - title: "Basic Greetings"
+    explanation: |
+      Learn the most common greetings in German:
+      - Formal and informal greetings
+      - Time-based greetings
+      - Common responses
+    examples:
+      - q: "Hallo! Wie geht es dir?"
+        a: "Hello! How are you?"
+        rel:
+          - ["hallo", "hello"]
+          - ["wie", "how"]
+      - q: "Guten Morgen!"
+        a: "Good morning!"
+        rel:
+          - ["gut", "good"]
+          - ["Morgen", "morning"]
+      - q: "Guten Nachmittag!"
+        a: "Good afternoon!"
+        rel:
+          - ["Nachmittag", "afternoon"]
+      - q: "Guten Abend!"
+        a: "Good evening!"
+        rel:
+          - ["Abend", "evening"]
+      - q: "Gute Nacht!"
+        a: "Good night!"
+        rel:
+          - ["Nacht", "night"]
+
+  - title: "Introducing Yourself"
+    explanation: |
+      How to introduce yourself and give basic information:
+      - Name
+      - Nationality
+      - Profession
+    examples:
+      - q: "Mein Name ist John."
+        a: "My name is John."
+      - q: "Ich komme aus England."
+        a: "I come from England."
+      - q: "Ich bin Lehrer."
+        a: "I am a teacher."
+        rel:
+          - ["Lehrer", "teacher"]
+      - q: "Schön dich kennenzulernen!"
+        a: "Nice to meet you!"
+  
+  - title: "Asking Questions"
+    explanation: |
+      Basic question words and how to ask simple questions:
+      - What, where, when, who, why, how
+      - Simple present questions
+    examples:
+      - q: "Wie ist dein Name?"
+        a: "What is your name?"
+        rel:
+          - ["was", "what"]
+      - q: "Woher kommst du?"
+        a: "Where are you from?"
+        rel:
+          - ["wo", "where"]
+      - q: "Wie alt bist du?"
+        a: "How old are you?"
+        rel:
+          - ["wie", "how"]
+      - q: "Wann hast du Geburtstag?"
+        a: "When is your birthday?"
+        rel:
+          - ["wann", "when"]
+  
+  - title: "Common Responses"
+    explanation: |
+      How to respond to common questions and greetings:
+      - Positive and negative responses
+      - Expressing states and feelings
+    examples:
+      - q: "Mir geht es gut, danke."
+        a: "I'm fine, thank you."
+      - q: "Ja, bitte."
+        a: "Yes, please."
+        rel:
+          - ["ja", "yes"]
+      - q: "Nein, danke."
+        a: "No, thank you."
+        rel:
+          - ["nein", "no"]
+      - q: "Gern geschehen."
+        a: "You're welcome."
+      - q: "Entschuldigung!"
+        a: "Excuse me!"
