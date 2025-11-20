@@ -51,6 +51,7 @@ createApp({
     
     methods: {
         formatLangName(name) {
+            if (!name) return '';
             const names = {
                 'deutsch': 'Deutsch',
                 'english': 'English',
