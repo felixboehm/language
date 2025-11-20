@@ -1,6 +1,7 @@
 // Create Vue app
 import { createApp } from 'vue';
 import { simpleYamlParse } from './simple-yaml.js';
+import { AudioService } from './audio-service.js';
 
 createApp({
     data() {
@@ -15,7 +16,9 @@ createApp({
             // Settings
             settings: {
                 showTranslation: true,
-                darkMode: false
+                darkMode: false,
+                audioSpeed: 1.0,
+                readTranslations: true
             },
             
             // View states
@@ -23,6 +26,11 @@ createApp({
             
             // Loading state
             isLoadingContent: true,
+            
+            // Audio state
+            audioService: null,
+            isPlaying: false,
+            currentReadingId: null,
         };
     },
     
@@ -158,10 +166,146 @@ createApp({
             this.currentLesson = this.loadedLessons.find(l => l.number === lessonNumber);
             if (this.currentLesson) {
                 this.currentView = 'detail';
+                this.initializeAudioForLesson();
+            }
+        },
+        
+        async initializeAudioForLesson() {
+            if (!this.currentLesson) return;
+            
+            // Clean up previous audio service
+            if (this.audioService) {
+                this.audioService.destroy();
+            }
+            
+            // Create new audio service
+            this.audioService = new AudioService();
+            this.audioService.setSpeed(this.settings.audioSpeed);
+            this.audioService.setReadTranslations(this.settings.readTranslations);
+            
+            // Set up callbacks
+            this.audioService.onPlayStateChange = (isPlaying, isPaused) => {
+                this.isPlaying = isPlaying;
+            };
+            
+            this.audioService.onCurrentItemChange = (item) => {
+                this.currentReadingId = item.elementId;
+            };
+            
+            // Build audio queue
+            const audioItems = this.buildAudioQueue();
+            await this.audioService.generateAudioQueue(audioItems);
+        },
+        
+        buildAudioQueue() {
+            const items = [];
+            
+            // Add lesson title
+            items.push({
+                text: this.currentLesson.title,
+                elementId: 'lesson-title',
+                lang: this.getLanguageCode(this.selectedTeaching)
+            });
+            
+            // Add sections and examples
+            this.currentLesson.sections.forEach((section, sectionIdx) => {
+                // Add section title
+                items.push({
+                    text: section.title,
+                    elementId: `section-${sectionIdx}`,
+                    lang: this.getLanguageCode(this.selectedTeaching)
+                });
+                
+                // Add examples
+                section.examples.forEach((example, exampleIdx) => {
+                    const elementId = `example-${sectionIdx}-${exampleIdx}`;
+                    
+                    // Add the question
+                    items.push({
+                        text: example.q,
+                        elementId: elementId,
+                        lang: this.getLanguageCode(this.selectedTeaching)
+                    });
+                    
+                    // Add the translation if setting is enabled
+                    if (this.settings.readTranslations && this.settings.showTranslation) {
+                        items.push({
+                            text: example.a,
+                            elementId: elementId,
+                            lang: this.getLanguageCode(this.selectedLearning)
+                        });
+                    }
+                });
+            });
+            
+            return items;
+        },
+        
+        getLanguageCode(language) {
+            const langMap = {
+                'deutsch': 'de-DE',
+                'english': 'en-US',
+                'englisch': 'en-US',
+                'portugiesisch': 'pt-PT',
+                'portugese': 'pt-PT'
+            };
+            return langMap[language] || 'en-US';
+        },
+        
+        toggleAudioPlayback() {
+            if (!this.audioService) {
+                this.initializeAudioForLesson();
+                return;
+            }
+            
+            if (this.isPlaying) {
+                this.audioService.pause();
+            } else {
+                this.audioService.play();
+            }
+        },
+        
+        handleExampleClick(sectionIdx, exampleIdx) {
+            const elementId = `example-${sectionIdx}-${exampleIdx}`;
+            
+            if (!this.audioService) {
+                return;
+            }
+            
+            // Find the index in the audio queue for this example
+            const queueIndex = this.audioService.audioQueue.findIndex(
+                item => item.elementId === elementId
+            );
+            
+            if (queueIndex === -1) return;
+            
+            if (this.isPlaying) {
+                // If playing, start from this example
+                this.audioService.playFrom(queueIndex);
+            } else {
+                // If not playing, read just this example
+                this.audioService.playFrom(queueIndex);
+                
+                // Stop after reading this example (and its translation if enabled)
+                const itemsToRead = this.settings.readTranslations && this.settings.showTranslation ? 2 : 1;
+                setTimeout(() => {
+                    const currentIdx = this.audioService.currentAudioIndex;
+                    if (currentIdx >= queueIndex + itemsToRead) {
+                        this.audioService.stop();
+                    }
+                }, 100);
             }
         },
         
         backToOverview() {
+            // Clean up audio service
+            if (this.audioService) {
+                this.audioService.destroy();
+                this.audioService = null;
+            }
+            this.isPlaying = false;
+            this.currentReadingId = null;
+            
             this.currentLesson = null;
             this.currentView = 'overview';
         },
@@ -189,6 +333,10 @@ createApp({
         toggleTranslation() {
             this.settings.showTranslation = !this.settings.showTranslation;
             this.saveSettings();
+            // Rebuild audio queue if lesson is open
+            if (this.currentLesson && this.audioService) {
+                this.initializeAudioForLesson();
+            }
         },
         
         toggleDarkMode() {
@@ -196,15 +344,28 @@ createApp({
             this.applyDarkMode();
         },
         
-        loadSettings() {
-            const saved = localStorage.getItem('appSettings');
-            if (saved) {
-                this.settings = JSON.parse(saved);
+        saveSettings() {
+            localStorage.setItem('appSettings', JSON.stringify(this.settings));
+            // Update audio service if it exists
+            if (this.audioService) {
+                this.audioService.setSpeed(this.settings.audioSpeed);
+                this.audioService.setReadTranslations(this.settings.readTranslations);
             }
         },
         
-        saveSettings() {
-            localStorage.setItem('appSettings', JSON.stringify(this.settings));
+        loadSettings() {
+            const saved = localStorage.getItem('appSettings');
+            if (saved) {
+                const parsedSettings = JSON.parse(saved);
+                // Merge with defaults to ensure new settings are present
+                this.settings = {
+                    showTranslation: true,
+                    darkMode: false,
+                    audioSpeed: 1.0,
+                    readTranslations: true,
+                    ...parsedSettings
+                };
+            }
         },
         
         applyDarkMode() {

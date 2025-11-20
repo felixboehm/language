@@ -54,6 +54,36 @@
                             <span class="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-600 transition rounded-full peer-checked:bg-primary-500 before:content-[''] before:absolute before:h-6 before:w-6 before:left-1 before:bottom-1 before:bg-white before:transition before:rounded-full peer-checked:before:translate-x-6"></span>
                         </label>
                     </div>
+                    
+                    <div class="mb-6">
+                        <label class="block font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg">Audio Reading Speed</label>
+                        <div class="text-gray-600 dark:text-gray-400 text-sm mb-3">
+                            Adjust the speed of text-to-speech playback
+                        </div>
+                        <div class="flex gap-2">
+                            <button 
+                                v-for="speed in [0.6, 0.8, 1.0]" 
+                                :key="speed"
+                                @click="settings.audioSpeed = speed; saveSettings()"
+                                :class="['px-4 py-2 border-2 rounded-md font-semibold transition',
+                                         settings.audioSpeed === speed 
+                                            ? 'bg-primary-500 text-white border-primary-500' 
+                                            : 'bg-white dark:bg-gray-900 text-primary-500 dark:text-gray-200 border-primary-500 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-gray-700']">
+                                {{ speed }}x
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg">Read Translations</label>
+                        <div class="text-gray-600 dark:text-gray-400 text-sm mb-3">
+                            When enabled, translations will also be read aloud during audio playback
+                        </div>
+                        <label class="relative inline-block w-14 h-8 cursor-pointer">
+                            <input type="checkbox" v-model="settings.readTranslations" @change="saveSettings" class="opacity-0 w-0 h-0 peer">
+                            <span class="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-600 transition rounded-full peer-checked:bg-primary-500 before:content-[''] before:absolute before:h-6 before:w-6 before:left-1 before:bottom-1 before:bg-white before:transition before:rounded-full peer-checked:before:translate-x-6"></span>
+                        </label>
+                    </div>
                 </div>
                 
                 <!-- Language Selection -->
@@ -133,18 +163,29 @@
                 
                 <!-- Lesson Detail -->
                 <div v-show="currentView === 'detail'" v-if="currentLesson">
-                    <button @click="backToOverview" class="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg font-semibold mb-5 hover:bg-gray-300 dark:hover:bg-gray-600">
-                        ← Back to Lessons
-                    </button>
-                    <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200">{{ currentLesson.title }}</h1>
+                    <div class="flex justify-between items-center mb-5">
+                        <button @click="backToOverview" class="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600">
+                            ← Back to Lessons
+                        </button>
+                        <button 
+                            @click="toggleAudioPlayback"
+                            class="px-6 py-3 bg-primary-500 text-white rounded-lg font-semibold hover:bg-primary-600 transition text-2xl min-w-[100px]">
+                            {{ isPlaying ? '⏸️ Pause' : '▶️ Play' }}
+                        </button>
+                    </div>
+                    <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200" :data-audio-id="'lesson-title'">{{ currentLesson.title }}</h1>
                     <p class="text-gray-600 dark:text-gray-400 my-3 text-lg">{{ currentLesson.description || '' }}</p>
                     
                     <div v-for="(section, idx) in currentLesson.sections" :key="idx" class="border-2 border-gray-200 dark:border-gray-700 rounded-lg p-5 mb-5 bg-white dark:bg-gray-800">
-                        <div class="text-2xl text-primary-500 dark:text-blue-400 font-bold mb-4">{{ section.title }}</div>
+                        <div class="text-2xl text-primary-500 dark:text-blue-400 font-bold mb-4" :data-audio-id="'section-' + idx">{{ section.title }}</div>
                         <div v-if="section.explanation" class="bg-gray-100 dark:bg-gray-900 p-4 rounded mb-4 text-gray-700 dark:text-gray-300" v-html="marked(section.explanation)"></div>
                         
                         <div v-for="(example, exIdx) in section.examples" :key="exIdx" 
-                             :class="['p-4 mb-3 rounded', example.labels ? 'bg-blue-50 dark:bg-blue-900 dark:bg-opacity-20 border-l-4 border-blue-500' : 'bg-orange-50 dark:bg-orange-900 dark:bg-opacity-20 border-l-4 border-orange-500']">
+                             @click="handleExampleClick(idx, exIdx)"
+                             :data-audio-id="'example-' + idx + '-' + exIdx"
+                             :class="['p-4 mb-3 rounded cursor-pointer transition', 
+                                      currentReadingId === 'example-' + idx + '-' + exIdx ? 'ring-4 ring-primary-500' : '',
+                                      example.labels ? 'bg-blue-50 dark:bg-blue-900 dark:bg-opacity-20 border-l-4 border-blue-500' : 'bg-orange-50 dark:bg-orange-900 dark:bg-opacity-20 border-l-4 border-orange-500']">
                             <div v-if="example.labels" class="flex gap-1 mb-2">
                                 <span v-for="label in example.labels" :key="label" class="bg-blue-500 text-white px-2 py-0.5 rounded text-xs font-semibold">
                                     {{ label }}
