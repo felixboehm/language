@@ -1,5 +1,7 @@
 # Available teaching topics for German interface
 # This file lists all available languages/topics that can be learned through German
 topics:
-  - englisch
-  - portugiesisch
+  - folder: englisch
+    code: en-US
+  - folder: portugiesisch
+    code: pt-PT

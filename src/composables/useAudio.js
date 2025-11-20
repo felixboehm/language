@@ -1,4 +1,8 @@
 import { ref, computed } from 'vue'
+import { useLessons } from './useLessons'
+
+// Get lesson composable for language codes
+const { getLanguageCode, getTopicCode } = useLessons()
 
 // Shared audio state (singleton pattern)
 const isPlaying = ref(false)
@@ -7,25 +11,6 @@ const currentItemIndex = ref(-1)
 const readingQueue = ref([])
 const audioElement = ref(null)
 const currentAudioBlob = ref(null)
-
-// Get language code from folder structure
-function getLanguageCode(languageFolder) {
-  const languageMap = {
-    'deutsch': 'de-DE',
-    'english': 'en-US',
-    'englisch': 'en-US',
-    'portugiesisch': 'pt-PT',
-    'portuguese': 'pt-PT',
-    'spanish': 'es-ES',
-    'spanisch': 'es-ES',
-    'french': 'fr-FR',
-    'französisch': 'fr-FR',
-    'italian': 'it-IT',
-    'italienisch': 'it-IT'
-  }
-
-  return languageMap[languageFolder.toLowerCase()] || 'en-US'
-}
 
 // Convert text to speech blob using Web Speech API
 function textToSpeechBlob(text, lang, rate) {
@@ -62,8 +47,11 @@ function textToSpeechBlob(text, lang, rate) {
 // Build reading queue from lesson data
 function buildReadingQueue(lesson, learning, teaching, settings) {
   const queue = []
-  const teachingLang = getLanguageCode(teaching)
-  const learningLang = getLanguageCode(learning)
+  // Get language codes from the YAML files
+  const learningLang = getLanguageCode(learning) || 'de-DE' // Fallback to German
+  const teachingLang = getTopicCode(learning, teaching) || 'pt-PT' // Fallback to Portuguese
+
+  console.log(`🌍 Building queue with languages: learning=${learning} (${learningLang}), teaching=${teaching} (${teachingLang})`)
 
   if (!lesson || !lesson.sections) {
     return queue
@@ -213,11 +201,22 @@ async function playNextItem(settings) {
 
     currentUtterance.onerror = (event) => {
       console.error('❌ Speech synthesis error:', event.error, event)
-      stop()
+      // If error is 'canceled', try to continue to next item
+      if (event.error === 'canceled' && isPlaying.value) {
+        console.log('⚠️ Speech was canceled, continuing to next item...')
+        setTimeout(() => playNextItem(settings), 100)
+      } else {
+        stop()
+      }
     }
 
-    // Cancel any ongoing speech
-    window.speechSynthesis.cancel()
+    // Only cancel if something is actually speaking
+    if (window.speechSynthesis.speaking) {
+      console.log('🛑 Canceling ongoing speech')
+      window.speechSynthesis.cancel()
+      // Add a small delay to let the cancel complete
+      await new Promise(resolve => setTimeout(resolve, 50))
+    }
 
     // Speak
     console.log('📢 Calling speechSynthesis.speak()')
@@ -331,11 +330,20 @@ async function playSingleItem(index, settings) {
   }
 
   utterance.onerror = (event) => {
-    console.error('❌ Single item speech synthesis error:', event)
+    console.error('❌ Single item speech synthesis error:', event.error, event)
+    // Don't stop completely for canceled errors on single items
+    if (event.error !== 'canceled') {
+      console.log('⚠️ Non-canceled error on single item, stopping')
+    }
   }
 
-  // Cancel any ongoing speech
-  window.speechSynthesis.cancel()
+  // Only cancel if something is actually speaking
+  if (window.speechSynthesis.speaking) {
+    console.log('🛑 Canceling ongoing speech for single item')
+    window.speechSynthesis.cancel()
+    // Add a small delay to let the cancel complete
+    await new Promise(resolve => setTimeout(resolve, 50))
+  }
 
   // Speak
   console.log('📢 Speaking single item')

@@ -1,5 +1,7 @@
 # Available learning languages
 # This file lists all available base languages (interface languages)
 languages:
-  - deutsch
-  - english
+  - folder: deutsch
+    code: de-DE
+  - folder: english
+    code: en-US
