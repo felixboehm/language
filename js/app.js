@@ -49,37 +49,15 @@ createApp({
             try {
                 this.isLoadingContent = true;
                 
-                // Load lessons/index.yaml to get available learning languages
+                // Only load lessons/index.yaml to get available learning languages
                 const mainIndexResponse = await fetch('lessons/index.yaml');
                 const mainIndexText = await mainIndexResponse.text();
                 const mainIndex = simpleYamlParse(mainIndexText);
                 
+                // Initialize with empty objects for each language
                 const content = {};
-                
-                // For each learning language, load its index.yaml
                 for (const lang of mainIndex.languages) {
-                    try {
-                        const langIndexResponse = await fetch(`lessons/${lang}/index.yaml`);
-                        const langIndexText = await langIndexResponse.text();
-                        const langIndex = simpleYamlParse(langIndexText);
-                        
-                        content[lang] = {};
-                        
-                        // For each topic, load its index.yaml to get lesson files
-                        for (const topic of langIndex.topics) {
-                            try {
-                                const topicIndexResponse = await fetch(`lessons/${lang}/${topic}/index.yaml`);
-                                const topicIndexText = await topicIndexResponse.text();
-                                const topicIndex = simpleYamlParse(topicIndexText);
-                                
-                                content[lang][topic] = topicIndex.lessons;
-                            } catch (error) {
-                                console.error(`Error loading topic index for ${lang}/${topic}:`, error);
-                            }
-                        }
-                    } catch (error) {
-                        console.error(`Error loading language index for ${lang}:`, error);
-                    }
+                    content[lang] = {};
                 }
                 
                 this.availableContent = content;
@@ -87,6 +65,35 @@ createApp({
             } catch (error) {
                 console.error('Error loading available content:', error);
                 this.isLoadingContent = false;
+            }
+        },
+        
+        async loadTopicsForLanguage(lang) {
+            try {
+                // Load lessons/{lang}/index.yaml to get available topics
+                const langIndexResponse = await fetch(`lessons/${lang}/index.yaml`);
+                const langIndexText = await langIndexResponse.text();
+                const langIndex = simpleYamlParse(langIndexText);
+                
+                // Initialize topics with empty arrays
+                for (const topic of langIndex.topics) {
+                    this.availableContent[lang][topic] = [];
+                }
+            } catch (error) {
+                console.error(`Error loading topics for ${lang}:`, error);
+            }
+        },
+        
+        async loadLessonsForTopic(lang, topic) {
+            try {
+                // Load lessons/{lang}/{topic}/index.yaml to get lesson files
+                const topicIndexResponse = await fetch(`lessons/${lang}/${topic}/index.yaml`);
+                const topicIndexText = await topicIndexResponse.text();
+                const topicIndex = simpleYamlParse(topicIndexText);
+                
+                this.availableContent[lang][topic] = topicIndex.lessons;
+            } catch (error) {
+                console.error(`Error loading lessons for ${lang}/${topic}:`, error);
             }
         },
         
@@ -101,13 +108,23 @@ createApp({
             return names[name] || name.charAt(0).toUpperCase() + name.slice(1);
         },
         
-        selectLearning(lang) {
+        async selectLearning(lang) {
             this.selectedLearning = lang;
             this.selectedTeaching = null;
+            
+            // Load topics for selected language if not already loaded
+            if (Object.keys(this.availableContent[lang]).length === 0) {
+                await this.loadTopicsForLanguage(lang);
+            }
         },
         
-        selectTeaching(topic) {
+        async selectTeaching(topic) {
             this.selectedTeaching = topic;
+            
+            // Load lessons for selected topic if not already loaded
+            if (this.availableContent[this.selectedLearning][topic].length === 0) {
+                await this.loadLessonsForTopic(this.selectedLearning, topic);
+            }
         },
         
         async loadSelectedLessons() {
