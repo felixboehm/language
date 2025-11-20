@@ -11,6 +11,8 @@ const currentItemIndex = ref(-1)
 const readingQueue = ref([])
 const audioElement = ref(null)
 const currentAudioBlob = ref(null)
+const voicesReady = ref(false)
+const availableVoices = ref([])
 
 // Convert text to speech blob using Web Speech API
 function textToSpeechBlob(text, lang, rate) {
@@ -62,7 +64,7 @@ function buildReadingQueue(lesson, learning, teaching, settings) {
     queue.push({
       type: 'section-title',
       text: section.title,
-      lang: learningLang,
+      lang: teachingLang,
       sectionIdx,
       exampleIdx: -1
     })
@@ -95,7 +97,7 @@ function buildReadingQueue(lesson, learning, teaching, settings) {
 }
 
 // Initialize audio queue for a lesson
-function initializeAudio(lesson, learning, teaching, settings) {
+async function initializeAudio(lesson, learning, teaching, settings) {
   console.log('🎼 Initializing audio for lesson:', lesson.title)
   console.log('🌍 Languages:', { learning, teaching })
   console.log('⚙️ Settings:', settings)
@@ -118,35 +120,81 @@ function initializeAudio(lesson, learning, teaching, settings) {
     audioElement.value = new Audio()
     audioElement.value.addEventListener('ended', onAudioEnded)
   }
+
+  // Load voices once for this lesson's languages
+  const learningLang = getLanguageCode(learning) || 'de-DE'
+  const teachingLang = getTopicCode(learning, teaching) || 'pt-PT'
+  const languageCodes = [learningLang, teachingLang]
+
+  console.log('🔊 Pre-loading voices for:', languageCodes)
+  await ensureVoicesLoaded(languageCodes)
+  console.log('✅ Voices ready for playback')
 }
 
 // Current utterance being spoken
 let currentUtterance = null
 
-// Ensure voices are loaded (needed for desktop browsers)
-function ensureVoicesLoaded() {
-  console.log('🔍 Checking if voices are loaded...')
+// Check for voices that support specific language codes
+function checkVoicesForLanguages(languages) {
+  const voices = window.speechSynthesis.getVoices()
+  console.log(`🔍 Checking ${voices.length} voices for languages:`, languages)
+
+  const voicesByLang = {}
+
+  for (const lang of languages) {
+    // Find voices that match this language code
+    // Match both exact (pt-PT) and partial (pt)
+    const matchingVoices = voices.filter(voice => {
+      const voiceLang = voice.lang.toLowerCase()
+      const targetLang = lang.toLowerCase()
+      return voiceLang === targetLang || voiceLang.startsWith(targetLang.split('-')[0])
+    })
+
+    voicesByLang[lang] = matchingVoices
+
+    if (matchingVoices.length > 0) {
+      console.log(`  ✅ ${lang}: Found ${matchingVoices.length} voice(s)`)
+      console.log(`     → ${matchingVoices.map(v => `${v.name} (${v.lang})`).join(', ')}`)
+    } else {
+      console.warn(`  ⚠️ ${lang}: No voices found!`)
+    }
+  }
+
+  return voicesByLang
+}
+
+// Ensure voices are loaded (needed for desktop browsers) - call once during initialization
+function ensureVoicesLoaded(languages) {
+  console.log('🔍 Loading voices for languages:', languages)
   return new Promise((resolve) => {
     const voices = window.speechSynthesis.getVoices()
-    console.log('🔊 Current voices:', voices.length)
+    console.log('🔊 Total voices available:', voices.length)
 
     if (voices.length > 0) {
       console.log('✅ Voices already loaded')
-      console.log('🗣️ Available languages:', voices.slice(0, 10).map(v => v.lang))
-      resolve(voices)
+      const voicesByLang = checkVoicesForLanguages(languages)
+      availableVoices.value = voices
+      voicesReady.value = true
+      resolve(voicesByLang)
     } else {
       console.log('⏳ Waiting for voices to load...')
       // Wait for voices to be loaded
       window.speechSynthesis.onvoiceschanged = () => {
         const loadedVoices = window.speechSynthesis.getVoices()
         console.log('✅ Voices loaded via onvoiceschanged:', loadedVoices.length)
-        resolve(loadedVoices)
+        const voicesByLang = checkVoicesForLanguages(languages)
+        availableVoices.value = loadedVoices
+        voicesReady.value = true
+        resolve(voicesByLang)
       }
       // Fallback timeout
       setTimeout(() => {
         const timeoutVoices = window.speechSynthesis.getVoices()
         console.log('⏰ Voices loaded via timeout:', timeoutVoices.length)
-        resolve(timeoutVoices)
+        const voicesByLang = checkVoicesForLanguages(languages)
+        availableVoices.value = timeoutVoices
+        voicesReady.value = true
+        resolve(voicesByLang)
       }, 1000)
     }
   })
@@ -179,14 +227,20 @@ async function playNextItem(settings) {
   })
 
   try {
-    // Ensure voices are loaded first
-    const voices = await ensureVoicesLoaded()
-    console.log('🔊 Voices loaded:', voices.length, 'voices available')
-
-    // Use Web Speech API directly
+    // Use Web Speech API directly (voices already loaded during initialization)
     currentUtterance = new SpeechSynthesisUtterance(item.text)
     currentUtterance.lang = item.lang
     currentUtterance.rate = settings.audioSpeed || 1.0
+
+    // Use selected voice if available
+    if (settings.selectedVoices && settings.selectedVoices[item.lang]) {
+      const selectedVoiceName = settings.selectedVoices[item.lang]
+      const voice = availableVoices.value.find(v => v.name === selectedVoiceName)
+      if (voice) {
+        currentUtterance.voice = voice
+        console.log(`🎤 Using selected voice: ${voice.name} for ${item.lang}`)
+      }
+    }
 
     currentUtterance.onstart = () => {
       console.log('▶️ Speech started for:', item.text.substring(0, 50))
@@ -219,7 +273,8 @@ async function playNextItem(settings) {
     }
 
     // Speak
-    console.log('📢 Calling speechSynthesis.speak()')
+    console.log('📢 Calling speechSynthesis.speak()', currentUtterance.lang)
+    // window.speechSynthesis.cancel();
     window.speechSynthesis.speak(currentUtterance)
     console.log('📢 speechSynthesis.speak() called, speaking:', window.speechSynthesis.speaking, 'pending:', window.speechSynthesis.pending)
 
@@ -300,13 +355,20 @@ async function playSingleItem(index, settings) {
     lang: item.lang
   })
 
-  // Ensure voices are loaded first
-  await ensureVoicesLoaded()
-
-  // Create utterance
+  // Create utterance (voices already loaded during initialization)
   const utterance = new SpeechSynthesisUtterance(item.text)
   utterance.lang = item.lang
   utterance.rate = settings.audioSpeed || 1.0
+
+  // Use selected voice if available
+  if (settings.selectedVoices && settings.selectedVoices[item.lang]) {
+    const selectedVoiceName = settings.selectedVoices[item.lang]
+    const voice = availableVoices.value.find(v => v.name === selectedVoiceName)
+    if (voice) {
+      utterance.voice = voice
+      console.log(`🎤 Using selected voice: ${voice.name} for ${item.lang}`)
+    }
+  }
 
   utterance.onstart = () => {
     console.log('▶️ Single item speech started')
@@ -321,10 +383,20 @@ async function playSingleItem(index, settings) {
         nextItem.sectionIdx === item.sectionIdx &&
         nextItem.exampleIdx === item.exampleIdx &&
         nextItem.type === 'answer') {
-      console.log('📢 Playing answer too:', nextItem.text.substring(0, 30))
       const answerUtterance = new SpeechSynthesisUtterance(nextItem.text)
       answerUtterance.lang = nextItem.lang
       answerUtterance.rate = settings.audioSpeed || 1.0
+
+      // Use selected voice if available
+      if (settings.selectedVoices && settings.selectedVoices[nextItem.lang]) {
+        const selectedVoiceName = settings.selectedVoices[nextItem.lang]
+        const voice = availableVoices.value.find(v => v.name === selectedVoiceName)
+        if (voice) {
+          answerUtterance.voice = voice
+        }
+      }
+
+      console.log('📢 Playing answer too:', nextItem.text.substring(0, 30), answerUtterance.lang)
       window.speechSynthesis.speak(answerUtterance)
     }
   }
@@ -346,7 +418,7 @@ async function playSingleItem(index, settings) {
   }
 
   // Speak
-  console.log('📢 Speaking single item')
+  console.log('📢 Speaking single item', utterance.lang)
   window.speechSynthesis.speak(utterance)
 }
 
@@ -412,6 +484,9 @@ export function useAudio() {
     resume,
     stop,
     jumpToExample,
-    cleanup
+    cleanup,
+    availableVoices,
+    voicesReady,
+    checkVoicesForLanguages
   }
 }
