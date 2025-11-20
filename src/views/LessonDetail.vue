@@ -79,31 +79,34 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useLessons } from '../composables/useLessons'
-import { useSettings } from '../composables/useSettings'
+import { useLessons } from '@/composables/useLessons'
+import { useSettings } from '@/composables/useSettings'
 import { marked } from 'marked'
+import type { Lesson } from '@/types/lesson'
 
 const route = useRoute()
-const emit = defineEmits(['update-title'])
+const emit = defineEmits<{
+  (e: 'update-title', title: string): void
+}>()
 
 const { loadAllLessonsForTopic } = useLessons()
 const { settings } = useSettings()
 
-const lesson = ref(null)
+const lesson = ref<Lesson | null>(null)
 
-const learning = route.params.learning
-const teaching = route.params.teaching
-const lessonNumber = parseInt(route.params.number)
+const learning = route.params.learning as string
+const teaching = route.params.teaching as string
+const lessonNumber = parseInt(route.params.number as string)
 
 onMounted(async () => {
   // Load all lessons to find the correct file
   const lessons = await loadAllLessonsForTopic(learning, teaching)
 
   // Find the lesson with the matching number
-  lesson.value = lessons.find(l => l.number === lessonNumber)
+  lesson.value = lessons.find(l => l.number === lessonNumber) || null
 
   if (lesson.value) {
     emit('update-title', `${lesson.value.number} - ${lesson.value.title}`)

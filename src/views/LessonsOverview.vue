@@ -38,31 +38,34 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useLessons } from '../composables/useLessons'
-import { formatLangName } from '../utils/formatters'
+import { useLessons } from '@/composables/useLessons'
+import { formatLangName } from '@/utils/formatters'
+import type { Lesson } from '@/types/lesson'
 
 const router = useRouter()
 const route = useRoute()
-const emit = defineEmits(['update-title'])
+const emit = defineEmits<{
+  (e: 'update-title', title: string): void
+}>()
 
 const { loadAllLessonsForTopic } = useLessons()
 
-const lessons = ref([])
+const lessons = ref<Lesson[]>([])
 const isLoading = ref(true)
 
-const learning = route.params.learning
-const teaching = route.params.teaching
+const learning = route.params.learning as string
+const teaching = route.params.teaching as string
 
-function openLesson(number) {
+function openLesson(number: number) {
   router.push({
     name: 'lesson-detail',
     params: {
       learning,
       teaching,
-      number
+      number: number.toString()
     }
   })
 }

@@ -23,7 +23,7 @@
         </label>
         <div class="flex flex-wrap gap-2">
           <button
-            v-for="lang in learningLanguages"
+            v-for="lang in availableLanguages"
             :key="lang"
             @click="selectLearning(lang)"
             :class="[
@@ -77,38 +77,30 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useLessons } from '../composables/useLessons'
-import { formatLangName } from '../utils/formatters'
+import { useLessons } from '@/composables/useLessons'
+import { formatLangName } from '@/utils/formatters'
 
 const router = useRouter()
-const { availableContent, isLoading, loadAvailableContent, loadTopicsForLanguage } = useLessons()
+const { availableLanguages, isLoading, loadAvailableContent, loadTopicsForLanguage } = useLessons()
 
-const selectedLearning = ref(null)
-const selectedTeaching = ref(null)
-
-const learningLanguages = computed(() => {
-  return Object.keys(availableContent.value)
-})
-
-const teachingTopics = computed(() => {
-  if (!selectedLearning.value) return []
-  return Object.keys(availableContent.value[selectedLearning.value] || {})
-})
+const selectedLearning = ref<string | null>(null)
+const selectedTeaching = ref<string | null>(null)
+const teachingTopics = ref<string[]>([])
 
 const canLoadLessons = computed(() => {
   return selectedLearning.value && selectedTeaching.value
 })
 
-async function selectLearning(lang) {
+async function selectLearning(lang: string) {
   selectedLearning.value = lang
   selectedTeaching.value = null
-  await loadTopicsForLanguage(lang)
+  teachingTopics.value = await loadTopicsForLanguage(lang)
 }
 
-function selectTeaching(topic) {
+function selectTeaching(topic: string) {
   selectedTeaching.value = topic
 }
 
@@ -117,8 +109,8 @@ function loadLessons() {
     router.push({
       name: 'lessons-overview',
       params: {
-        learning: selectedLearning.value,
-        teaching: selectedTeaching.value
+        learning: selectedLearning.value!,
+        teaching: selectedTeaching.value!
       }
     })
   }

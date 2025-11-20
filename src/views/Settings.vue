@@ -78,8 +78,8 @@
   </div>
 </template>
 
-<script setup>
-import { useSettings } from '../composables/useSettings'
+<script setup lang="ts">
+import { useSettings } from '@/composables/useSettings'
 
 const { settings } = useSettings()
 </script>
