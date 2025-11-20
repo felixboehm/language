@@ -186,7 +186,7 @@ export function useLessons() {
 
   // Get topic code for a topic folder
   function getTopicCode(langFolder, topicFolder) {
-    return topicCodes.value[langFolder]?.[topicFolder] || null
+    return topicCodes.value[langFolder]?.[topicFolder] || getLanguageCode(langFolder)
   }
 
   return {
