@@ -1,201 +1,133 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { createApp } from 'vue'
+import { useSettings } from '../src/composables/useSettings'
 
 describe('Dark Mode Toggle', () => {
-  let app
-  let vm
-  let container
+  let settingsInstance
 
   beforeEach(() => {
-    // Setup DOM
-    container = document.createElement('div')
-    container.id = 'app'
-    document.body.appendChild(container)
-
-    // Clear localStorage
+    // Clear localStorage before each test
     localStorage.clear()
 
-    // Mock fetch for content loading
-    global.fetch = vi.fn((url) => {
-      if (url === 'lessons/index.yaml') {
-        return Promise.resolve({
-          text: () => Promise.resolve('languages:\n  - english')
-        })
-      }
-      return Promise.reject(new Error('Not found'))
-    })
+    // Clear dark mode class
+    document.documentElement.classList.remove('dark')
 
-    // Import and create the app inline to test the actual behavior
-    const appDefinition = {
-      data() {
-        return {
-          availableContent: {},
-          selectedLearning: null,
-          selectedTeaching: null,
-          loadedLessons: [],
-          currentLesson: null,
-          settings: {
-            showTranslation: true,
-            darkMode: false
-          },
-          currentView: 'selection',
-          isLoadingContent: true,
-        }
-      },
-      methods: {
-        toggleDarkMode() {
-          this.saveSettings()
-          this.applyDarkMode()
-        },
-        loadSettings() {
-          const saved = localStorage.getItem('appSettings')
-          if (saved) {
-            this.settings = JSON.parse(saved)
-          }
-        },
-        saveSettings() {
-          localStorage.setItem('appSettings', JSON.stringify(this.settings))
-        },
-        applyDarkMode() {
-          if (this.settings.darkMode) {
-            document.body.classList.add('dark')
-          } else {
-            document.body.classList.remove('dark')
-          }
-        }
-      },
-      mounted() {
-        this.loadSettings()
-        this.applyDarkMode()
-      }
+    // Get a fresh settings instance
+    settingsInstance = useSettings()
+
+    // Reset settings to defaults
+    settingsInstance.settings.value = {
+      showTranslation: true,
+      showLearningItems: true,
+      showLabels: true,
+      darkMode: false
     }
-
-    app = createApp(appDefinition)
-    vm = app.mount(container)
   })
 
   afterEach(() => {
-    if (app) {
-      app.unmount()
-    }
-    if (container && container.parentNode) {
-      container.parentNode.removeChild(container)
-    }
     localStorage.clear()
+    document.documentElement.classList.remove('dark')
   })
 
   it('should initialize with dark mode disabled by default', () => {
-    expect(vm.settings.darkMode).toBe(false)
-    expect(document.body.classList.contains('dark')).toBe(false)
+    expect(settingsInstance.settings.value.darkMode).toBe(false)
+    expect(document.documentElement.classList.contains('dark')).toBe(false)
   })
 
-  it('should enable dark mode when toggled from false to true', () => {
+  it('should enable dark mode when toggled from false to true', async () => {
     // Start with dark mode off
-    expect(vm.settings.darkMode).toBe(false)
-    
-    // Simulate checkbox toggle (v-model changes the value)
-    vm.settings.darkMode = true
-    vm.toggleDarkMode()
+    expect(settingsInstance.settings.value.darkMode).toBe(false)
+
+    // Enable dark mode (simulates user toggle)
+    settingsInstance.settings.value.darkMode = true
+
+    // Wait for watchers to run
+    await new Promise(resolve => setTimeout(resolve, 50))
 
     // Dark mode should be enabled
-    expect(vm.settings.darkMode).toBe(true)
-    expect(document.body.classList.contains('dark')).toBe(true)
-    
+    expect(settingsInstance.settings.value.darkMode).toBe(true)
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
+
     // Settings should be saved
-    const saved = JSON.parse(localStorage.getItem('appSettings'))
+    const saved = JSON.parse(localStorage.getItem('settings'))
     expect(saved.darkMode).toBe(true)
   })
 
-  it('should disable dark mode when toggled from true to false', () => {
+  it('should disable dark mode when toggled from true to false', async () => {
     // Start with dark mode on
-    vm.settings.darkMode = true
-    vm.applyDarkMode()
-    expect(document.body.classList.contains('dark')).toBe(true)
+    settingsInstance.settings.value.darkMode = true
+    await new Promise(resolve => setTimeout(resolve, 50))
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
 
-    // Simulate checkbox toggle (v-model changes the value)
-    vm.settings.darkMode = false
-    vm.toggleDarkMode()
+    // Disable dark mode
+    settingsInstance.settings.value.darkMode = false
+    await new Promise(resolve => setTimeout(resolve, 50))
 
     // Dark mode should be disabled
-    expect(vm.settings.darkMode).toBe(false)
-    expect(document.body.classList.contains('dark')).toBe(false)
-    
+    expect(settingsInstance.settings.value.darkMode).toBe(false)
+    expect(document.documentElement.classList.contains('dark')).toBe(false)
+
     // Settings should be saved
-    const saved = JSON.parse(localStorage.getItem('appSettings'))
+    const saved = JSON.parse(localStorage.getItem('settings'))
     expect(saved.darkMode).toBe(false)
   })
 
-  it('should toggle dark mode multiple times correctly', () => {
+  it('should toggle dark mode multiple times correctly', async () => {
     // Start off
-    expect(vm.settings.darkMode).toBe(false)
-    
+    expect(settingsInstance.settings.value.darkMode).toBe(false)
+
     // Toggle on
-    vm.settings.darkMode = true
-    vm.toggleDarkMode()
-    expect(vm.settings.darkMode).toBe(true)
-    expect(document.body.classList.contains('dark')).toBe(true)
+    settingsInstance.settings.value.darkMode = true
+    await new Promise(resolve => setTimeout(resolve, 50))
+    expect(settingsInstance.settings.value.darkMode).toBe(true)
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
 
     // Toggle off
-    vm.settings.darkMode = false
-    vm.toggleDarkMode()
-    expect(vm.settings.darkMode).toBe(false)
-    expect(document.body.classList.contains('dark')).toBe(false)
+    settingsInstance.settings.value.darkMode = false
+    await new Promise(resolve => setTimeout(resolve, 50))
+    expect(settingsInstance.settings.value.darkMode).toBe(false)
+    expect(document.documentElement.classList.contains('dark')).toBe(false)
 
     // Toggle on again
-    vm.settings.darkMode = true
-    vm.toggleDarkMode()
-    expect(vm.settings.darkMode).toBe(true)
-    expect(document.body.classList.contains('dark')).toBe(true)
+    settingsInstance.settings.value.darkMode = true
+    await new Promise(resolve => setTimeout(resolve, 50))
+    expect(settingsInstance.settings.value.darkMode).toBe(true)
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
   })
 
   it('should persist dark mode settings across sessions', () => {
-    // Enable dark mode
-    vm.settings.darkMode = true
-    vm.toggleDarkMode()
+    // Enable dark mode and save
+    settingsInstance.settings.value.darkMode = true
+    settingsInstance.saveSettings()
 
-    // Create a new instance to simulate a new session
-    app.unmount()
-    
-    const newApp = createApp({
-      data() {
-        return {
-          settings: {
-            showTranslation: true,
-            darkMode: false
-          }
-        }
-      },
-      methods: {
-        loadSettings() {
-          const saved = localStorage.getItem('appSettings')
-          if (saved) {
-            this.settings = JSON.parse(saved)
-          }
-        },
-        applyDarkMode() {
-          if (this.settings.darkMode) {
-            document.body.classList.add('dark')
-          } else {
-            document.body.classList.remove('dark')
-          }
-        }
-      },
-      mounted() {
-        this.loadSettings()
-        this.applyDarkMode()
-      }
-    })
+    // Simulate new session - create new settings instance
+    localStorage.setItem('settings', JSON.stringify({
+      showTranslation: true,
+      showLearningItems: true,
+      showLabels: true,
+      darkMode: true
+    }))
 
-    const newContainer = document.createElement('div')
-    newContainer.id = 'app2'
-    document.body.appendChild(newContainer)
-    const newVm = newApp.mount(newContainer)
+    const newSettingsInstance = useSettings()
+    newSettingsInstance.loadSettings()
 
     // Should load the saved dark mode setting
-    expect(newVm.settings.darkMode).toBe(true)
-    expect(document.body.classList.contains('dark')).toBe(true)
+    expect(newSettingsInstance.settings.value.darkMode).toBe(true)
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
+  })
 
-    newApp.unmount()
-    newContainer.parentNode.removeChild(newContainer)
+  it('should save all settings together', async () => {
+    // Change multiple settings
+    settingsInstance.settings.value.darkMode = true
+    settingsInstance.settings.value.showTranslation = false
+    settingsInstance.settings.value.showLabels = false
+
+    await new Promise(resolve => setTimeout(resolve, 50))
+
+    // All settings should be saved
+    const saved = JSON.parse(localStorage.getItem('settings'))
+    expect(saved.darkMode).toBe(true)
+    expect(saved.showTranslation).toBe(false)
+    expect(saved.showLabels).toBe(false)
+    expect(saved.showLearningItems).toBe(true) // unchanged
   })
 })
