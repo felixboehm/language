@@ -2,12 +2,12 @@ number: 3
 title: "Daily Activities"
 description: "Common verbs for everyday activities and routines"
 sections:
-  - title: "Morning Routine"
+  - title: "Morgenroutine"
     explanation: |
-      Essential verbs for describing your morning routine:
-      - Waking up and getting ready
-      - Eating breakfast
-      - Starting the day
+      Wesentliche Verben zur Beschreibung deiner Morgenroutine:
+      - Aufwachen und fertig machen
+      - Frühstücken
+      - Den Tag beginnen
     examples:
       - q: "Eu acordo às sete horas."
         a: "Ich wache um sieben Uhr auf."
@@ -34,12 +34,12 @@ sections:
           - ["casa", "Haus", "noun"]
           - ["oito", "acht", "number"]
   
-  - title: "Work and Study"
+  - title: "Arbeit und Studium"
     explanation: |
-      Verbs related to work and learning activities:
-      - Working and professional activities
-      - Studying and learning
-      - Communication
+      Verben im Zusammenhang mit Arbeits- und Lernaktivitäten:
+      - Arbeiten und berufliche Aktivitäten
+      - Studieren und Lernen
+      - Kommunikation
     examples:
       - q: "Eu trabalho num escritório."
         a: "Ich arbeite in einem Büro."
@@ -68,12 +68,12 @@ sections:
           - ["falam", "sprechen (sie)", "verb - falar"]
           - ["telefone", "Telefon", "noun"]
   
-  - title: "Meals and Eating"
+  - title: "Mahlzeiten und Essen"
     explanation: |
-      Verbs and expressions for meals:
-      - Different meals of the day
-      - Cooking and eating
-      - Food preferences
+      Verben und Ausdrücke für Mahlzeiten:
+      - Verschiedene Mahlzeiten des Tages
+      - Kochen und Essen
+      - Essenspräferenzen
     examples:
       - q: "Eu como pão ao pequeno-almoço."
         a: "Ich esse Brot zum Frühstück."
@@ -104,12 +104,12 @@ sections:
           - ["cozinham", "kochen (sie)", "verb - cozinhar"]
           - ["juntos", "zusammen", "adverb"]
   
-  - title: "Leisure and Entertainment"
+  - title: "Freizeit und Unterhaltung"
     explanation: |
-      Activities for free time:
-      - Hobbies and sports
-      - Entertainment
-      - Relaxation
+      Aktivitäten für die Freizeit:
+      - Hobbys und Sport
+      - Unterhaltung
+      - Entspannung
     examples:
       - q: "Eu vejo televisão."
         a: "Ich sehe fern."
@@ -137,12 +137,12 @@ sections:
           - ["visitam", "besuchen (sie)", "verb - visitar"]
           - ["museus", "Museen", "noun"]
   
-  - title: "Evening Routine"
+  - title: "Abendroutine"
     explanation: |
-      Winding down at the end of the day:
-      - Evening activities
-      - Getting ready for bed
-      - Sleep and rest
+      Den Tag ausklingen lassen:
+      - Abendliche Aktivitäten
+      - Vorbereitung fürs Bett
+      - Schlafen und Ausruhen
     examples:
       - q: "Eu chego a casa tarde."
         a: "Ich komme spät nach Hause."

@@ -1,0 +1,136 @@
+number: 5
+title: "Gerundium und Verlaufsformen"
+description: "Lernen Sie das Gerundium und kontinuierliche Handlungen im Portugiesischen"
+sections:
+  - title: "Gerundium Bildung"
+    explanation: |
+      Das **Gerúndio** (Gerundium) wird gebildet durch:
+      - **-AR** Verben: -ando (falar → falando)
+      - **-ER** Verben: -endo (comer → comendo)
+      - **-IR** Verben: -indo (partir → partindo)
+      
+      Es wird verwendet mit **estar** für laufende Handlungen.
+    examples:
+      - q: "Eu estou falando português."
+        a: "Ich spreche gerade Portugiesisch."
+        labels: ["Gerundium"]
+        rel:
+          - ["estou falando", "spreche gerade (ich)", "estar + gerundium"]
+          - ["falando", "sprechend", "gerundium - falar"]
+          - ["português", "Portugiesisch", "noun"]
+      - q: "Tu estás comendo?"
+        a: "Isst du gerade?"
+        labels: ["Gerundium"]
+        rel:
+          - ["estás comendo", "isst gerade (du)", "estar + gerundium"]
+          - ["comendo", "essend", "gerundium - comer"]
+      - q: "Ele está estudando medicina."
+        a: "Er studiert gerade Medizin."
+        labels: ["Gerundium"]
+        rel:
+          - ["está estudando", "studiert gerade (er/sie)", "estar + gerundium"]
+          - ["estudando", "studierend", "gerundium - estudar"]
+          - ["medicina", "Medizin", "noun"]
+      - q: "Nós estamos trabalhando muito."
+        a: "Wir arbeiten gerade viel."
+        labels: ["Gerundium"]
+        rel:
+          - ["estamos trabalhando", "arbeiten gerade (wir)", "estar + gerundium"]
+          - ["trabalhando", "arbeitend", "gerundium - trabalhar"]
+          - ["muito", "viel", "adverb"]
+      - q: "Eles estão viajando."
+        a: "Sie reisen gerade."
+        labels: ["Gerundium"]
+        rel:
+          - ["estão viajando", "reisen gerade (sie)", "estar + gerundium"]
+          - ["viajando", "reisend", "gerundium - viajar"]
+  
+  - title: "Verlaufsform mit IR"
+    explanation: |
+      Eine andere Form ist **ir + gerúndio** für allmähliche Entwicklungen:
+      "estar a fazer" ist auch in Portugal üblich (estar a + Infinitiv).
+      
+      Die Konstruktion drückt aus, dass etwas gerade passiert oder sich entwickelt.
+    examples:
+      - q: "Eu vou aprendendo aos poucos."
+        a: "Ich lerne nach und nach."
+        labels: ["Gerundium"]
+        rel:
+          - ["vou aprendendo", "lerne nach und nach (ich)", "ir + gerundium"]
+          - ["aprendendo", "lernend", "gerundium - aprender"]
+          - ["aos poucos", "nach und nach", "expression"]
+      - q: "Ele vai entendendo melhor."
+        a: "Er versteht es allmählich besser."
+        labels: ["Gerundium"]
+        rel:
+          - ["vai entendendo", "versteht allmählich (er/sie)", "ir + gerundium"]
+          - ["entendendo", "verstehend", "gerundium - entender"]
+          - ["melhor", "besser", "adverb"]
+      - q: "Nós vamos fazendo o trabalho."
+        a: "Wir machen die Arbeit nach und nach."
+        labels: ["Gerundium"]
+        rel:
+          - ["vamos fazendo", "machen nach und nach (wir)", "ir + gerundium"]
+          - ["fazendo", "machend", "gerundium - fazer"]
+          - ["trabalho", "Arbeit", "noun"]
+  
+  - title: "Kontinuierliche Vergangenheit"
+    explanation: |
+      **Estava + gerúndio** beschreibt etwas, das in der Vergangenheit gerade stattfand:
+      Diese Konstruktion entspricht dem deutschen "war gerade dabei".
+    examples:
+      - q: "Eu estava dormindo quando ligaste."
+        a: "Ich habe gerade geschlafen, als du angerufen hast."
+        labels: ["Gerundium", "Past"]
+        rel:
+          - ["estava dormindo", "war am Schlafen (ich)", "estar (past) + gerundium"]
+          - ["dormindo", "schlafend", "gerundium - dormir"]
+          - ["ligaste", "hast angerufen (du)", "verb - ligar (past)"]
+      - q: "Ele estava lendo o jornal."
+        a: "Er las gerade die Zeitung."
+        labels: ["Gerundium", "Past"]
+        rel:
+          - ["estava lendo", "las gerade (er/sie)", "estar (past) + gerundium"]
+          - ["lendo", "lesend", "gerundium - ler"]
+          - ["jornal", "Zeitung", "noun"]
+      - q: "Nós estávamos conversando."
+        a: "Wir unterhielten uns gerade."
+        labels: ["Gerundium", "Past"]
+        rel:
+          - ["estávamos conversando", "unterhielten uns (wir)", "estar (past) + gerundium"]
+          - ["conversando", "sich unterhaltend", "gerundium - conversar"]
+      - q: "Elas estavam cozinhando."
+        a: "Sie kochten gerade."
+        labels: ["Gerundium", "Past"]
+        rel:
+          - ["estavam cozinhando", "kochten gerade (sie)", "estar (past) + gerundium"]
+          - ["cozinhando", "kochend", "gerundium - cozinhar"]
+  
+  - title: "Unregelmäßige Gerundien"
+    explanation: |
+      Einige Verben haben unregelmäßige Gerundium-Formen:
+      - **dizer** → dizendo (sagen)
+      - **trazer** → trazendo (bringen)
+      - **pôr** → pondo (setzen/stellen)
+    examples:
+      - q: "Eu estou dizendo a verdade."
+        a: "Ich sage gerade die Wahrheit."
+        labels: ["Gerundium"]
+        rel:
+          - ["estou dizendo", "sage gerade (ich)", "estar + gerundium"]
+          - ["dizendo", "sagend", "gerundium - dizer"]
+          - ["verdade", "Wahrheit", "noun"]
+      - q: "Ele está trazendo o livro."
+        a: "Er bringt gerade das Buch."
+        labels: ["Gerundium"]
+        rel:
+          - ["está trazendo", "bringt gerade (er/sie)", "estar + gerundium"]
+          - ["trazendo", "bringend", "gerundium - trazer"]
+          - ["livro", "Buch", "noun"]
+      - q: "Nós estamos pondo a mesa."
+        a: "Wir decken gerade den Tisch."
+        labels: ["Gerundium"]
+        rel:
+          - ["estamos pondo", "decken gerade (wir)", "estar + gerundium"]
+          - ["pondo", "setzend/stellend", "gerundium - pôr"]
+          - ["mesa", "Tisch", "noun"]

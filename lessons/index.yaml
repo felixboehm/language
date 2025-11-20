@@ -1,0 +1,4 @@
+# Available learning languages
+# This file lists all available base languages (interface languages)
+languages:
+  - deutsch

@@ -8,6 +8,37 @@ const simpleYamlParse = (text) => {
     let explanationText = '';
     let indent = 0;
     
+    // Check if this is an index file (simpler structure)
+    const isIndexFile = text.includes('languages:') || text.includes('topics:') || text.includes('lessons:');
+    
+    if (isIndexFile) {
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            const trimmed = line.trim();
+            
+            if (!trimmed || trimmed.startsWith('#')) continue;
+            
+            if (line.startsWith('languages:')) {
+                result.languages = [];
+            } else if (line.startsWith('topics:')) {
+                result.topics = [];
+            } else if (line.startsWith('lessons:')) {
+                result.lessons = [];
+            } else if (line.match(/^\s*- /)) {
+                const value = trimmed.substring(2).trim();
+                if (result.languages !== undefined) {
+                    result.languages.push(value);
+                } else if (result.topics !== undefined) {
+                    result.topics.push(value);
+                } else if (result.lessons !== undefined) {
+                    result.lessons.push(value);
+                }
+            }
+        }
+        return result;
+    }
+    
+    // Original lesson file parsing
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         const trimmed = line.trim();
