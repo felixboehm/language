@@ -545,16 +545,23 @@ function jumpToExample(sectionIdx, exampleIdx, settings) {
   )
 
   if (index !== -1) {
-    // Stop current playback
-    window.speechSynthesis.cancel()
+    console.log('👆 Jumping to example:', { sectionIdx, exampleIdx, index, isPlaying: isPlaying.value, isPaused: isPaused.value })
 
     if (isPlaying.value) {
       // Continue playing from this point
-      // Set to just before the target so playNextItem increments to it
-      currentItemIndex.value = index - 1
-      playNextItem(settings)
+      // Set index and cancel current speech - let it continue naturally
+      currentItemIndex.value = index
+      console.log('▶️ Set index to', index, 'and playing current item')
+      window.speechSynthesis.cancel()
+      // Wait a bit for cancel to complete, then play from this position
+      setTimeout(() => {
+        playCurrentItem(settings)
+      }, 100)
     } else {
-      // Just play this one example
+      // Paused or stopped - play this example once and update position
+      console.log('⏸️ Playing single item and updating position to', index)
+      currentItemIndex.value = index
+      // Play this example but stay paused
       playSingleItem(index, settings)
     }
   }
