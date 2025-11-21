@@ -1,8 +1,12 @@
 import { ref, computed } from 'vue'
 import { useLessons } from './useLessons'
+import { useProgress } from './useProgress'
 
 // Get lesson composable for language codes
 const { getLanguageCode, getTopicCode } = useLessons()
+
+// Get progress composable for learned items
+const { areAllItemsLearned } = useProgress()
 
 // Shared audio state (singleton pattern)
 const isPlaying = ref(false)
@@ -42,6 +46,7 @@ function buildReadingQueue(lesson, learning, teaching, settings) {
   }
 
   console.log(`🎵 Building audio queue from: ${audioBase}`)
+  console.log(`🔍 Hide learned examples: ${settings.hideLearnedExamples}`)
 
   // Add lesson title at the beginning (if available)
   if (lesson.title) {
@@ -55,38 +60,63 @@ function buildReadingQueue(lesson, learning, teaching, settings) {
   }
 
   lesson.sections.forEach((section, sectionIdx) => {
-    // Add section title first
-    queue.push({
-      type: 'section-title',
-      text: section.title,
-      audioUrl: `${audioBase}/${sectionIdx}-title.mp3`,
-      sectionIdx,
-      exampleIdx: -1
+    // Filter examples based on hideLearnedExamples setting
+    const visibleExamples = section.examples.filter((example) => {
+      // If hideLearnedExamples is disabled, show all examples
+      if (!settings.hideLearnedExamples) {
+        return true
+      }
+
+      // If example has no related items, always show it
+      if (!example.rel || example.rel.length === 0) {
+        return true
+      }
+
+      // Hide example only if ALL items are learned
+      return !areAllItemsLearned(learning, teaching, example.rel)
     })
 
-    // Then add examples from this section
-    section.examples.forEach((example, exampleIdx) => {
-      // Add question
+    // Only add section title and examples if there are visible examples
+    if (visibleExamples.length > 0) {
+      // Add section title first
       queue.push({
-        type: 'question',
-        text: example.q,
-        audioUrl: `${audioBase}/${sectionIdx}-${exampleIdx}-q.mp3`,
+        type: 'section-title',
+        text: section.title,
+        audioUrl: `${audioBase}/${sectionIdx}-title.mp3`,
         sectionIdx,
-        exampleIdx
+        exampleIdx: -1
       })
 
-      // Add answer if setting is enabled
-      if (settings.readAnswers && example.a) {
+      // Then add examples from this section
+      visibleExamples.forEach((example) => {
+        const exampleIdx = section.examples.indexOf(example)
+
+        // Add question
         queue.push({
-          type: 'answer',
-          text: example.a,
-          audioUrl: `${audioBase}/${sectionIdx}-${exampleIdx}-a.mp3`,
+          type: 'question',
+          text: example.q,
+          audioUrl: `${audioBase}/${sectionIdx}-${exampleIdx}-q.mp3`,
           sectionIdx,
           exampleIdx
         })
-      }
-    })
+
+        // Add answer if setting is enabled
+        if (settings.readAnswers && example.a) {
+          queue.push({
+            type: 'answer',
+            text: example.a,
+            audioUrl: `${audioBase}/${sectionIdx}-${exampleIdx}-a.mp3`,
+            sectionIdx,
+            exampleIdx
+          })
+        }
+      })
+    } else {
+      console.log(`⏭️  Skipping section ${sectionIdx} (${section.title}) - no visible examples`)
+    }
   })
+
+  console.log(`📋 Built queue with ${queue.length} items (filtered by learned status)`)
 
   return queue
 }

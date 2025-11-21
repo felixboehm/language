@@ -130,7 +130,7 @@ const emit = defineEmits(['update-title'])
 
 const { loadAllLessonsForTopic } = useLessons()
 const { settings } = useSettings()
-const { isItemLearned, toggleItemLearned, areAllItemsLearned } = useProgress()
+const { isItemLearned, toggleItemLearned, areAllItemsLearned, progress } = useProgress()
 const { isPlaying, isPaused, currentItem, initializeAudio, jumpToExample, cleanup, play, pause } = useAudio()
 
 const lesson = ref(null)
@@ -223,6 +223,30 @@ watch(currentItem, async (newItem) => {
     element.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
 })
+
+// Rebuild audio queue when hideLearnedExamples or readAnswers setting changes
+watch(
+  () => [settings.value.hideLearnedExamples, settings.value.readAnswers],
+  async () => {
+    if (lesson.value) {
+      console.log('🔄 Settings changed, rebuilding audio queue')
+      await initializeAudio(lesson.value, learning.value, teaching.value, settings.value)
+    }
+  },
+  { deep: true }
+)
+
+// Rebuild audio queue when progress changes (items marked as learned/unlearned)
+watch(
+  progress,
+  async () => {
+    if (lesson.value && settings.value.hideLearnedExamples) {
+      console.log('🔄 Progress changed, rebuilding audio queue')
+      await initializeAudio(lesson.value, learning.value, teaching.value, settings.value)
+    }
+  },
+  { deep: true }
+)
 
 onMounted(async () => {
   const currentLearning = route.params.learning
