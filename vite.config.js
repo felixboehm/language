@@ -11,6 +11,10 @@ export default defineConfig({
   server: {
     https: true
   },
+  preview: {
+    port: 5173,
+    https: true
+  },
   resolve: {
     alias: {
       'vue': 'vue/dist/vue.esm-bundler.js'
