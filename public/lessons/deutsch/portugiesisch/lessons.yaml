@@ -1,8 +1,24 @@
 # Portuguese lessons with German interface
+# Phase 1: Verb Mastery (Lessons 1-15) - 50 core verbs
 lessons:
   - 01-essential-verbs
   - 02-action-verbs
   - 03-modal-communication
+  - 04-perception-knowledge
+  - 05-desire-preference
+  # Lessons 6-15 to be created following the template
+  # - 06-carrying-meeting
+  # - 07-thinking-speaking
+  # - 08-looking-asking
+  # - 09-arriving-obligation
+  # - 10-following-beginning
+  # - 11-needing-finding
+  # - 12-calling-waiting
+  # - 13-finishing-living
+  # - 14-working-moving
+  # - 15-daily-verbs-review
+
+  # Original lessons (to be restructured into Phase 2-3)
   - 01-basic-verbs
   - 02-modal-verbs
   - 03-daily-activities
