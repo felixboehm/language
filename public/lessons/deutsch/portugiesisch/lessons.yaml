@@ -2,8 +2,6 @@
 # Phase 1: Verb Mastery (Lessons 1-15) - 50 core verbs
 lessons:
   - 01-essential-verbs
-  # Test URL-based lesson (points to local server for testing)
-  # - url: https://localhost:5174/language/lessons/deutsch/portugiesisch/02-action-verbs
   - 02-action-verbs
   - 03-modal-communication
   - 04-perception-knowledge
