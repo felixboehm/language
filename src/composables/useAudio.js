@@ -1,8 +1,12 @@
 import { ref, computed } from 'vue'
 import { useLessons } from './useLessons'
+import { useProgress } from './useProgress'
 
 // Get lesson composable for language codes
 const { getLanguageCode, getTopicCode } = useLessons()
+
+// Get progress composable for learned items
+const { areAllItemsLearned } = useProgress()
 
 // Shared audio state (singleton pattern)
 const isPlaying = ref(false)
@@ -42,6 +46,7 @@ function buildReadingQueue(lesson, learning, teaching, settings) {
   }
 
   console.log(`🎵 Building audio queue from: ${audioBase}`)
+  console.log(`🔍 Hide learned examples: ${settings.hideLearnedExamples}`)
 
   // Add lesson title at the beginning (if available)
   if (lesson.title) {
@@ -55,38 +60,63 @@ function buildReadingQueue(lesson, learning, teaching, settings) {
   }
 
   lesson.sections.forEach((section, sectionIdx) => {
-    // Add section title first
-    queue.push({
-      type: 'section-title',
-      text: section.title,
-      audioUrl: `${audioBase}/${sectionIdx}-title.mp3`,
-      sectionIdx,
-      exampleIdx: -1
+    // Filter examples based on hideLearnedExamples setting
+    const visibleExamples = section.examples.filter((example) => {
+      // If hideLearnedExamples is disabled, show all examples
+      if (!settings.hideLearnedExamples) {
+        return true
+      }
+
+      // If example has no related items, always show it
+      if (!example.rel || example.rel.length === 0) {
+        return true
+      }
+
+      // Hide example only if ALL items are learned
+      return !areAllItemsLearned(learning, teaching, example.rel)
     })
 
-    // Then add examples from this section
-    section.examples.forEach((example, exampleIdx) => {
-      // Add question
+    // Only add section title and examples if there are visible examples
+    if (visibleExamples.length > 0) {
+      // Add section title first
       queue.push({
-        type: 'question',
-        text: example.q,
-        audioUrl: `${audioBase}/${sectionIdx}-${exampleIdx}-q.mp3`,
+        type: 'section-title',
+        text: section.title,
+        audioUrl: `${audioBase}/${sectionIdx}-title.mp3`,
         sectionIdx,
-        exampleIdx
+        exampleIdx: -1
       })
 
-      // Add answer if setting is enabled
-      if (settings.readAnswers && example.a) {
+      // Then add examples from this section
+      visibleExamples.forEach((example) => {
+        const exampleIdx = section.examples.indexOf(example)
+
+        // Add question
         queue.push({
-          type: 'answer',
-          text: example.a,
-          audioUrl: `${audioBase}/${sectionIdx}-${exampleIdx}-a.mp3`,
+          type: 'question',
+          text: example.q,
+          audioUrl: `${audioBase}/${sectionIdx}-${exampleIdx}-q.mp3`,
           sectionIdx,
           exampleIdx
         })
-      }
-    })
+
+        // Add answer if setting is enabled
+        if (settings.readAnswers && example.a) {
+          queue.push({
+            type: 'answer',
+            text: example.a,
+            audioUrl: `${audioBase}/${sectionIdx}-${exampleIdx}-a.mp3`,
+            sectionIdx,
+            exampleIdx
+          })
+        }
+      })
+    } else {
+      console.log(`⏭️  Skipping section ${sectionIdx} (${section.title}) - no visible examples`)
+    }
   })
+
+  console.log(`📋 Built queue with ${queue.length} items (filtered by learned status)`)
 
   return queue
 }
@@ -258,25 +288,46 @@ async function playNextItem(settings) {
     audio.currentTime = 0
 
     // Apply playback speed from settings
-    audio.playbackRate = settings.audioSpeed || 1.0
-    console.log(`🎵 Setting playback speed to ${audio.playbackRate}x`)
+    // Section titles are read slower (70% of normal speed) for clarity
+    if (item.type === 'section-title') {
+      audio.playbackRate = (settings.audioSpeed || 1.0) * 0.7
+      console.log(`📚 Section title - setting slower playback speed to ${audio.playbackRate}x`)
+    } else {
+      audio.playbackRate = settings.audioSpeed || 1.0
+      console.log(`🎵 Setting playback speed to ${audio.playbackRate}x`)
+    }
 
     // Set up event handlers
     audio.onended = () => {
       console.log('⏹️ Audio ended for:', item.text?.substring(0, 50))
       if (isPlaying.value) {
-        // Check if this is the end of an example (question or answer)
-        // If so, add 800ms pause before continuing
-        const isEndOfExample = item.type === 'answer' ||
-          (item.type === 'question' && !settings.readAnswers)
+        // Determine pause duration based on item type
+        let pauseDuration = 0
 
-        if (isEndOfExample) {
-          // Check if next item is in a different section
-          const nextItem = readingQueue.value[currentItemIndex.value + 1]
-          const isSectionChange = nextItem && nextItem.sectionIdx !== item.sectionIdx
-          const pauseDuration = isSectionChange ? 1800 : 800 // 1800ms between sections, 800ms between examples
+        if (item.type === 'section-title') {
+          // Section title just ended - add 1200ms pause before first example
+          pauseDuration = 1200
+          console.log(`⏸️ Section title ended - adding ${pauseDuration}ms pause`)
+        } else if (item.type === 'lesson-title') {
+          // Lesson title just ended - add 1000ms pause
+          pauseDuration = 1000
+          console.log(`⏸️ Lesson title ended - adding ${pauseDuration}ms pause`)
+        } else {
+          // Check if this is the end of an example (question or answer)
+          const isEndOfExample = item.type === 'answer' ||
+            (item.type === 'question' && !settings.readAnswers)
 
-          console.log(`⏸️ Adding ${pauseDuration}ms pause ${isSectionChange ? 'between sections' : 'between examples'}`)
+          if (isEndOfExample) {
+            // Check if next item is in a different section
+            const nextItem = readingQueue.value[currentItemIndex.value + 1]
+            const isSectionChange = nextItem && nextItem.sectionIdx !== item.sectionIdx
+            pauseDuration = isSectionChange ? 1800 : 800 // 1800ms between sections, 800ms between examples
+
+            console.log(`⏸️ Adding ${pauseDuration}ms pause ${isSectionChange ? 'between sections' : 'between examples'}`)
+          }
+        }
+
+        if (pauseDuration > 0) {
           setTimeout(() => {
             if (isPlaying.value) {
               playNextItem(settings)
@@ -351,25 +402,46 @@ async function playCurrentItem(settings) {
     currentAudio.value = audio
 
     // Apply playback speed from settings
-    audio.playbackRate = settings.audioSpeed || 1.0
-    console.log(`🎵 Setting playback speed to ${audio.playbackRate}x`)
+    // Section titles are read slower (70% of normal speed) for clarity
+    if (item.type === 'section-title') {
+      audio.playbackRate = (settings.audioSpeed || 1.0) * 0.7
+      console.log(`📚 Section title (resumed) - setting slower playback speed to ${audio.playbackRate}x`)
+    } else {
+      audio.playbackRate = settings.audioSpeed || 1.0
+      console.log(`🎵 Setting playback speed to ${audio.playbackRate}x`)
+    }
 
     // Set up event handlers
     audio.onended = () => {
       console.log('⏹️ Audio ended (resumed) for:', item.text?.substring(0, 50))
       if (isPlaying.value) {
-        // Check if this is the end of an example (question or answer)
-        // If so, add 800ms pause before continuing
-        const isEndOfExample = item.type === 'answer' ||
-          (item.type === 'question' && !settings.readAnswers)
+        // Determine pause duration based on item type
+        let pauseDuration = 0
 
-        if (isEndOfExample) {
-          // Check if next item is in a different section
-          const nextItem = readingQueue.value[currentItemIndex.value + 1]
-          const isSectionChange = nextItem && nextItem.sectionIdx !== item.sectionIdx
-          const pauseDuration = isSectionChange ? 1800 : 800 // 1800ms between sections, 800ms between examples
+        if (item.type === 'section-title') {
+          // Section title just ended - add 1200ms pause before first example
+          pauseDuration = 1200
+          console.log(`⏸️ Section title ended - adding ${pauseDuration}ms pause`)
+        } else if (item.type === 'lesson-title') {
+          // Lesson title just ended - add 1000ms pause
+          pauseDuration = 1000
+          console.log(`⏸️ Lesson title ended - adding ${pauseDuration}ms pause`)
+        } else {
+          // Check if this is the end of an example (question or answer)
+          const isEndOfExample = item.type === 'answer' ||
+            (item.type === 'question' && !settings.readAnswers)
 
-          console.log(`⏸️ Adding ${pauseDuration}ms pause ${isSectionChange ? 'between sections' : 'between examples'}`)
+          if (isEndOfExample) {
+            // Check if next item is in a different section
+            const nextItem = readingQueue.value[currentItemIndex.value + 1]
+            const isSectionChange = nextItem && nextItem.sectionIdx !== item.sectionIdx
+            pauseDuration = isSectionChange ? 1800 : 800 // 1800ms between sections, 800ms between examples
+
+            console.log(`⏸️ Adding ${pauseDuration}ms pause ${isSectionChange ? 'between sections' : 'between examples'}`)
+          }
+        }
+
+        if (pauseDuration > 0) {
           setTimeout(() => {
             if (isPlaying.value) {
               playNextItem(settings)
