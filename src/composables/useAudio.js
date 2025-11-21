@@ -200,6 +200,96 @@ function ensureVoicesLoaded(languages) {
   })
 }
 
+// Play current item (used when resuming from pause)
+async function playCurrentItem(settings) {
+  console.log('🔁 playCurrentItem called (resuming from pause)', {
+    currentIndex: currentItemIndex.value,
+    queueLength: readingQueue.value.length,
+    isPlaying: isPlaying.value
+  })
+
+  if (currentItemIndex.value < 0 || currentItemIndex.value >= readingQueue.value.length) {
+    console.warn('⚠️ Invalid currentItemIndex, stopping')
+    stop()
+    return
+  }
+
+  const item = readingQueue.value[currentItemIndex.value]
+
+  console.log('🎤 Playing item (resumed):', {
+    index: currentItemIndex.value,
+    type: item.type,
+    text: item.text,
+    lang: item.lang,
+    rate: settings.audioSpeed || 1.0
+  })
+
+  try {
+    // Use Web Speech API directly (voices already loaded during initialization)
+    currentUtterance = new SpeechSynthesisUtterance(item.text)
+    currentUtterance.lang = item.lang
+    currentUtterance.rate = settings.audioSpeed || 1.0
+
+    // Use selected voice if available
+    if (settings.selectedVoices && settings.selectedVoices[item.lang]) {
+      const selectedVoiceName = settings.selectedVoices[item.lang]
+      const voice = availableVoices.value.find(v => v.name === selectedVoiceName)
+      if (voice) {
+        currentUtterance.voice = voice
+        console.log(`🎤 Using selected voice: ${voice.name} for ${item.lang}`)
+      }
+    }
+
+    currentUtterance.onstart = () => {
+      console.log('▶️ Speech started (resumed) for:', item.text.substring(0, 50))
+    }
+
+    currentUtterance.onend = () => {
+      console.log('⏹️ Speech ended (resumed) for:', item.text.substring(0, 50))
+      if (isPlaying.value) {
+        playNextItem(settings)
+      }
+    }
+
+    currentUtterance.onerror = (event) => {
+      console.error('❌ Speech synthesis error (resumed):', event.error, event)
+      // If error is 'canceled', handle based on state
+      if (event.error === 'canceled') {
+        if (isPlaying.value) {
+          console.log('⚠️ Speech was canceled while playing, continuing to next item...')
+          setTimeout(() => playNextItem(settings), 100)
+        } else if (isPaused.value) {
+          console.log('⏸️ Speech was canceled due to pause, keeping position')
+          // Don't call stop() - we want to keep the position
+        } else {
+          console.log('🛑 Speech was canceled, stopping')
+          stop()
+        }
+      } else {
+        // Non-cancel errors always stop
+        stop()
+      }
+    }
+
+    // Only cancel if something is actually speaking
+    if (window.speechSynthesis.speaking) {
+      console.log('🛑 Canceling ongoing speech')
+      window.speechSynthesis.cancel()
+      // Add a small delay to let the cancel complete
+      await new Promise(resolve => setTimeout(resolve, 50))
+    }
+
+    // Speak
+    console.log('📢 Calling speechSynthesis.speak() (resumed)', currentUtterance.lang)
+    window.speechSynthesis.speak(currentUtterance)
+    console.log('📢 speechSynthesis.speak() called, speaking:', window.speechSynthesis.speaking, 'pending:', window.speechSynthesis.pending)
+
+  } catch (error) {
+    console.error('❌ Error playing audio (resumed):', error)
+    stop()
+  }
+}
+
 // Play next item in queue
 async function playNextItem(settings) {
   console.log('🎵 playNextItem called', {
@@ -255,11 +345,20 @@ async function playNextItem(settings) {
 
     currentUtterance.onerror = (event) => {
       console.error('❌ Speech synthesis error:', event.error, event)
-      // If error is 'canceled', try to continue to next item
-      if (event.error === 'canceled' && isPlaying.value) {
-        console.log('⚠️ Speech was canceled, continuing to next item...')
-        setTimeout(() => playNextItem(settings), 100)
+      // If error is 'canceled', handle based on state
+      if (event.error === 'canceled') {
+        if (isPlaying.value) {
+          console.log('⚠️ Speech was canceled while playing, continuing to next item...')
+          setTimeout(() => playNextItem(settings), 100)
+        } else if (isPaused.value) {
+          console.log('⏸️ Speech was canceled due to pause, keeping position')
+          // Don't call stop() - we want to keep the position
+        } else {
+          console.log('🛑 Speech was canceled, stopping')
+          stop()
+        }
       } else {
+        // Non-cancel errors always stop
         stop()
       }
     }
@@ -307,22 +406,36 @@ function play(settings) {
     return
   }
 
+  const wasResuming = isPaused.value && currentItemIndex.value >= 0
+
   console.log('▶️ Setting isPlaying to true')
   isPlaying.value = true
   isPaused.value = false
 
   console.log('🎯 Current position:', currentItemIndex.value)
+  console.log('🎯 Resuming from pause:', wasResuming)
 
-  // Always continue from current position (or start if at -1)
-  playNextItem(settings)
+  if (wasResuming) {
+    // Resume from where we paused - replay the current item
+    console.log('✅ RESUMING - calling playCurrentItem')
+    playCurrentItem(settings)
+  } else {
+    // Start from beginning or continue normally
+    console.log('▶️ STARTING - calling playNextItem')
+    playNextItem(settings)
+  }
 }
 
 // Pause playback (actually stops and maintains position)
 function pause() {
-  isPaused.value = true
+  console.log('⏸️ Pausing at index:', currentItemIndex.value)
+  // Set state BEFORE canceling so error handler sees isPaused=true
   isPlaying.value = false
+  isPaused.value = true
+  console.log('⏸️ State set - isPaused:', isPaused.value, 'isPlaying:', isPlaying.value)
   // Stop speaking but don't reset position
   window.speechSynthesis.cancel()
+  console.log('⏸️ Paused - position saved at:', currentItemIndex.value)
 }
 
 // Resume playback (not used anymore, use play instead)
