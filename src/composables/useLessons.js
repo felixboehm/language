@@ -165,6 +165,8 @@ export function useLessons() {
       for (const filename of lessonFiles) {
         const lesson = await loadLesson(lang, topic, filename)
         if (lesson) {
+          // Add filename (without .yaml extension) to lesson object for audio path
+          lesson._filename = filename.replace(/\.yaml$/, '')
           lessons.push(lesson)
         }
       }

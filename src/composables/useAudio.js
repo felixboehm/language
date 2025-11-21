@@ -9,63 +9,31 @@ const isPlaying = ref(false)
 const isPaused = ref(false)
 const currentItemIndex = ref(-1)
 const readingQueue = ref([])
-const audioElement = ref(null)
-const currentAudioBlob = ref(null)
-const voicesReady = ref(false)
-const availableVoices = ref([])
-let isJumping = false // Flag to prevent error handler from auto-continuing during jump
-
-// Convert text to speech blob using Web Speech API
-function textToSpeechBlob(text, lang, rate) {
-  return new Promise((resolve, reject) => {
-    // Check if browser supports Web Speech API
-    if (!('speechSynthesis' in window)) {
-      reject(new Error('Web Speech API not supported'))
-      return
-    }
-
-    const utterance = new SpeechSynthesisUtterance(text)
-    utterance.lang = lang
-    utterance.rate = rate
-
-    // Use MediaRecorder to capture audio
-    // Note: This is a workaround since Web Speech API doesn't directly provide blobs
-    // For better iOS support, we'll use a different approach with AudioContext
-
-    // Alternative: For now, we'll play directly with Web Speech API
-    // and handle iOS lock screen requirements differently
-    utterance.onend = () => {
-      resolve(null) // We'll handle playback differently
-    }
-
-    utterance.onerror = (event) => {
-      reject(event.error)
-    }
-
-    // Store the utterance for playback
-    resolve(utterance)
-  })
-}
+const audioElements = ref([]) // Pre-loaded audio elements
+const currentAudio = ref(null) // Currently playing audio element
+const lessonTitle = ref('')
+const lessonMetadata = ref({ learning: '', teaching: '', number: '' })
 
 // Build reading queue from lesson data
 function buildReadingQueue(lesson, learning, teaching, settings) {
   const queue = []
-  // Get language codes from the YAML files
-  const learningLang = getLanguageCode(learning) || 'de-DE' // Fallback to German
-  const teachingLang = getTopicCode(learning, teaching) || 'pt-PT' // Fallback to Portuguese
-
-  console.log(`🌍 Building queue with languages: learning=${learning} (${learningLang}), teaching=${teaching} (${teachingLang})`)
 
   if (!lesson || !lesson.sections) {
     return queue
   }
+
+  const baseUrl = import.meta.env.BASE_URL
+  const lessonFilename = lesson._filename || `${String(lesson.number).padStart(2, '0')}-lesson`
+  const audioBase = `${baseUrl}audio/${learning}/${teaching}/${lessonFilename}`
+
+  console.log(`🎵 Building audio queue from: ${audioBase}`)
 
   lesson.sections.forEach((section, sectionIdx) => {
     // Add section title first
     queue.push({
       type: 'section-title',
       text: section.title,
-      lang: teachingLang,
+      audioUrl: `${audioBase}/${sectionIdx}-title.mp3`,
       sectionIdx,
       exampleIdx: -1
     })
@@ -76,7 +44,7 @@ function buildReadingQueue(lesson, learning, teaching, settings) {
       queue.push({
         type: 'question',
         text: example.q,
-        lang: teachingLang,
+        audioUrl: `${audioBase}/${sectionIdx}-${exampleIdx}-q.mp3`,
         sectionIdx,
         exampleIdx
       })
@@ -86,7 +54,7 @@ function buildReadingQueue(lesson, learning, teaching, settings) {
         queue.push({
           type: 'answer',
           text: example.a,
-          lang: learningLang,
+          audioUrl: `${audioBase}/${sectionIdx}-${exampleIdx}-a.mp3`,
           sectionIdx,
           exampleIdx
         })
@@ -97,201 +65,124 @@ function buildReadingQueue(lesson, learning, teaching, settings) {
   return queue
 }
 
+// Pre-load all audio files
+async function preloadAudioFiles(queue) {
+  console.log('📥 Pre-loading audio files...')
+
+  const audioLoadPromises = queue
+    .filter(item => item.audioUrl) // Skip section titles
+    .map(async (item) => {
+      const audio = new Audio()
+      audio.preload = 'auto'
+      audio.src = item.audioUrl
+
+      // Don't set playback rate here - it will be set dynamically when playing
+
+      // Wait for audio to be loadable
+      return new Promise((resolve) => {
+        audio.addEventListener('canplaythrough', () => {
+          console.log(`✅ Loaded: ${item.audioUrl}`)
+          resolve({ item, audio })
+        }, { once: true })
+
+        audio.addEventListener('error', (e) => {
+          console.warn(`⚠️ Failed to load: ${item.audioUrl}`, e)
+          resolve({ item, audio: null })
+        }, { once: true })
+
+        // Start loading
+        audio.load()
+      })
+    })
+
+  const results = await Promise.all(audioLoadPromises)
+
+  // Create map of audioUrl -> audio element
+  const audioMap = {}
+  results.forEach(({ item, audio }) => {
+    if (audio) {
+      audioMap[item.audioUrl] = audio
+    }
+  })
+
+  console.log(`✅ Pre-loaded ${Object.keys(audioMap).length} audio files`)
+  return audioMap
+}
+
+// Setup Media Session API for lock screen controls
+function setupMediaSession(lessonTitle, learning, teaching) {
+  if (!('mediaSession' in navigator)) {
+    console.log('⚠️ Media Session API not supported')
+    return
+  }
+
+  const baseUrl = import.meta.env.BASE_URL
+  const artworkUrl = `${baseUrl}audio-test-artwork.svg` // Reuse existing artwork
+
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: lessonTitle,
+    artist: `Learning ${teaching}`,
+    album: `Language Learning - ${learning}`,
+    artwork: [
+      { src: artworkUrl, sizes: '512x512', type: 'image/svg+xml' }
+    ]
+  })
+
+  navigator.mediaSession.setActionHandler('play', () => {
+    console.log('🎵 Media Session: play')
+    play({ readAnswers: true }) // Resume playback
+  })
+
+  navigator.mediaSession.setActionHandler('pause', () => {
+    console.log('⏸️ Media Session: pause')
+    pause()
+  })
+
+  navigator.mediaSession.setActionHandler('previoustrack', () => {
+    console.log('⏮️ Media Session: previous')
+    skipToPrevious({ readAnswers: true })
+  })
+
+  navigator.mediaSession.setActionHandler('nexttrack', () => {
+    console.log('⏭️ Media Session: next')
+    skipToNext({ readAnswers: true })
+  })
+
+  console.log('✅ Media Session API configured')
+}
+
 // Initialize audio queue for a lesson
 async function initializeAudio(lesson, learning, teaching, settings) {
   console.log('🎼 Initializing audio for lesson:', lesson.title)
   console.log('🌍 Languages:', { learning, teaching })
-  console.log('⚙️ Settings:', settings)
+  console.log('📖 Lesson number:', lesson.number)
+  console.log('📁 Lesson filename:', lesson._filename)
+  console.log('🎵 Audio speed:', settings.audioSpeed)
+
+  lessonTitle.value = lesson.title
+  lessonMetadata.value = { learning, teaching, number: lesson.number }
 
   readingQueue.value = buildReadingQueue(lesson, learning, teaching, settings)
 
   console.log('📋 Built reading queue with', readingQueue.value.length, 'items')
   console.log('📋 First 5 items:', readingQueue.value.slice(0, 5).map(item => ({
     type: item.type,
-    text: item.text.substring(0, 40) + '...',
-    lang: item.lang
+    text: item.text?.substring(0, 40) + '...',
+    audioUrl: item.audioUrl
   })))
+
+  // Pre-load all audio files
+  audioElements.value = await preloadAudioFiles(readingQueue.value)
 
   currentItemIndex.value = -1
   isPlaying.value = false
   isPaused.value = false
+  currentAudio.value = null
 
-  // Create or get audio element
-  if (!audioElement.value) {
-    audioElement.value = new Audio()
-    audioElement.value.addEventListener('ended', onAudioEnded)
-  }
+  // Setup Media Session API
+  setupMediaSession(lesson.title, learning, teaching)
 
-  // Load voices once for this lesson's languages
-  const learningLang = getLanguageCode(learning) || 'de-DE'
-  const teachingLang = getTopicCode(learning, teaching) || 'pt-PT'
-  const languageCodes = [learningLang, teachingLang]
-
-  console.log('🔊 Pre-loading voices for:', languageCodes)
-  await ensureVoicesLoaded(languageCodes)
-  console.log('✅ Voices ready for playback')
-}
-
-// Current utterance being spoken
-let currentUtterance = null
-
-// Check for voices that support specific language codes
-function checkVoicesForLanguages(languages) {
-  const voices = window.speechSynthesis.getVoices()
-  console.log(`🔍 Checking ${voices.length} voices for languages:`, languages)
-
-  const voicesByLang = {}
-
-  for (const lang of languages) {
-    // Find voices that match this language code
-    // Match both exact (pt-PT) and partial (pt)
-    const matchingVoices = voices.filter(voice => {
-      const voiceLang = voice.lang.toLowerCase()
-      const targetLang = lang.toLowerCase()
-      return voiceLang === targetLang || voiceLang.startsWith(targetLang.split('-')[0])
-    })
-
-    voicesByLang[lang] = matchingVoices
-
-    if (matchingVoices.length > 0) {
-      console.log(`  ✅ ${lang}: Found ${matchingVoices.length} voice(s)`)
-      console.log(`     → ${matchingVoices.map(v => `${v.name} (${v.lang})`).join(', ')}`)
-    } else {
-      console.warn(`  ⚠️ ${lang}: No voices found!`)
-    }
-  }
-
-  return voicesByLang
-}
-
-// Ensure voices are loaded (needed for desktop browsers) - call once during initialization
-function ensureVoicesLoaded(languages) {
-  console.log('🔍 Loading voices for languages:', languages)
-  return new Promise((resolve) => {
-    const voices = window.speechSynthesis.getVoices()
-    console.log('🔊 Total voices available:', voices.length)
-
-    if (voices.length > 0) {
-      console.log('✅ Voices already loaded')
-      const voicesByLang = checkVoicesForLanguages(languages)
-      availableVoices.value = voices
-      voicesReady.value = true
-      resolve(voicesByLang)
-    } else {
-      console.log('⏳ Waiting for voices to load...')
-      // Wait for voices to be loaded
-      window.speechSynthesis.onvoiceschanged = () => {
-        const loadedVoices = window.speechSynthesis.getVoices()
-        console.log('✅ Voices loaded via onvoiceschanged:', loadedVoices.length)
-        const voicesByLang = checkVoicesForLanguages(languages)
-        availableVoices.value = loadedVoices
-        voicesReady.value = true
-        resolve(voicesByLang)
-      }
-      // Fallback timeout
-      setTimeout(() => {
-        const timeoutVoices = window.speechSynthesis.getVoices()
-        console.log('⏰ Voices loaded via timeout:', timeoutVoices.length)
-        const voicesByLang = checkVoicesForLanguages(languages)
-        availableVoices.value = timeoutVoices
-        voicesReady.value = true
-        resolve(voicesByLang)
-      }, 1000)
-    }
-  })
-}
-
-// Play current item (used when resuming from pause)
-async function playCurrentItem(settings) {
-  console.log('🔁 playCurrentItem called (resuming from pause)', {
-    currentIndex: currentItemIndex.value,
-    queueLength: readingQueue.value.length,
-    isPlaying: isPlaying.value
-  })
-
-  if (currentItemIndex.value < 0 || currentItemIndex.value >= readingQueue.value.length) {
-    console.warn('⚠️ Invalid currentItemIndex, stopping')
-    stop()
-    return
-  }
-
-  const item = readingQueue.value[currentItemIndex.value]
-
-  console.log('🎤 Playing item (resumed):', {
-    index: currentItemIndex.value,
-    type: item.type,
-    text: item.text,
-    lang: item.lang,
-    rate: settings.audioSpeed || 1.0
-  })
-
-  try {
-    // Use Web Speech API directly (voices already loaded during initialization)
-    currentUtterance = new SpeechSynthesisUtterance(item.text)
-    currentUtterance.lang = item.lang
-    currentUtterance.rate = settings.audioSpeed || 1.0
-
-    // Use selected voice if available
-    if (settings.selectedVoices && settings.selectedVoices[item.lang]) {
-      const selectedVoiceName = settings.selectedVoices[item.lang]
-      const voice = availableVoices.value.find(v => v.name === selectedVoiceName)
-      if (voice) {
-        currentUtterance.voice = voice
-        console.log(`🎤 Using selected voice: ${voice.name} for ${item.lang}`)
-      }
-    }
-
-    currentUtterance.onstart = () => {
-      console.log('▶️ Speech started (resumed) for:', item.text.substring(0, 50))
-    }
-
-    currentUtterance.onend = () => {
-      console.log('⏹️ Speech ended (resumed) for:', item.text.substring(0, 50))
-      if (isPlaying.value) {
-        playNextItem(settings)
-      }
-    }
-
-    currentUtterance.onerror = (event) => {
-      console.error('❌ Speech synthesis error (resumed):', event.error, event)
-      // If error is 'canceled', handle based on state
-      if (event.error === 'canceled') {
-        if (isJumping) {
-          console.log('🦘 Speech was canceled due to jump, ignoring')
-          // Don't auto-continue - jumpToExample will handle it
-        } else if (isPlaying.value) {
-          console.log('⚠️ Speech was canceled while playing, continuing to next item...')
-          setTimeout(() => playNextItem(settings), 100)
-        } else if (isPaused.value) {
-          console.log('⏸️ Speech was canceled due to pause, keeping position')
-          // Don't call stop() - we want to keep the position
-        } else {
-          console.log('🛑 Speech was canceled, stopping')
-          stop()
-        }
-      } else {
-        // Non-cancel errors always stop
-        stop()
-      }
-    }
-
-    // Only cancel if something is actually speaking
-    if (window.speechSynthesis.speaking) {
-      console.log('🛑 Canceling ongoing speech')
-      window.speechSynthesis.cancel()
-      // Add a small delay to let the cancel complete
-      await new Promise(resolve => setTimeout(resolve, 50))
-    }
-
-    // Speak
-    console.log('📢 Calling speechSynthesis.speak() (resumed)', currentUtterance.lang)
-    window.speechSynthesis.speak(currentUtterance)
-    console.log('📢 speechSynthesis.speak() called, speaking:', window.speechSynthesis.speaking, 'pending:', window.speechSynthesis.pending)
-
-  } catch (error) {
-    console.error('❌ Error playing audio (resumed):', error)
-    stop()
-  }
+  console.log('✅ Audio initialized')
 }
 
 // Play next item in queue
@@ -315,98 +206,179 @@ async function playNextItem(settings) {
   console.log('🎤 Playing item:', {
     index: currentItemIndex.value,
     type: item.type,
-    text: item.text,
-    lang: item.lang,
-    rate: settings.audioSpeed || 1.0
+    text: item.text
   })
 
-  try {
-    // Use Web Speech API directly (voices already loaded during initialization)
-    currentUtterance = new SpeechSynthesisUtterance(item.text)
-    currentUtterance.lang = item.lang
-    currentUtterance.rate = settings.audioSpeed || 1.0
+  // Skip if no audio URL
+  if (!item.audioUrl) {
+    console.log('⏭️ No audio URL, skipping to next item')
+    playNextItem(settings)
+    return
+  }
 
-    // Use selected voice if available
-    if (settings.selectedVoices && settings.selectedVoices[item.lang]) {
-      const selectedVoiceName = settings.selectedVoices[item.lang]
-      const voice = availableVoices.value.find(v => v.name === selectedVoiceName)
-      if (voice) {
-        currentUtterance.voice = voice
-        console.log(`🎤 Using selected voice: ${voice.name} for ${item.lang}`)
+  try {
+    // Get pre-loaded audio element
+    const audio = audioElements.value[item.audioUrl]
+
+    if (!audio) {
+      console.warn('⚠️ Audio not found for:', item.audioUrl, '- skipping')
+      playNextItem(settings)
+      return
+    }
+
+    currentAudio.value = audio
+
+    // Reset to beginning
+    audio.currentTime = 0
+
+    // Apply playback speed from settings
+    audio.playbackRate = settings.audioSpeed || 1.0
+    console.log(`🎵 Setting playback speed to ${audio.playbackRate}x`)
+
+    // Set up event handlers
+    audio.onended = () => {
+      console.log('⏹️ Audio ended for:', item.text?.substring(0, 50))
+      if (isPlaying.value) {
+        // Check if this is the end of an example (question or answer)
+        // If so, add 800ms pause before continuing
+        const isEndOfExample = item.type === 'answer' ||
+          (item.type === 'question' && !settings.readAnswers)
+
+        if (isEndOfExample) {
+          // Check if next item is in a different section
+          const nextItem = readingQueue.value[currentItemIndex.value + 1]
+          const isSectionChange = nextItem && nextItem.sectionIdx !== item.sectionIdx
+          const pauseDuration = isSectionChange ? 1800 : 800 // 1800ms between sections, 800ms between examples
+
+          console.log(`⏸️ Adding ${pauseDuration}ms pause ${isSectionChange ? 'between sections' : 'between examples'}`)
+          setTimeout(() => {
+            if (isPlaying.value) {
+              playNextItem(settings)
+            }
+          }, pauseDuration)
+        } else {
+          playNextItem(settings)
+        }
       }
     }
 
-    currentUtterance.onstart = () => {
-      console.log('▶️ Speech started for:', item.text.substring(0, 50))
-    }
-
-    currentUtterance.onend = () => {
-      console.log('⏹️ Speech ended for:', item.text.substring(0, 50))
+    audio.onerror = (e) => {
+      console.error('❌ Audio playback error:', e)
+      // Skip to next on error
       if (isPlaying.value) {
         playNextItem(settings)
       }
     }
 
-    currentUtterance.onerror = (event) => {
-      console.error('❌ Speech synthesis error:', event.error, event)
-      // If error is 'canceled', handle based on state
-      if (event.error === 'canceled') {
-        if (isJumping) {
-          console.log('🦘 Speech was canceled due to jump, ignoring')
-          // Don't auto-continue - jumpToExample will handle it
-        } else if (isPlaying.value) {
-          console.log('⚠️ Speech was canceled while playing, continuing to next item...')
-          setTimeout(() => playNextItem(settings), 100)
-        } else if (isPaused.value) {
-          console.log('⏸️ Speech was canceled due to pause, keeping position')
-          // Don't call stop() - we want to keep the position
-        } else {
-          console.log('🛑 Speech was canceled, stopping')
-          stop()
-        }
-      } else {
-        // Non-cancel errors always stop
-        stop()
-      }
-    }
-
-    // Only cancel if something is actually speaking
-    if (window.speechSynthesis.speaking) {
-      console.log('🛑 Canceling ongoing speech')
-      window.speechSynthesis.cancel()
-      // Add a small delay to let the cancel complete
-      await new Promise(resolve => setTimeout(resolve, 50))
-    }
-
-    // Speak
-    console.log('📢 Calling speechSynthesis.speak()', currentUtterance.lang)
-    // window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(currentUtterance)
-    console.log('📢 speechSynthesis.speak() called, speaking:', window.speechSynthesis.speaking, 'pending:', window.speechSynthesis.pending)
+    // Play
+    await audio.play()
+    console.log('▶️ Playing audio:', item.audioUrl)
 
   } catch (error) {
     console.error('❌ Error playing audio:', error)
+    // Skip to next on error
+    if (isPlaying.value) {
+      playNextItem(settings)
+    }
+  }
+}
+
+// Play current item (used when resuming from pause)
+async function playCurrentItem(settings) {
+  console.log('🔁 playCurrentItem called (resuming from pause)', {
+    currentIndex: currentItemIndex.value,
+    queueLength: readingQueue.value.length,
+    isPlaying: isPlaying.value
+  })
+
+  if (currentItemIndex.value < 0 || currentItemIndex.value >= readingQueue.value.length) {
+    console.warn('⚠️ Invalid currentItemIndex, stopping')
     stop()
+    return
+  }
+
+  const item = readingQueue.value[currentItemIndex.value]
+
+  console.log('🎤 Playing item (resumed):', {
+    index: currentItemIndex.value,
+    type: item.type,
+    text: item.text
+  })
+
+  // Skip if no audio URL
+  if (!item.audioUrl) {
+    console.log('⏭️ No audio URL, skipping to next item')
+    playNextItem(settings)
+    return
+  }
+
+  try {
+    // Get pre-loaded audio element
+    const audio = audioElements.value[item.audioUrl]
+
+    if (!audio) {
+      console.warn('⚠️ Audio not found for:', item.audioUrl, '- skipping')
+      playNextItem(settings)
+      return
+    }
+
+    currentAudio.value = audio
+
+    // Apply playback speed from settings
+    audio.playbackRate = settings.audioSpeed || 1.0
+    console.log(`🎵 Setting playback speed to ${audio.playbackRate}x`)
+
+    // Set up event handlers
+    audio.onended = () => {
+      console.log('⏹️ Audio ended (resumed) for:', item.text?.substring(0, 50))
+      if (isPlaying.value) {
+        // Check if this is the end of an example (question or answer)
+        // If so, add 800ms pause before continuing
+        const isEndOfExample = item.type === 'answer' ||
+          (item.type === 'question' && !settings.readAnswers)
+
+        if (isEndOfExample) {
+          // Check if next item is in a different section
+          const nextItem = readingQueue.value[currentItemIndex.value + 1]
+          const isSectionChange = nextItem && nextItem.sectionIdx !== item.sectionIdx
+          const pauseDuration = isSectionChange ? 1800 : 800 // 1800ms between sections, 800ms between examples
+
+          console.log(`⏸️ Adding ${pauseDuration}ms pause ${isSectionChange ? 'between sections' : 'between examples'}`)
+          setTimeout(() => {
+            if (isPlaying.value) {
+              playNextItem(settings)
+            }
+          }, pauseDuration)
+        } else {
+          playNextItem(settings)
+        }
+      }
+    }
+
+    audio.onerror = (e) => {
+      console.error('❌ Audio playback error (resumed):', e)
+      // Skip to next on error
+      if (isPlaying.value) {
+        playNextItem(settings)
+      }
+    }
+
+    // Play from current position (resume)
+    await audio.play()
+    console.log('▶️ Resumed audio:', item.audioUrl)
+
+  } catch (error) {
+    console.error('❌ Error playing audio (resumed):', error)
+    // Skip to next on error
+    if (isPlaying.value) {
+      playNextItem(settings)
+    }
   }
 }
 
 // Start playing from beginning or continue
 function play(settings) {
   console.log('🎬 Play button pressed')
-
-  // Check browser support
-  if (!('speechSynthesis' in window)) {
-    console.error('❌ Web Speech API not supported in this browser')
-    alert('Text-to-speech is not supported in your browser')
-    return
-  }
-
-  console.log('✅ Browser supports Web Speech API')
-  console.log('📋 Reading queue:', readingQueue.value.length, 'items')
-  console.log('📋 Queue preview:', readingQueue.value.slice(0, 5).map(item => ({
-    type: item.type,
-    text: item.text.substring(0, 30) + '...'
-  })))
 
   if (readingQueue.value.length === 0) {
     console.warn('⚠️ No items in reading queue')
@@ -423,7 +395,7 @@ function play(settings) {
   console.log('🎯 Resuming from pause:', wasResuming)
 
   if (wasResuming) {
-    // Resume from where we paused - replay the current item
+    // Resume from where we paused
     console.log('✅ RESUMING - calling playCurrentItem')
     playCurrentItem(settings)
   } else {
@@ -433,19 +405,21 @@ function play(settings) {
   }
 }
 
-// Pause playback (actually stops and maintains position)
+// Pause playback
 function pause() {
   console.log('⏸️ Pausing at index:', currentItemIndex.value)
-  // Set state BEFORE canceling so error handler sees isPaused=true
   isPlaying.value = false
   isPaused.value = true
-  console.log('⏸️ State set - isPaused:', isPaused.value, 'isPlaying:', isPlaying.value)
-  // Stop speaking but don't reset position
-  window.speechSynthesis.cancel()
+
+  // Pause current audio
+  if (currentAudio.value) {
+    currentAudio.value.pause()
+  }
+
   console.log('⏸️ Paused - position saved at:', currentItemIndex.value)
 }
 
-// Resume playback (not used anymore, use play instead)
+// Resume playback (alias for play)
 function resume(settings) {
   play(settings)
 }
@@ -455,8 +429,54 @@ function stop() {
   isPlaying.value = false
   isPaused.value = false
   currentItemIndex.value = -1
-  window.speechSynthesis.cancel()
-  currentUtterance = null
+
+  // Stop current audio
+  if (currentAudio.value) {
+    currentAudio.value.pause()
+    currentAudio.value.currentTime = 0
+  }
+
+  currentAudio.value = null
+  console.log('🛑 Stopped')
+}
+
+// Skip to next item
+function skipToNext(settings) {
+  console.log('⏭️ Skip to next')
+
+  if (currentItemIndex.value >= readingQueue.value.length - 1) {
+    console.log('⚠️ Already at end of queue')
+    return
+  }
+
+  // Stop current audio
+  if (currentAudio.value) {
+    currentAudio.value.pause()
+  }
+
+  // Play next item
+  playNextItem(settings)
+}
+
+// Skip to previous item
+function skipToPrevious(settings) {
+  console.log('⏮️ Skip to previous')
+
+  if (currentItemIndex.value <= 0) {
+    console.log('⚠️ Already at start of queue')
+    return
+  }
+
+  // Stop current audio
+  if (currentAudio.value) {
+    currentAudio.value.pause()
+  }
+
+  // Go back one item
+  currentItemIndex.value--
+
+  // Play current item
+  playCurrentItem(settings)
 }
 
 // Play a single item (for clicking on examples)
@@ -464,82 +484,68 @@ async function playSingleItem(index, settings) {
   console.log('👆 Clicked on example, playing single item at index:', index)
 
   const item = readingQueue.value[index]
-  if (!item) {
-    console.warn('⚠️ No item found at index:', index)
+  if (!item || !item.audioUrl) {
+    console.warn('⚠️ No audio found for item at index:', index)
     return
   }
 
   console.log('🎤 Single item:', {
     type: item.type,
-    text: item.text,
-    lang: item.lang
+    text: item.text
   })
 
-  // Create utterance (voices already loaded during initialization)
-  const utterance = new SpeechSynthesisUtterance(item.text)
-  utterance.lang = item.lang
-  utterance.rate = settings.audioSpeed || 1.0
+  try {
+    // Get pre-loaded audio element
+    const audio = audioElements.value[item.audioUrl]
 
-  // Use selected voice if available
-  if (settings.selectedVoices && settings.selectedVoices[item.lang]) {
-    const selectedVoiceName = settings.selectedVoices[item.lang]
-    const voice = availableVoices.value.find(v => v.name === selectedVoiceName)
-    if (voice) {
-      utterance.voice = voice
-      console.log(`🎤 Using selected voice: ${voice.name} for ${item.lang}`)
+    if (!audio) {
+      console.warn('⚠️ Audio not found for:', item.audioUrl)
+      return
     }
-  }
 
-  utterance.onstart = () => {
-    console.log('▶️ Single item speech started')
-  }
+    // Stop any current audio
+    if (currentAudio.value && currentAudio.value !== audio) {
+      currentAudio.value.pause()
+    }
 
-  // When done, check if we should play the answer too
-  utterance.onend = () => {
-    console.log('⏹️ Single item speech ended')
-    // If there's an answer right after this (next item), play it too
-    const nextItem = readingQueue.value[index + 1]
-    if (nextItem &&
-        nextItem.sectionIdx === item.sectionIdx &&
-        nextItem.exampleIdx === item.exampleIdx &&
-        nextItem.type === 'answer') {
-      const answerUtterance = new SpeechSynthesisUtterance(nextItem.text)
-      answerUtterance.lang = nextItem.lang
-      answerUtterance.rate = settings.audioSpeed || 1.0
+    currentAudio.value = audio
+    audio.currentTime = 0
 
-      // Use selected voice if available
-      if (settings.selectedVoices && settings.selectedVoices[nextItem.lang]) {
-        const selectedVoiceName = settings.selectedVoices[nextItem.lang]
-        const voice = availableVoices.value.find(v => v.name === selectedVoiceName)
-        if (voice) {
-          answerUtterance.voice = voice
+    // Apply playback speed from settings
+    audio.playbackRate = settings.audioSpeed || 1.0
+
+    // Set up event handlers
+    audio.onended = () => {
+      console.log('⏹️ Single item audio ended')
+
+      // If there's an answer right after this (next item), play it too
+      const nextItem = readingQueue.value[index + 1]
+      if (nextItem &&
+          nextItem.sectionIdx === item.sectionIdx &&
+          nextItem.exampleIdx === item.exampleIdx &&
+          nextItem.type === 'answer' &&
+          nextItem.audioUrl) {
+
+        const nextAudio = audioElements.value[nextItem.audioUrl]
+        if (nextAudio) {
+          console.log('📢 Playing answer too')
+          nextAudio.currentTime = 0
+          nextAudio.play().catch(e => console.error('Error playing answer:', e))
         }
       }
-
-      console.log('📢 Playing answer too:', nextItem.text.substring(0, 30), answerUtterance.lang)
-      window.speechSynthesis.speak(answerUtterance)
     }
-  }
 
-  utterance.onerror = (event) => {
-    console.error('❌ Single item speech synthesis error:', event.error, event)
-    // Don't stop completely for canceled errors on single items
-    if (event.error !== 'canceled') {
-      console.log('⚠️ Non-canceled error on single item, stopping')
+    audio.onerror = (e) => {
+      console.error('❌ Single item audio error:', e)
     }
-  }
 
-  // Only cancel if something is actually speaking
-  if (window.speechSynthesis.speaking) {
-    console.log('🛑 Canceling ongoing speech for single item')
-    window.speechSynthesis.cancel()
-    // Add a small delay to let the cancel complete
-    await new Promise(resolve => setTimeout(resolve, 50))
-  }
+    // Play
+    await audio.play()
+    console.log('▶️ Playing single item:', item.audioUrl)
 
-  // Speak
-  console.log('📢 Speaking single item', utterance.lang)
-  window.speechSynthesis.speak(utterance)
+  } catch (error) {
+    console.error('❌ Error playing single item:', error)
+  }
 }
 
 // Jump to specific example
@@ -556,21 +562,18 @@ function jumpToExample(sectionIdx, exampleIdx, settings) {
 
     if (isPlaying.value) {
       // Continue playing from this point
-      // Set index and cancel current speech - let it continue naturally
-      currentItemIndex.value = index
-      console.log('▶️ Set index to', index, 'and playing current item')
-      isJumping = true // Prevent error handler from auto-continuing
-      window.speechSynthesis.cancel()
-      // Wait a bit for cancel to complete, then play from this position
-      setTimeout(() => {
-        isJumping = false
-        playCurrentItem(settings)
-      }, 150)
+      // Stop current audio
+      if (currentAudio.value) {
+        currentAudio.value.pause()
+      }
+
+      currentItemIndex.value = index - 1 // Set to one before so playNextItem picks it up
+      console.log('▶️ Jumping to index', index, 'while playing')
+      playNextItem(settings)
     } else {
       // Paused or stopped - play this example once and update position
       console.log('⏸️ Playing single item and updating position to', index)
       currentItemIndex.value = index
-      // Play this example but stay paused
       playSingleItem(index, settings)
     }
   }
@@ -584,20 +587,23 @@ const currentItem = computed(() => {
   return null
 })
 
-// Handle audio ended event
-function onAudioEnded() {
-  if (isPlaying.value && !isPaused.value) {
-    playNextItem({ audioSpeed: 1.0 }) // Will be replaced with actual settings
-  }
-}
-
 // Cleanup
 function cleanup() {
   stop()
-  if (audioElement.value) {
-    audioElement.value.removeEventListener('ended', onAudioEnded)
-    audioElement.value = null
-  }
+
+  // Clean up all audio elements
+  Object.values(audioElements.value).forEach(audio => {
+    if (audio) {
+      audio.pause()
+      audio.src = ''
+    }
+  })
+
+  audioElements.value = []
+  readingQueue.value = []
+  currentAudio.value = null
+
+  console.log('🧹 Cleaned up audio')
 }
 
 export function useAudio() {
@@ -613,9 +619,8 @@ export function useAudio() {
     resume,
     stop,
     jumpToExample,
-    cleanup,
-    availableVoices,
-    voicesReady,
-    checkVoicesForLanguages
+    skipToNext,
+    skipToPrevious,
+    cleanup
   }
 }

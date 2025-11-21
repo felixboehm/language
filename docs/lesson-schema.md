@@ -2,7 +2,9 @@
 
 ## Overview
 
-This document describes the generic lesson schema used for language learning. The schema is designed to be flexible and support learning any language pair or educational content.
+This document describes the structure of individual lesson YAML files used for language learning content. The schema is designed to be flexible and support learning any language pair or educational content.
+
+> **Note**: This document covers individual lesson files only. For information about the index files that organize lessons (`languages.yaml`, `topics.yaml`, `lessons.yaml`), see [YAML Schemas Documentation](yaml-schemas.md).
 
 ## Format
 
@@ -12,29 +14,44 @@ Lessons are stored in **YAML** format for human readability and ease of editing.
 
 ```
 lessons/
-├── deutsch/                    # Learning language
-│   ├── portugiesisch/         # Teaching language
-│   │   ├── 01-basics.yaml
+├── languages.yaml              # Root index: lists all languages
+├── deutsch/                    # Language folder
+│   ├── topics.yaml            # Lists topics for this language
+│   ├── portugiesisch/         # Topic folder
+│   │   ├── lessons.yaml       # Lists lesson files
+│   │   ├── 01-basics.yaml     # Individual lesson files
 │   │   ├── 02-verbs.yaml
 │   │   └── ...
 │   └── englisch/
+│       ├── lessons.yaml
 │       ├── 01-greetings.yaml
 │       └── ...
-├── english/                    # Learning language
-│   ├── portugese/             # Teaching language
+├── english/                    # Another language folder
+│   ├── topics.yaml
+│   ├── german/                # Topic folder
+│   │   ├── lessons.yaml
 │   │   └── ...
-│   └── math-algebra/          # Non-language topics
+│   └── math-algebra/          # Non-language topics also supported
+│       ├── lessons.yaml
 │       └── ...
-└── [learning-language]/
-    └── [teaching-language-or-topic]/
-        └── ...
+└── ...
 ```
 
-Lessons are organized in a two-level hierarchy:
-1. **First level** (`learning`): The language you're learning in (e.g., `deutsch`, `english`)
-2. **Second level** (`teaching`): The language or topic being taught (e.g., `portugiesisch`, `englisch`, `math-algebra`)
+Lessons are organized in a **three-level hierarchy**:
 
-This structure allows for maximum flexibility - you can learn Portuguese from a German perspective (`deutsch/portugiesisch/`) or from an English perspective (`english/portugese/`), or even learn non-language topics like `english/driver-license/`.
+**Hierarchy**: Language → Topic → Lesson
+
+1. **Root level**: `languages.yaml` defines available languages (interface languages)
+2. **Language level**: Each language folder contains `topics.yaml` listing available topics
+3. **Topic level**: Each topic folder contains `lessons.yaml` listing lesson files
+
+**Language vs. Topic**:
+- **Language** (`deutsch`, `english`): The interface/base language used for explanations
+- **Topic** (`portugiesisch`, `englisch`, `math-algebra`): The subject being taught
+
+This structure allows maximum flexibility - you can learn Portuguese in German (`deutsch/portugiesisch/`) or in English (`english/portugese/`), or even learn non-language topics like `english/driver-license/`.
+
+See [yaml-schemas.md](yaml-schemas.md) for detailed documentation on the index files.
 
 ## Lesson Structure
 
@@ -247,12 +264,12 @@ const futurExamples = getExamplesByLabel(lesson, "Futur");
 
 ## Folder Structure and Language Specification
 
-The language pair is determined by the folder structure, not by fields in the lesson file:
+The language and topic are determined by the folder structure, not by fields in the lesson file:
 
-- **Path**: `lessons/<learning>/<teaching>/lesson.yaml`
+- **Path**: `lessons/<language>/<topic>/lesson.yaml`
 - **Example**: `lessons/deutsch/portugiesisch/01-verbs.yaml`
-  - Learning language: German (deutsch)
-  - Teaching language: Portuguese (portugiesisch)
+  - Language: German (deutsch)
+  - Topic: Portuguese (portugiesisch)
 
 This allows the same lesson content to be reused in different contexts without modification.
 
@@ -266,7 +283,7 @@ This allows the same lesson content to be reused in different contexts without m
 6. **Add context** in rel items (part of speech, usage notes)
 7. **Progressive difficulty** - order lessons from simple to complex
 8. **Use labels** to categorize examples by grammar concepts
-9. **Organize folders** by learning/teaching language hierarchy
+9. **Organize folders** by language/topic hierarchy
 
 ## Schema Flexibility
 

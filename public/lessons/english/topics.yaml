@@ -1,0 +1,5 @@
+# Available teaching topics for German interface
+# This file lists all available languages/topics that can be learned through German
+topics:
+  - folder: german
+    code: de-DE
