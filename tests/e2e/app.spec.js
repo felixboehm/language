@@ -94,11 +94,7 @@ test.describe('Language Learning App', () => {
     // Verify dark mode persists after reload
     await expect(html).toHaveClass(/dark/);
 
-    // Clean up - disable dark mode
-    await settingsButton.click();
-    await page.waitForTimeout(500);
-    const darkModeSection2 = page.locator('text=Dark Mode').locator('..');
-    const darkModeToggle2 = darkModeSection2.locator('label.relative.inline-block');
-    await darkModeToggle2.click();
+    // Clean up - clear localStorage to reset settings
+    await page.evaluate(() => localStorage.clear());
   });
 });

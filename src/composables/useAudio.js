@@ -13,6 +13,7 @@ const audioElement = ref(null)
 const currentAudioBlob = ref(null)
 const voicesReady = ref(false)
 const availableVoices = ref([])
+let isJumping = false // Flag to prevent error handler from auto-continuing during jump
 
 // Convert text to speech blob using Web Speech API
 function textToSpeechBlob(text, lang, rate) {
@@ -255,7 +256,10 @@ async function playCurrentItem(settings) {
       console.error('❌ Speech synthesis error (resumed):', event.error, event)
       // If error is 'canceled', handle based on state
       if (event.error === 'canceled') {
-        if (isPlaying.value) {
+        if (isJumping) {
+          console.log('🦘 Speech was canceled due to jump, ignoring')
+          // Don't auto-continue - jumpToExample will handle it
+        } else if (isPlaying.value) {
           console.log('⚠️ Speech was canceled while playing, continuing to next item...')
           setTimeout(() => playNextItem(settings), 100)
         } else if (isPaused.value) {
@@ -347,7 +351,10 @@ async function playNextItem(settings) {
       console.error('❌ Speech synthesis error:', event.error, event)
       // If error is 'canceled', handle based on state
       if (event.error === 'canceled') {
-        if (isPlaying.value) {
+        if (isJumping) {
+          console.log('🦘 Speech was canceled due to jump, ignoring')
+          // Don't auto-continue - jumpToExample will handle it
+        } else if (isPlaying.value) {
           console.log('⚠️ Speech was canceled while playing, continuing to next item...')
           setTimeout(() => playNextItem(settings), 100)
         } else if (isPaused.value) {
@@ -552,11 +559,13 @@ function jumpToExample(sectionIdx, exampleIdx, settings) {
       // Set index and cancel current speech - let it continue naturally
       currentItemIndex.value = index
       console.log('▶️ Set index to', index, 'and playing current item')
+      isJumping = true // Prevent error handler from auto-continuing
       window.speechSynthesis.cancel()
       // Wait a bit for cancel to complete, then play from this position
       setTimeout(() => {
+        isJumping = false
         playCurrentItem(settings)
-      }, 100)
+      }, 150)
     } else {
       // Paused or stopped - play this example once and update position
       console.log('⏸️ Playing single item and updating position to', index)
