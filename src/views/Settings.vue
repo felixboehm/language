@@ -158,6 +158,25 @@
       </label>
     </div>
 
+    <!-- Debug Overlay Toggle -->
+    <div class="mb-6">
+      <label class="block font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg">
+        Show Debug Overlay
+      </label>
+      <div class="text-gray-600 dark:text-gray-400 text-sm mb-3">
+        Display playback information overlay (for troubleshooting)
+      </div>
+      <label class="relative inline-block w-14 h-8 cursor-pointer">
+        <input
+          type="checkbox"
+          v-model="settings.showDebugOverlay"
+          class="opacity-0 w-0 h-0 peer" />
+        <span
+          class="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-600 transition rounded-full peer-checked:bg-primary-500 before:content-[''] before:absolute before:h-6 before:w-6 before:left-1 before:bottom-1 before:bg-white before:transition before:rounded-full peer-checked:before:translate-x-6">
+        </span>
+      </label>
+    </div>
+
     <!-- Voice Selection -->
     <div v-if="voicesLoaded && availableLanguages.length > 0" class="mb-6">
       <label class="block font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg">

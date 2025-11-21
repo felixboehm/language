@@ -33,8 +33,11 @@
           @click="handleExampleClick(example)"
           :class="[
             'p-4 mb-3 rounded cursor-pointer transition',
-            isCurrentlyReading(example)
+            isCurrentlyReading(example) && isPlaying
               ? 'ring-4 ring-yellow-400 dark:ring-yellow-600'
+              : '',
+            isCurrentlyReading(example) && isPaused
+              ? 'ring-4 ring-orange-400 dark:ring-orange-600'
               : '',
             example.labels
               ? 'bg-blue-50 dark:bg-blue-900 dark:bg-opacity-20 border-l-4 border-blue-500'
@@ -94,6 +97,14 @@
       </div>
     </div>
 
+    <!-- Debug overlay (for iOS debugging) -->
+    <div v-if="lesson && settings.showDebugOverlay" class="fixed top-24 left-2 bg-black bg-opacity-75 text-white text-xs p-2 rounded z-40 font-mono max-w-xs">
+      <div>Playing: {{ isPlaying ? 'YES' : 'NO' }}</div>
+      <div>Paused: {{ isPaused ? 'YES' : 'NO' }}</div>
+      <div>Index: {{ currentItem ? currentItem.sectionIdx + '-' + currentItem.exampleIdx : 'none' }}</div>
+      <div v-if="currentItem" class="truncate">{{ currentItem.text.substring(0, 30) }}...</div>
+    </div>
+
     <!-- Floating play/pause button for mobile -->
     <button
       v-if="lesson"
@@ -120,7 +131,7 @@ const emit = defineEmits(['update-title'])
 const { loadAllLessonsForTopic } = useLessons()
 const { settings } = useSettings()
 const { isItemLearned, toggleItemLearned, areAllItemsLearned } = useProgress()
-const { isPlaying, currentItem, initializeAudio, jumpToExample, cleanup, play, pause } = useAudio()
+const { isPlaying, isPaused, currentItem, initializeAudio, jumpToExample, cleanup, play, pause } = useAudio()
 
 const lesson = ref(null)
 
