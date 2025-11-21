@@ -10,7 +10,8 @@ export default defineConfig(({ command }) => ({
   ],
   base: '/language/',
   server: {
-    https: command === 'serve' && !process.env.CI
+    https: command === 'serve' && !process.env.CI,
+    cors: true  // Enable CORS for cross-origin requests
   },
   preview: {
     port: 5173

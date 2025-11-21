@@ -18,13 +18,22 @@ lessons/
 ├── deutsch/                    # Language folder
 │   ├── topics.yaml            # Lists topics for this language
 │   ├── portugiesisch/         # Topic folder
-│   │   ├── lessons.yaml       # Lists lesson files
-│   │   ├── 01-basics.yaml     # Individual lesson files
-│   │   ├── 02-verbs.yaml
+│   │   ├── lessons.yaml       # Lists lesson folder names
+│   │   ├── 01-basics/         # Individual lesson folders
+│   │   │   ├── content.yaml   # Lesson content
+│   │   │   └── audio/         # Audio files for this lesson
+│   │   │       ├── title.mp3
+│   │   │       ├── 0-0-q.mp3
+│   │   │       └── 0-0-a.mp3
+│   │   ├── 02-verbs/
+│   │   │   ├── content.yaml
+│   │   │   └── audio/
 │   │   └── ...
 │   └── englisch/
 │       ├── lessons.yaml
-│       ├── 01-greetings.yaml
+│       ├── 01-greetings/
+│       │   ├── content.yaml
+│       │   └── audio/
 │       └── ...
 ├── english/                    # Another language folder
 │   ├── topics.yaml
@@ -58,11 +67,19 @@ See [yaml-schemas.md](yaml-schemas.md) for detailed documentation on the index f
 ### Top Level
 
 ```yaml
+version: 1                          # Lesson format version (integer, optional)
 number: 1                           # Lesson number (integer)
 title: "Lesson Title"               # Lesson title (string)
 description: "Brief description"    # Optional lesson description
 sections: [...]                     # Array of sections (see below)
 ```
+
+**Version Field**:
+- **version** (integer, optional): Lesson format version number
+- Current version: `1`
+- Used to track lesson format changes and ensure compatibility
+- Future versions may add or change fields
+- If omitted, assumed to be version 1
 
 ### Section Structure
 
@@ -264,14 +281,65 @@ const futurExamples = getExamplesByLabel(lesson, "Futur");
 
 ## Folder Structure and Language Specification
 
-The language and topic are determined by the folder structure, not by fields in the lesson file:
+Each lesson is self-contained in its own folder with content and audio files:
 
-- **Path**: `lessons/<language>/<topic>/lesson.yaml`
-- **Example**: `lessons/deutsch/portugiesisch/01-verbs.yaml`
+- **Path**: `lessons/<language>/<topic>/<lesson-folder>/`
+- **Content**: `lessons/<language>/<topic>/<lesson-folder>/content.yaml`
+- **Audio**: `lessons/<language>/<topic>/<lesson-folder>/audio/`
+- **Example**: `lessons/deutsch/portugiesisch/01-verbs/`
   - Language: German (deutsch)
   - Topic: Portuguese (portugiesisch)
+  - Lesson: 01-verbs
 
-This allows the same lesson content to be reused in different contexts without modification.
+This folder-based structure makes lessons **portable** and **self-contained**:
+- Each lesson folder can be shared independently
+- Audio files stay with their lesson content
+- Lessons can be hosted anywhere (local, IPFS, CDN) with just a URL to the folder
+- Easy to version control and distribute individual lessons
+
+## Audio Files
+
+Audio files for pronunciation are stored in the `audio/` subfolder within each lesson:
+
+### Audio File Naming Convention
+
+```
+<lesson-folder>/audio/
+├── title.mp3           # Lesson title
+├── 0-title.mp3         # Section 0 title
+├── 0-0-q.mp3          # Section 0, Example 0, Question
+├── 0-0-a.mp3          # Section 0, Example 0, Answer
+├── 0-1-q.mp3          # Section 0, Example 1, Question
+├── 0-1-a.mp3          # Section 0, Example 1, Answer
+├── 1-title.mp3         # Section 1 title
+├── 1-0-q.mp3          # Section 1, Example 0, Question
+└── ...
+```
+
+### Generating Audio
+
+Use the `generate-audio.sh` script to automatically create audio files:
+
+```bash
+# Generate audio for all lessons
+./generate-audio.sh
+
+# Force regenerate all audio
+./generate-audio.sh -f
+
+# Generate audio for a single lesson
+./generate-audio.sh public/lessons/deutsch/portugiesisch/01-verbs/
+
+# Force regenerate single lesson
+./generate-audio.sh -f public/lessons/deutsch/portugiesisch/01-verbs/
+```
+
+The script uses:
+- **yq** for YAML parsing
+- **macOS `say`** for text-to-speech
+- **ffmpeg** for MP3 conversion
+
+Audio files are automatically generated based on the language codes defined in `topics.yaml` and `languages.yaml`.
 
 ## Best Practices
 

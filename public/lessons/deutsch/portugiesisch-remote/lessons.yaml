@@ -1,0 +1,15 @@
+# Portuguese lessons via remote URLs (for testing URL-based loading)
+# These URLs point to the GitHub Pages deployment
+# This demonstrates how lessons can be loaded from remote sources
+lessons:
+  # All lessons loaded via URL (pointing to GitHub Pages)
+  - url: https://felixboehm.github.io/language/lessons/deutsch/portugiesisch/01-essential-verbs
+  - url: https://felixboehm.github.io/language/lessons/deutsch/portugiesisch/02-action-verbs
+  - url: https://felixboehm.github.io/language/lessons/deutsch/portugiesisch/03-modal-communication
+  - url: https://felixboehm.github.io/language/lessons/deutsch/portugiesisch/04-perception-knowledge
+  - url: https://felixboehm.github.io/language/lessons/deutsch/portugiesisch/05-desire-preference
+  - url: https://felixboehm.github.io/language/lessons/deutsch/portugiesisch/06-carrying-meeting
+  - url: https://felixboehm.github.io/language/lessons/deutsch/portugiesisch/07-thinking-speaking
+  - url: https://felixboehm.github.io/language/lessons/deutsch/portugiesisch/08-looking-asking
+  - url: https://felixboehm.github.io/language/lessons/deutsch/portugiesisch/09-arriving-obligation
+  - url: https://felixboehm.github.io/language/lessons/deutsch/portugiesisch/10-following-beginning
