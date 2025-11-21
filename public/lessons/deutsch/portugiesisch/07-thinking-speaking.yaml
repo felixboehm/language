@@ -1,0 +1,239 @@
+number: 7
+title: "Denken und Sprechen - Denken, Sprechen, Hören"
+description: "Die Verben pensar, falar und ouvir mit allen Konjugationen"
+sections:
+  - title: "Pensar"
+    explanation: |
+      **Pensar** bedeutet **denken**:
+      - Nachdenken, überlegen
+      - Meinen, glauben (penso que = ich denke dass)
+      - An etwas denken (pensar em)
+
+      **Konjugation Präsens**:
+      - eu penso (ich denke)
+      - tu pensas (du denkst)
+      - ele/ela/você pensa (er/sie denkt)
+      - nós pensamos (wir denken)
+      - vós pensais (ihr denkt)
+      - eles/elas pensam (sie denken)
+      - **Gerúndio**: pensando (denkend)
+    examples:
+      - q: "Eu penso muito."
+        a: "Ich denke viel."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["penso", "denke", "pensar - ich denke"]
+          - ["muito", "viel", "Adverb"]
+
+      - q: "Tu pensas em mim?"
+        a: "Denkst du an mich?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["pensas", "denkst", "pensar - du denkst"]
+          - ["em mim", "an mich", "Präposition + Pronomen"]
+
+      - q: "Ele pensa que é fácil."
+        a: "Er denkt, dass es einfach ist."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["pensa", "denkt", "pensar - er/sie denkt"]
+          - ["fácil", "einfach", "Adjektiv"]
+
+      - q: "Nós pensamos no futuro."
+        a: "Wir denken an die Zukunft."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["pensamos", "denken", "pensar - wir denken"]
+          - ["futuro", "Zukunft", "Substantiv"]
+
+      - q: "Vós pensais bem?"
+        a: "Denkt ihr gut nach?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["pensais", "denkt", "pensar - ihr denkt"]
+          - ["bem", "gut", "Adverb"]
+
+      - q: "Eles pensam o mesmo."
+        a: "Sie denken dasselbe."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["pensam", "denken", "pensar - sie denken"]
+          - ["mesmo", "dasselbe", "Pronomen"]
+
+      - q: "Pensando nisso, mudo de ideia."
+        a: "Darüber nachdenkend, ändere ich meine Meinung."
+        labels: ["Gerúndio"]
+        rel:
+          - ["pensando", "denkend", "pensar - Gerundium"]
+          - ["nisso", "darüber", "Pronomen"]
+          - ["ideia", "Meinung/Idee", "Substantiv"]
+
+  - title: "Falar"
+    explanation: |
+      **Falar** bedeutet **sprechen/reden**:
+      - Sprechen, reden
+      - Eine Sprache sprechen
+      - Über etwas reden (falar de/sobre)
+
+      **Konjugation Präsens**:
+      - eu falo (ich spreche)
+      - tu falas (du sprichst)
+      - ele/ela/você fala (er/sie spricht)
+      - nós falamos (wir sprechen)
+      - vós falais (ihr sprecht)
+      - eles/elas falam (sie sprechen)
+      - **Gerúndio**: falando (sprechend)
+    examples:
+      - q: "Eu falo português."
+        a: "Ich spreche Portugiesisch."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["falo", "spreche", "falar - ich spreche"]
+          - ["português", "Portugiesisch", "Sprache"]
+
+      - q: "Tu falas muito alto."
+        a: "Du sprichst sehr laut."
+        labels: ["Präsens", "2. Person Singular"]
+        rel:
+          - ["falas", "sprichst", "falar - du sprichst"]
+          - ["alto", "laut", "Adverb"]
+
+      - q: "Ela fala com o chefe."
+        a: "Sie spricht mit dem Chef."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["fala", "spricht", "falar - er/sie spricht"]
+          - ["chefe", "Chef", "Substantiv - Beruf"]
+
+      - q: "Nós falamos sobre política."
+        a: "Wir reden über Politik."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["falamos", "reden", "falar - wir sprechen"]
+          - ["sobre", "über", "Präposition"]
+          - ["política", "Politik", "Substantiv"]
+
+      - q: "Vós falais a verdade?"
+        a: "Sprecht ihr die Wahrheit?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["falais", "sprecht", "falar - ihr sprecht"]
+          - ["verdade", "Wahrheit", "Substantiv"]
+
+      - q: "Eles falam inglês bem."
+        a: "Sie sprechen gut Englisch."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["falam", "sprechen", "falar - sie sprechen"]
+          - ["inglês", "Englisch", "Sprache"]
+
+      - q: "Falando assim, ofendes as pessoas."
+        a: "So redend, beleidigst du die Leute."
+        labels: ["Gerúndio"]
+        rel:
+          - ["falando", "redend", "falar - Gerundium"]
+          - ["assim", "so", "Adverb"]
+          - ["pessoas", "Leute", "Substantiv"]
+
+  - title: "Ouvir"
+    explanation: |
+      **Ouvir** bedeutet **hören**:
+      - Hören, zuhören
+      - Auf jemanden hören
+      - Musik hören
+
+      **Konjugation Präsens**:
+      - eu ouço (ich höre)
+      - tu ouves (du hörst)
+      - ele/ela/você ouve (er/sie hört)
+      - nós ouvimos (wir hören)
+      - vós ouvis (ihr hört)
+      - eles/elas ouvem (sie hören)
+      - **Gerúndio**: ouvindo (hörend)
+    examples:
+      - q: "Eu ouço música."
+        a: "Ich höre Musik."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["ouço", "höre", "ouvir - ich höre"]
+          - ["música", "Musik", "Substantiv"]
+
+      - q: "Tu ouves um barulho?"
+        a: "Hörst du ein Geräusch?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["ouves", "hörst", "ouvir - du hörst"]
+          - ["barulho", "Geräusch", "Substantiv"]
+
+      - q: "Ela ouve a rádio."
+        a: "Sie hört Radio."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["ouve", "hört", "ouvir - er/sie hört"]
+          - ["rádio", "Radio", "Substantiv"]
+
+      - q: "Nós ouvimos a notícia."
+        a: "Wir hören die Nachricht."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["ouvimos", "hören", "ouvir - wir hören"]
+          - ["notícia", "Nachricht", "Substantiv"]
+
+      - q: "Vós ouvis os pássaros?"
+        a: "Hört ihr die Vögel?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["ouvis", "hört", "ouvir - ihr hört"]
+          - ["pássaros", "Vögel", "Substantiv - Tier"]
+
+      - q: "Eles ouvem conselhos."
+        a: "Sie hören auf Ratschläge."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["ouvem", "hören", "ouvir - sie hören"]
+          - ["conselhos", "Ratschläge", "Substantiv"]
+
+      - q: "Ouvindo isso, fico triste."
+        a: "Das hörend, werde ich traurig."
+        labels: ["Gerúndio"]
+        rel:
+          - ["ouvindo", "hörend", "ouvir - Gerundium"]
+          - ["isso", "das", "Pronomen"]
+          - ["triste", "traurig", "Adjektiv"]
+
+  - title: "Expressões de Comunicação"
+    explanation: |
+      **Häufige Ausdrücke**:
+      - Falar mal de = schlecht über jemanden reden
+      - Falar sério = ernst sprechen
+      - Ouvir falar de = von etwas hören
+      - Pensar bem = gut überlegen
+    examples:
+      - q: "Não fales mal dos outros."
+        a: "Rede nicht schlecht über andere."
+        labels: ["Imperativ", "Ausdruck"]
+        rel:
+          - ["falar mal", "schlecht reden", "Ausdruck"]
+          - ["outros", "andere", "Pronomen"]
+
+      - q: "Estou a falar a sério."
+        a: "Ich meine es ernst."
+        labels: ["Ausdruck"]
+        rel:
+          - ["falar a sério", "ernst meinen", "Redewendung"]
+          - ["a sério", "ernst", "Ausdruck"]
+
+      - q: "Ouvi falar desse restaurante."
+        a: "Ich habe von diesem Restaurant gehört."
+        labels: ["Ausdruck"]
+        rel:
+          - ["ouvir falar de", "von etwas hören", "Redewendung"]
+          - ["restaurante", "Restaurant", "Substantiv"]
+
+      - q: "Pensa bem antes de decidir."
+        a: "Überlege gut, bevor du entscheidest."
+        labels: ["Ausdruck", "Rat"]
+        rel:
+          - ["pensar bem", "gut überlegen", "Ausdruck"]
+          - ["antes de", "bevor", "Konjunktion"]
+          - ["decidir", "entscheiden", "Verb"]

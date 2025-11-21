@@ -1,0 +1,235 @@
+number: 10
+title: "Folgen und Beginnen - Folgen, Anfangen, Scheinen"
+description: "Die Verben seguir, começar und parecer mit allen Konjugationen"
+sections:
+  - title: "Seguir"
+    explanation: |
+      **Seguir** bedeutet **folgen/weitermachen**:
+      - Jemandem folgen
+      - Fortsetzen, weitermachen
+      - Einer Richtung folgen
+
+      **Konjugation Präsens**:
+      - eu sigo (ich folge)
+      - tu segues (du folgst)
+      - ele/ela/você segue (er/sie folgt)
+      - nós seguimos (wir folgen)
+      - vós seguis (ihr folgt)
+      - eles/elas seguem (sie folgen)
+      - **Gerúndio**: seguindo (folgend)
+    examples:
+      - q: "Eu sigo em frente."
+        a: "Ich gehe geradeaus."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["sigo", "gehe/folge", "seguir - ich folge"]
+          - ["em frente", "geradeaus", "Richtung"]
+
+      - q: "Tu segues o mapa?"
+        a: "Folgst du der Karte?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["segues", "folgst", "seguir - du folgst"]
+          - ["mapa", "Karte", "Substantiv"]
+
+      - q: "Ela segue as regras."
+        a: "Sie befolgt die Regeln."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["segue", "befolgt", "seguir - er/sie folgt"]
+          - ["regras", "Regeln", "Substantiv"]
+
+      - q: "Nós seguimos o caminho."
+        a: "Wir folgen dem Weg."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["seguimos", "folgen", "seguir - wir folgen"]
+          - ["caminho", "Weg", "Substantiv"]
+
+      - q: "Vós seguis o líder?"
+        a: "Folgt ihr dem Anführer?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["seguis", "folgt", "seguir - ihr folgt"]
+          - ["líder", "Anführer", "Substantiv"]
+
+      - q: "Eles seguem viagem."
+        a: "Sie setzen die Reise fort."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["seguem", "setzen fort", "seguir - sie folgen"]
+          - ["viagem", "Reise", "Substantiv"]
+
+      - q: "Seguindo o rio, chego ao mar."
+        a: "Dem Fluss folgend, erreiche ich das Meer."
+        labels: ["Gerúndio"]
+        rel:
+          - ["seguindo", "folgend", "seguir - Gerundium"]
+          - ["rio", "Fluss", "Substantiv"]
+          - ["mar", "Meer", "Substantiv"]
+
+  - title: "Começar"
+    explanation: |
+      **Começar** bedeutet **anfangen/beginnen**:
+      - Etwas anfangen, beginnen
+      - Starten
+      - Começar a + Infinitiv = anfangen zu...
+
+      **Konjugation Präsens**:
+      - eu começo (ich fange an)
+      - tu começas (du fängst an)
+      - ele/ela/você começa (er/sie fängt an)
+      - nós começamos (wir fangen an)
+      - vós começais (ihr fangt an)
+      - eles/elas começam (sie fangen an)
+      - **Gerúndio**: começando (anfangend)
+    examples:
+      - q: "Eu começo agora."
+        a: "Ich fange jetzt an."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["começo", "fange an", "começar - ich fange an"]
+          - ["agora", "jetzt", "Zeitangabe"]
+
+      - q: "Tu começas a trabalhar quando?"
+        a: "Wann fängst du an zu arbeiten?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["começas", "fängst an", "começar - du fängst an"]
+          - ["trabalhar", "arbeiten", "Verb"]
+          - ["quando", "wann", "Fragewort"]
+
+      - q: "Ela começa às oito."
+        a: "Sie fängt um acht an."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["começa", "fängt an", "começar - er/sie fängt an"]
+          - ["às oito", "um acht", "Zeitangabe"]
+
+      - q: "Nós começamos o projeto."
+        a: "Wir beginnen das Projekt."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["começamos", "beginnen", "começar - wir fangen an"]
+          - ["projeto", "Projekt", "Substantiv"]
+
+      - q: "Vós começais amanhã?"
+        a: "Fangt ihr morgen an?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["começais", "fangt an", "começar - ihr fangt an"]
+          - ["amanhã", "morgen", "Zeitangabe"]
+
+      - q: "Eles começam a aula."
+        a: "Sie beginnen den Unterricht."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["começam", "beginnen", "começar - sie fangen an"]
+          - ["aula", "Unterricht", "Substantiv"]
+
+      - q: "Começando cedo, acabo cedo."
+        a: "Früh anfangend, bin ich früh fertig."
+        labels: ["Gerúndio"]
+        rel:
+          - ["começando", "anfangend", "começar - Gerundium"]
+          - ["cedo", "früh", "Zeitangabe"]
+
+  - title: "Parecer"
+    explanation: |
+      **Parecer** bedeutet **scheinen/aussehen**:
+      - Scheinen, den Anschein haben
+      - Aussehen wie
+      - Parecer que = es scheint dass
+
+      **Konjugation Präsens**:
+      - eu pareço (ich scheine)
+      - tu pareces (du scheinst)
+      - ele/ela/você parece (er/sie scheint)
+      - nós parecemos (wir scheinen)
+      - vós pareceis (ihr scheint)
+      - eles/elas parecem (sie scheinen)
+      - **Gerúndio**: parecendo (scheinend)
+    examples:
+      - q: "Eu pareço cansado?"
+        a: "Sehe ich müde aus?"
+        labels: ["Präsens", "1. Person Singular", "Frage"]
+        rel:
+          - ["pareço", "sehe aus", "parecer - ich scheine"]
+          - ["cansado", "müde", "Adjektiv"]
+
+      - q: "Tu pareces feliz."
+        a: "Du siehst glücklich aus."
+        labels: ["Präsens", "2. Person Singular"]
+        rel:
+          - ["pareces", "siehst aus", "parecer - du scheinst"]
+          - ["feliz", "glücklich", "Adjektiv"]
+
+      - q: "Ele parece doente."
+        a: "Er sieht krank aus."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["parece", "sieht aus", "parecer - er/sie scheint"]
+          - ["doente", "krank", "Adjektiv"]
+
+      - q: "Nós parecemos irmãos."
+        a: "Wir sehen wie Geschwister aus."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["parecemos", "sehen aus", "parecer - wir scheinen"]
+          - ["irmãos", "Geschwister", "Substantiv"]
+
+      - q: "Vós pareceis nervosos."
+        a: "Ihr seht nervös aus."
+        labels: ["Präsens", "2. Person Plural"]
+        rel:
+          - ["pareceis", "seht aus", "parecer - ihr scheint"]
+          - ["nervosos", "nervös", "Adjektiv"]
+
+      - q: "Eles parecem turistas."
+        a: "Sie sehen wie Touristen aus."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["parecem", "sehen aus", "parecer - sie scheinen"]
+          - ["turistas", "Touristen", "Substantiv"]
+
+      - q: "Parecendo fácil, é difícil."
+        a: "Obwohl es einfach scheint, ist es schwierig."
+        labels: ["Gerúndio"]
+        rel:
+          - ["parecendo", "scheinend", "parecer - Gerundium"]
+          - ["fácil", "einfach", "Adjektiv"]
+          - ["difícil", "schwierig", "Adjektiv"]
+
+  - title: "Expressões com Parecer"
+    explanation: |
+      **Häufige Wendungen**:
+      - Parece que = es scheint dass
+      - Parece-me que = mir scheint dass
+      - Ao que parece = wie es scheint
+      - Parecer bem/mal = gut/schlecht aussehen
+    examples:
+      - q: "Parece que vai chover."
+        a: "Es sieht nach Regen aus."
+        labels: ["Ausdruck"]
+        rel:
+          - ["parece que", "es scheint dass", "Redewendung"]
+          - ["chover", "regnen", "Verb"]
+
+      - q: "Parece-me uma boa ideia."
+        a: "Das scheint mir eine gute Idee."
+        labels: ["Ausdruck"]
+        rel:
+          - ["parece-me", "scheint mir", "parecer - mir"]
+          - ["ideia", "Idee", "Substantiv"]
+
+      - q: "Ao que parece, está tudo bem."
+        a: "Wie es scheint, ist alles gut."
+        labels: ["Ausdruck"]
+        rel:
+          - ["ao que parece", "wie es scheint", "Redewendung"]
+
+      - q: "Isto parece-te bem?"
+        a: "Sieht das für dich gut aus?"
+        labels: ["Ausdruck", "Frage"]
+        rel:
+          - ["parece-te", "scheint dir", "parecer - dir"]

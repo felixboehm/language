@@ -1,0 +1,252 @@
+number: 2
+title: "Bewegungsverben - Gehen, Kommen, Machen"
+description: "Die Verben ir, vir und fazer mit allen Konjugationen"
+sections:
+  - title: "Ir"
+    explanation: |
+      **Ir** bedeutet **gehen** und wird verwendet für:
+      - Bewegung zu einem Ort
+      - Zukunftspläne (ir + Infinitiv)
+      - Häufig mit Präpositionen (a, para, em)
+
+      **Konjugation Präsens**:
+      - eu vou (ich gehe)
+      - tu vais (du gehst)
+      - ele/ela/você vai (er/sie geht, Sie gehen)
+      - nós vamos (wir gehen)
+      - vós ides (ihr geht)
+      - eles/elas vão (sie gehen)
+      - **Gerúndio**: indo (gehend)
+    examples:
+      - q: "Eu vou à escola."
+        a: "Ich gehe zur Schule."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["vou", "gehe", "ir - ich gehe"]
+          - ["à escola", "zur Schule", "Ort - Bildung"]
+
+      - q: "Tu vais ao supermercado?"
+        a: "Gehst du zum Supermarkt?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["vais", "gehst", "ir - du gehst"]
+          - ["ao supermercado", "zum Supermarkt", "Ort - Einkauf"]
+
+      - q: "Ele vai para o trabalho."
+        a: "Er geht zur Arbeit."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["vai", "geht", "ir - er/sie/es geht"]
+          - ["para o trabalho", "zur Arbeit", "Ort - Beruf"]
+          - ["trabalho", "Arbeit", "Substantiv"]
+
+      - q: "Nós vamos ao cinema."
+        a: "Wir gehen ins Kino."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["vamos", "gehen", "ir - wir gehen"]
+          - ["ao cinema", "ins Kino", "Ort - Unterhaltung"]
+          - ["cinema", "Kino", "Substantiv"]
+
+      - q: "Vós ides à praia?"
+        a: "Geht ihr zum Strand?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["ides", "geht", "ir - ihr geht"]
+          - ["à praia", "zum Strand", "Ort - Freizeit"]
+          - ["praia", "Strand", "Substantiv"]
+
+      - q: "Eles vão de autocarro."
+        a: "Sie fahren mit dem Bus."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["vão", "fahren", "ir - sie gehen"]
+          - ["de autocarro", "mit dem Bus", "Transportmittel"]
+          - ["autocarro", "Bus", "Substantiv - Verkehr"]
+
+      - q: "Indo para casa, vi um amigo."
+        a: "Auf dem Weg nach Hause sah ich einen Freund."
+        labels: ["Gerúndio"]
+        rel:
+          - ["indo", "gehend", "ir - Gerundium"]
+          - ["para casa", "nach Hause", "Richtung"]
+          - ["vi", "sah", "ver - Vergangenheit"]
+
+  - title: "Vir"
+    explanation: |
+      **Vir** bedeutet **kommen** und wird verwendet für:
+      - Bewegung zum Sprecher hin
+      - Herkunft
+      - Oft Gegenteil von "ir"
+
+      **Konjugation Präsens**:
+      - eu venho (ich komme)
+      - tu vens (du kommst)
+      - ele/ela/você vem (er/sie kommt, Sie kommen)
+      - nós vimos (wir kommen)
+      - vós vindes (ihr kommt)
+      - eles/elas vêm (sie kommen)
+      - **Gerúndio**: vindo (kommend)
+    examples:
+      - q: "Eu venho de Portugal."
+        a: "Ich komme aus Portugal."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["venho", "komme", "vir - ich komme"]
+          - ["de Portugal", "aus Portugal", "Herkunft"]
+
+      - q: "Tu vens comigo?"
+        a: "Kommst du mit mir?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["vens", "kommst", "vir - du kommst"]
+          - ["comigo", "mit mir", "Pronomen"]
+
+      - q: "Ela vem de autocarro."
+        a: "Sie kommt mit dem Bus."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["vem", "kommt", "vir - er/sie/es kommt"]
+          - ["de autocarro", "mit dem Bus", "Transportmittel"]
+
+      - q: "Nós vimos jantar."
+        a: "Wir kommen zum Abendessen."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["vimos", "kommen", "vir - wir kommen"]
+          - ["jantar", "Abendessen / zu Abend essen", "Substantiv / Verb"]
+
+      - q: "Vós vindes tarde."
+        a: "Ihr kommt spät."
+        labels: ["Präsens", "2. Person Plural"]
+        rel:
+          - ["vindes", "kommt", "vir - ihr kommt"]
+          - ["tarde", "spät", "Zeitangabe"]
+
+      - q: "Eles vêm amanhã."
+        a: "Sie kommen morgen."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["vêm", "kommen", "vir - sie kommen"]
+          - ["amanhã", "morgen", "Zeitangabe"]
+
+      - q: "Vindo de longe, estou cansado."
+        a: "Da ich von weit her komme, bin ich müde."
+        labels: ["Gerúndio"]
+        rel:
+          - ["vindo", "kommend", "vir - Gerundium"]
+          - ["de longe", "von weit her", "Entfernung"]
+          - ["cansado", "müde", "Adjektiv"]
+
+  - title: "Fazer"
+    explanation: |
+      **Fazer** bedeutet **machen/tun** und wird verwendet für:
+      - Aktivitäten ausführen
+      - Etwas herstellen
+      - Wetter (faz calor = es ist warm)
+      - Zeit (faz dois dias = vor zwei Tagen)
+
+      **Konjugation Präsens**:
+      - eu faço (ich mache)
+      - tu fazes (du machst)
+      - ele/ela/você faz (er/sie macht, Sie machen)
+      - nós fazemos (wir machen)
+      - vós fazeis (ihr macht)
+      - eles/elas fazem (sie machen)
+      - **Gerúndio**: fazendo (machend)
+    examples:
+      - q: "Eu faço o pequeno-almoço."
+        a: "Ich mache das Frühstück."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["faço", "mache", "fazer - ich mache"]
+          - ["o pequeno-almoço", "das Frühstück", "Substantiv - Mahlzeit"]
+
+      - q: "Tu fazes exercício?"
+        a: "Machst du Sport?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["fazes", "machst", "fazer - du machst"]
+          - ["exercício", "Sport / Übung", "Substantiv - Aktivität"]
+
+      - q: "Ele faz anos amanhã."
+        a: "Er hat morgen Geburtstag."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["faz", "hat", "fazer - er/sie/es macht"]
+          - ["anos", "Geburtstag (Jahre)", "Substantiv"]
+
+      - q: "Nós fazemos o trabalho de casa."
+        a: "Wir machen die Hausaufgaben."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["fazemos", "machen", "fazer - wir machen"]
+          - ["trabalho de casa", "Hausaufgaben", "Substantiv - Schule"]
+
+      - q: "Vós fazeis bem."
+        a: "Ihr macht es gut."
+        labels: ["Präsens", "2. Person Plural"]
+        rel:
+          - ["fazeis", "macht", "fazer - ihr macht"]
+          - ["bem", "gut", "Adverb"]
+
+      - q: "Eles fazem um bolo."
+        a: "Sie machen einen Kuchen."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["fazem", "machen", "fazer - sie machen"]
+          - ["um bolo", "einen Kuchen", "Substantiv - Essen"]
+          - ["bolo", "Kuchen", "Substantiv"]
+
+      - q: "Fazendo o meu melhor, consigo."
+        a: "Indem ich mein Bestes gebe, schaffe ich es."
+        labels: ["Gerúndio"]
+        rel:
+          - ["fazendo", "machend", "fazer - Gerundium"]
+          - ["o meu melhor", "mein Bestes", "Ausdruck"]
+
+  - title: "Ir + Infinitiv - Nahe Zukunft"
+    explanation: |
+      **Ir + Infinitiv** drückt die **nahe Zukunft** aus:
+      - Pläne und Absichten
+      - Was man gleich machen wird
+      - Ähnlich wie im Deutschen "ich werde... / ich gehe..."
+
+      Beispiel: Vou estudar = Ich werde lernen
+    examples:
+      - q: "Eu vou fazer o jantar."
+        a: "Ich werde das Abendessen machen."
+        labels: ["Zukunft", "ir + Infinitiv"]
+        rel:
+          - ["vou fazer", "werde machen", "Futur"]
+          - ["jantar", "Abendessen", "Substantiv - Mahlzeit"]
+
+      - q: "Tu vais vir à festa?"
+        a: "Wirst du zur Party kommen?"
+        labels: ["Zukunft", "Frage"]
+        rel:
+          - ["vais vir", "wirst kommen", "Futur"]
+          - ["à festa", "zur Party", "Ort - Veranstaltung"]
+          - ["festa", "Party / Fest", "Substantiv"]
+
+      - q: "Ela vai ir ao médico."
+        a: "Sie wird zum Arzt gehen."
+        labels: ["Zukunft"]
+        rel:
+          - ["vai ir", "wird gehen", "Futur"]
+          - ["ao médico", "zum Arzt", "Ort - Gesundheit"]
+          - ["médico", "Arzt", "Substantiv - Beruf"]
+
+      - q: "Nós vamos fazer uma viagem."
+        a: "Wir werden eine Reise machen."
+        labels: ["Zukunft"]
+        rel:
+          - ["vamos fazer", "werden machen", "Futur"]
+          - ["uma viagem", "eine Reise", "Substantiv - Aktivität"]
+          - ["viagem", "Reise", "Substantiv"]
+
+      - q: "Eles vão vir amanhã."
+        a: "Sie werden morgen kommen."
+        labels: ["Zukunft"]
+        rel:
+          - ["vão vir", "werden kommen", "Futur"]

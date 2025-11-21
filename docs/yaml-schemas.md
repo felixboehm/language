@@ -194,13 +194,22 @@ for (const filename of data.lessons) {
 
 ## Audio Integration
 
-The language codes specified in `languages.yaml` and `topics.yaml` are used for audio generation and text-to-speech functionality:
+The language codes specified in `languages.yaml` and `topics.yaml` are used for audio generation and text-to-speech functionality.
 
-- **Language code** (`languages.yaml`): Used for reading answer translations (base language)
-- **Topic code** (`topics.yaml`): Used for reading topic content including:
-  - Lesson titles
-  - Section titles
-  - Questions in examples
+### Language Usage by Content Type
+
+| Content Type | YAML Field | Language Used | Code Source |
+|--------------|-----------|---------------|-------------|
+| **Lesson title** | `title` | **Base** language | `languages.yaml` |
+| **Section titles** | `sections[].title` | **Topic** language | `topics.yaml` |
+| **Questions** | `sections[].examples[].q` | **Topic** language | `topics.yaml` |
+| **Answers** | `sections[].examples[].a` | **Base** language | `languages.yaml` |
+
+**Example for `deutsch/portugiesisch/`:**
+- Lesson title: German (de-DE)
+- Section titles: Portuguese (pt-PT)
+- Questions: Portuguese (pt-PT)
+- Answers: German (de-DE)
 
 ### Audio File Structure
 

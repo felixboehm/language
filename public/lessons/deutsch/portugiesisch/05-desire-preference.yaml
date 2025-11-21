@@ -1,0 +1,249 @@
+number: 5
+title: "Wünsche und Vorlieben - Wollen, Bleiben, Mögen"
+description: "Die Verben querer, ficar und gostar mit allen Konjugationen"
+sections:
+  - title: "Querer"
+    explanation: |
+      **Querer** bedeutet **wollen/möchten**:
+      - Wünsche ausdrücken
+      - Etwas wollen, begehren
+      - Oft mit Infinitiv (quero comer = ich will essen)
+
+      **Konjugation Präsens**:
+      - eu quero (ich will)
+      - tu queres (du willst)
+      - ele/ela/você quer (er/sie will)
+      - nós queremos (wir wollen)
+      - vós quereis (ihr wollt)
+      - eles/elas querem (sie wollen)
+      - **Gerúndio**: querendo (wollend)
+    examples:
+      - q: "Eu quero café."
+        a: "Ich will Kaffee."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["quero", "will", "querer - ich will"]
+          - ["café", "Kaffee", "Substantiv - Getränk"]
+
+      - q: "Tu queres ir ao cinema?"
+        a: "Willst du ins Kino gehen?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["queres", "willst", "querer - du willst"]
+          - ["ir", "gehen", "Verb"]
+          - ["cinema", "Kino", "Substantiv"]
+
+      - q: "Ele quer aprender português."
+        a: "Er will Portugiesisch lernen."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["quer", "will", "querer - er/sie will"]
+          - ["aprender", "lernen", "Verb"]
+          - ["português", "Portugiesisch", "Sprache"]
+
+      - q: "Nós queremos ajudar."
+        a: "Wir wollen helfen."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["queremos", "wollen", "querer - wir wollen"]
+          - ["ajudar", "helfen", "Verb"]
+
+      - q: "Vós quereis comer alguma coisa?"
+        a: "Wollt ihr etwas essen?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["quereis", "wollt", "querer - ihr wollt"]
+          - ["comer", "essen", "Verb"]
+          - ["alguma coisa", "etwas", "Ausdruck"]
+
+      - q: "Eles querem paz."
+        a: "Sie wollen Frieden."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["querem", "wollen", "querer - sie wollen"]
+          - ["paz", "Frieden", "Substantiv"]
+
+      - q: "Querendo ou não, tens que ir."
+        a: "Ob du willst oder nicht, du musst gehen."
+        labels: ["Gerúndio"]
+        rel:
+          - ["querendo", "wollend", "querer - Gerundium"]
+          - ["ou não", "oder nicht", "Ausdruck"]
+
+  - title: "Ficar"
+    explanation: |
+      **Ficar** hat mehrere Bedeutungen:
+      - Bleiben (an einem Ort)
+      - Werden (Zustandsänderung)
+      - Sich befinden
+      - Passen, stehen (ficar bem)
+
+      **Konjugation Präsens**:
+      - eu fico (ich bleibe)
+      - tu ficas (du bleibst)
+      - ele/ela/você fica (er/sie bleibt)
+      - nós ficamos (wir bleiben)
+      - vós ficais (ihr bleibt)
+      - eles/elas ficam (sie bleiben)
+      - **Gerúndio**: ficando (bleibend)
+    examples:
+      - q: "Eu fico em casa."
+        a: "Ich bleibe zu Hause."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["fico", "bleibe", "ficar - ich bleibe"]
+          - ["em casa", "zu Hause", "Ort"]
+
+      - q: "Tu ficas contente com isso?"
+        a: "Wirst du damit zufrieden?"
+        labels: ["Präsens", "2. Person Singular"]
+        rel:
+          - ["ficas", "wirst", "ficar - du wirst"]
+          - ["contente", "zufrieden", "Adjektiv"]
+          - ["com isso", "damit", "Ausdruck"]
+
+      - q: "Ela fica no hotel."
+        a: "Sie wohnt/bleibt im Hotel."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["fica", "wohnt", "ficar - er/sie bleibt"]
+          - ["hotel", "Hotel", "Substantiv - Unterkunft"]
+
+      - q: "Nós ficamos aqui."
+        a: "Wir bleiben hier."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["ficamos", "bleiben", "ficar - wir bleiben"]
+          - ["aqui", "hier", "Ort"]
+
+      - q: "Vós ficais bem com essas roupas."
+        a: "Diese Kleidung steht euch gut."
+        labels: ["Präsens", "2. Person Plural"]
+        rel:
+          - ["ficais", "steht", "ficar - ihr bleibt/steht"]
+          - ["bem", "gut", "Adverb"]
+          - ["roupas", "Kleidung", "Substantiv"]
+
+      - q: "Eles ficam nervosos."
+        a: "Sie werden nervös."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["ficam", "werden", "ficar - sie werden"]
+          - ["nervosos", "nervös", "Adjektiv"]
+
+      - q: "Ficando tarde, vou embora."
+        a: "Da es spät wird, gehe ich."
+        labels: ["Gerúndio"]
+        rel:
+          - ["ficando", "werdend", "ficar - Gerundium"]
+          - ["tarde", "spät", "Zeit"]
+          - ["vou embora", "gehe weg", "Ausdruck"]
+
+  - title: "Gostar"
+    explanation: |
+      **Gostar** bedeutet **mögen/gern haben**:
+      - Vorlieben ausdrücken
+      - **Immer mit "de"** (gostar de)
+      - Geschmack, Präferenz
+
+      **Konjugation Präsens**:
+      - eu gosto (ich mag)
+      - tu gostas (du magst)
+      - ele/ela/você gosta (er/sie mag)
+      - nós gostamos (wir mögen)
+      - vós gostais (ihr mögt)
+      - eles/elas gostam (sie mögen)
+      - **Gerúndio**: gostando (mögend)
+    examples:
+      - q: "Eu gosto de música."
+        a: "Ich mag Musik."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["gosto de", "mag", "gostar - ich mag"]
+          - ["música", "Musik", "Substantiv"]
+
+      - q: "Tu gostas de ler?"
+        a: "Magst du lesen?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["gostas de", "magst", "gostar - du magst"]
+          - ["ler", "lesen", "Verb"]
+
+      - q: "Ela gosta de viajar."
+        a: "Sie reist gern."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["gosta de", "mag", "gostar - er/sie mag"]
+          - ["viajar", "reisen", "Verb"]
+
+      - q: "Nós gostamos de ti."
+        a: "Wir mögen dich."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["gostamos de", "mögen", "gostar - wir mögen"]
+          - ["ti", "dich", "Pronomen"]
+
+      - q: "Vós gostais de chocolate?"
+        a: "Mögt ihr Schokolade?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["gostais de", "mögt", "gostar - ihr mögt"]
+          - ["chocolate", "Schokolade", "Substantiv - Essen"]
+
+      - q: "Eles gostam de futebol."
+        a: "Sie mögen Fußball."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["gostam de", "mögen", "gostar - sie mögen"]
+          - ["futebol", "Fußball", "Substantiv - Sport"]
+
+      - q: "Gostando do lugar, fico mais tempo."
+        a: "Wenn mir der Ort gefällt, bleibe ich länger."
+        labels: ["Gerúndio"]
+        rel:
+          - ["gostando de", "mögend", "gostar - Gerundium"]
+          - ["lugar", "Ort", "Substantiv"]
+          - ["mais tempo", "länger", "Zeit"]
+
+  - title: "Expressões com Querer e Gostar"
+    explanation: |
+      **Häufige Ausdrücke**:
+      - Querer dizer = bedeuten (Was bedeutet das?)
+      - Querer bem = jemanden lieb haben
+      - Gostar muito = sehr mögen
+      - Não gostar nada = überhaupt nicht mögen
+    examples:
+      - q: "O que quer dizer?"
+        a: "Was bedeutet das?"
+        labels: ["Ausdruck", "Frage"]
+        rel:
+          - ["quer dizer", "bedeutet", "Redewendung"]
+          - ["o que", "was", "Fragewort"]
+
+      - q: "Eu quero-te bem."
+        a: "Ich hab dich lieb."
+        labels: ["Ausdruck"]
+        rel:
+          - ["quero-te bem", "hab dich lieb", "Redewendung"]
+
+      - q: "Gosto muito de ti."
+        a: "Ich mag dich sehr."
+        labels: ["Ausdruck"]
+        rel:
+          - ["gosto muito", "mag sehr", "Verstärkung"]
+          - ["muito", "sehr", "Adverb"]
+
+      - q: "Não gosto nada disso."
+        a: "Das mag ich gar nicht."
+        labels: ["Ausdruck", "Negation"]
+        rel:
+          - ["não gosto nada", "mag gar nicht", "Negation"]
+          - ["nada", "nichts/gar nicht", "Adverb"]
+          - ["disso", "davon", "Pronomen"]
+
+      - q: "Queres alguma coisa?"
+        a: "Willst du etwas?"
+        labels: ["Höflichkeit", "Frage"]
+        rel:
+          - ["queres", "willst", "querer - Angebot"]
+          - ["alguma coisa", "etwas", "Ausdruck"]

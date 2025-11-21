@@ -1,0 +1,237 @@
+number: 8
+title: "Schauen und Bitten - Schauen, Bitten, Benutzen"
+description: "Die Verben olhar, pedir und usar mit allen Konjugationen"
+sections:
+  - title: "Olhar"
+    explanation: |
+      **Olhar** bedeutet **schauen/ansehen**:
+      - Schauen, ansehen (bewusst)
+      - Blicken, aufpassen
+      - Olhar para = anschauen
+
+      **Konjugation Präsens**:
+      - eu olho (ich schaue)
+      - tu olhas (du schaust)
+      - ele/ela/você olha (er/sie schaut)
+      - nós olhamos (wir schauen)
+      - vós olhais (ihr schaut)
+      - eles/elas olham (sie schauen)
+      - **Gerúndio**: olhando (schauend)
+    examples:
+      - q: "Eu olho para o céu."
+        a: "Ich schaue zum Himmel."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["olho", "schaue", "olhar - ich schaue"]
+          - ["céu", "Himmel", "Substantiv"]
+
+      - q: "Tu olhas para mim?"
+        a: "Schaust du mich an?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["olhas", "schaust", "olhar - du schaust"]
+          - ["para mim", "zu mir/mich an", "Präposition + Pronomen"]
+
+      - q: "Ela olha pela janela."
+        a: "Sie schaut aus dem Fenster."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["olha", "schaut", "olhar - er/sie schaut"]
+          - ["janela", "Fenster", "Substantiv"]
+
+      - q: "Nós olhamos as fotos."
+        a: "Wir schauen die Fotos an."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["olhamos", "schauen", "olhar - wir schauen"]
+          - ["fotos", "Fotos", "Substantiv"]
+
+      - q: "Vós olhais para trás?"
+        a: "Schaut ihr zurück?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["olhais", "schaut", "olhar - ihr schaut"]
+          - ["para trás", "zurück", "Ausdruck"]
+
+      - q: "Eles olham o mapa."
+        a: "Sie schauen die Karte an."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["olham", "schauen", "olhar - sie schauen"]
+          - ["mapa", "Karte", "Substantiv"]
+
+      - q: "Olhando ao redor, vejo tudo."
+        a: "Mich umschauend, sehe ich alles."
+        labels: ["Gerúndio"]
+        rel:
+          - ["olhando", "schauend", "olhar - Gerundium"]
+          - ["ao redor", "herum", "Ausdruck"]
+
+  - title: "Pedir"
+    explanation: |
+      **Pedir** bedeutet **bitten/bestellen**:
+      - Um etwas bitten
+      - Etwas bestellen (Restaurant)
+      - Verlangen, fordern
+
+      **Konjugation Präsens**:
+      - eu peço (ich bitte)
+      - tu pedes (du bittest)
+      - ele/ela/você pede (er/sie bittet)
+      - nós pedimos (wir bitten)
+      - vós pedis (ihr bittet)
+      - eles/elas pedem (sie bitten)
+      - **Gerúndio**: pedindo (bittend)
+    examples:
+      - q: "Eu peço desculpa."
+        a: "Ich entschuldige mich."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["peço", "bitte", "pedir - ich bitte"]
+          - ["desculpa", "Entschuldigung", "Substantiv"]
+
+      - q: "Tu pedes ajuda?"
+        a: "Bittest du um Hilfe?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["pedes", "bittest", "pedir - du bittest"]
+          - ["ajuda", "Hilfe", "Substantiv"]
+
+      - q: "Ele pede uma cerveja."
+        a: "Er bestellt ein Bier."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["pede", "bestellt", "pedir - er/sie bestellt"]
+          - ["cerveja", "Bier", "Substantiv - Getränk"]
+
+      - q: "Nós pedimos silêncio."
+        a: "Wir bitten um Ruhe."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["pedimos", "bitten", "pedir - wir bitten"]
+          - ["silêncio", "Ruhe", "Substantiv"]
+
+      - q: "Vós pedis muito."
+        a: "Ihr verlangt viel."
+        labels: ["Präsens", "2. Person Plural"]
+        rel:
+          - ["pedis", "verlangt", "pedir - ihr bittet"]
+          - ["muito", "viel", "Adverb"]
+
+      - q: "Eles pedem informações."
+        a: "Sie fragen nach Informationen."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["pedem", "fragen nach", "pedir - sie bitten"]
+          - ["informações", "Informationen", "Substantiv"]
+
+      - q: "Pedindo licença, entro."
+        a: "Um Erlaubnis bittend, trete ich ein."
+        labels: ["Gerúndio"]
+        rel:
+          - ["pedindo", "bittend", "pedir - Gerundium"]
+          - ["licença", "Erlaubnis", "Substantiv"]
+
+  - title: "Usar"
+    explanation: |
+      **Usar** bedeutet **benutzen/tragen**:
+      - Etwas benutzen, verwenden
+      - Kleidung tragen
+      - Gebrauchen
+
+      **Konjugation Präsens**:
+      - eu uso (ich benutze)
+      - tu usas (du benutzt)
+      - ele/ela/você usa (er/sie benutzt)
+      - nós usamos (wir benutzen)
+      - vós usais (ihr benutzt)
+      - eles/elas usam (sie benutzen)
+      - **Gerúndio**: usando (benutzend)
+    examples:
+      - q: "Eu uso o computador."
+        a: "Ich benutze den Computer."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["uso", "benutze", "usar - ich benutze"]
+          - ["computador", "Computer", "Substantiv - Technologie"]
+
+      - q: "Tu usas óculos?"
+        a: "Trägst du eine Brille?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["usas", "trägst", "usar - du benutzt"]
+          - ["óculos", "Brille", "Substantiv"]
+
+      - q: "Ela usa sempre o telemóvel."
+        a: "Sie benutzt immer das Handy."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["usa", "benutzt", "usar - er/sie benutzt"]
+          - ["sempre", "immer", "Adverb"]
+          - ["telemóvel", "Handy", "Substantiv - Technologie"]
+
+      - q: "Nós usamos roupa confortável."
+        a: "Wir tragen bequeme Kleidung."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["usamos", "tragen", "usar - wir benutzen"]
+          - ["roupa", "Kleidung", "Substantiv"]
+          - ["confortável", "bequem", "Adjektiv"]
+
+      - q: "Vós usais esta ferramenta?"
+        a: "Benutzt ihr dieses Werkzeug?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["usais", "benutzt", "usar - ihr benutzt"]
+          - ["ferramenta", "Werkzeug", "Substantiv"]
+
+      - q: "Eles usam transportes públicos."
+        a: "Sie benutzen öffentliche Verkehrsmittel."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["usam", "benutzen", "usar - sie benutzen"]
+          - ["transportes públicos", "öffentliche Verkehrsmittel", "Ausdruck"]
+
+      - q: "Usando isto, consigo."
+        a: "Dies benutzend, schaffe ich es."
+        labels: ["Gerúndio"]
+        rel:
+          - ["usando", "benutzend", "usar - Gerundium"]
+          - ["isto", "dies", "Pronomen"]
+
+  - title: "Pedidos Educados"
+    explanation: |
+      **Höflichkeitsformen mit Pedir**:
+      - Por favor = bitte
+      - Pedir por favor = höflich bitten
+      - Pedir desculpa = sich entschuldigen
+      - Pedir licença = um Erlaubnis bitten
+    examples:
+      - q: "Peço por favor que espere."
+        a: "Ich bitte Sie zu warten."
+        labels: ["Höflichkeit"]
+        rel:
+          - ["peço", "bitte", "pedir - höflich"]
+          - ["por favor", "bitte", "Höflichkeitsform"]
+          - ["espere", "warten Sie", "esperar - Konjunktiv"]
+
+      - q: "Posso pedir um favor?"
+        a: "Kann ich um einen Gefallen bitten?"
+        labels: ["Höflichkeit", "Frage"]
+        rel:
+          - ["pedir um favor", "um Gefallen bitten", "Ausdruck"]
+          - ["favor", "Gefallen", "Substantiv"]
+
+      - q: "Peço desculpa pelo atraso."
+        a: "Ich entschuldige mich für die Verspätung."
+        labels: ["Höflichkeit"]
+        rel:
+          - ["peço desculpa", "entschuldige mich", "Redewendung"]
+          - ["atraso", "Verspätung", "Substantiv"]
+
+      - q: "Com licença, posso passar?"
+        a: "Entschuldigung, darf ich vorbei?"
+        labels: ["Höflichkeit"]
+        rel:
+          - ["com licença", "Entschuldigung", "Höflichkeitsform"]
+          - ["passar", "vorbeigehen", "Verb"]

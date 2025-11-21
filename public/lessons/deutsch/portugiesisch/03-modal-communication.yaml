@@ -1,0 +1,257 @@
+number: 3
+title: "Modalverben und Kommunikation - Können, Sagen, Geben"
+description: "Die Verben poder, dizer und dar mit allen Konjugationen"
+sections:
+  - title: "Poder"
+    explanation: |
+      **Poder** bedeutet **können/dürfen** und wird verwendet für:
+      - Fähigkeit (ich kann schwimmen)
+      - Erlaubnis (darf ich?)
+      - Möglichkeit (es kann sein)
+
+      **Konjugation Präsens**:
+      - eu posso (ich kann)
+      - tu podes (du kannst)
+      - ele/ela/você pode (er/sie kann, Sie können)
+      - nós podemos (wir können)
+      - vós podeis (ihr könnt)
+      - eles/elas podem (sie können)
+      - **Gerúndio**: podendo (könnend)
+    examples:
+      - q: "Eu posso ajudar?"
+        a: "Kann ich helfen?"
+        labels: ["Präsens", "1. Person Singular", "Frage"]
+        rel:
+          - ["posso", "kann", "poder - ich kann"]
+          - ["ajudar", "helfen", "Verb - Infinitiv"]
+
+      - q: "Tu podes falar português?"
+        a: "Kannst du Portugiesisch sprechen?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["podes", "kannst", "poder - du kannst"]
+          - ["falar", "sprechen", "Verb"]
+          - ["português", "Portugiesisch", "Sprache"]
+
+      - q: "Ele pode vir connosco."
+        a: "Er kann mit uns kommen."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["pode", "kann", "poder - er/sie/es kann"]
+          - ["vir", "kommen", "Verb"]
+          - ["connosco", "mit uns", "Pronomen"]
+
+      - q: "Nós podemos comer aqui."
+        a: "Wir können hier essen."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["podemos", "können", "poder - wir können"]
+          - ["comer", "essen", "Verb"]
+          - ["aqui", "hier", "Ort"]
+
+      - q: "Vós podeis esperar?"
+        a: "Könnt ihr warten?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["podeis", "könnt", "poder - ihr könnt"]
+          - ["esperar", "warten", "Verb"]
+
+      - q: "Eles podem começar agora."
+        a: "Sie können jetzt anfangen."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["podem", "können", "poder - sie können"]
+          - ["começar", "anfangen", "Verb"]
+          - ["agora", "jetzt", "Zeitangabe"]
+
+      - q: "Podendo escolher, prefiro café."
+        a: "Wenn ich wählen kann, bevorzuge ich Kaffee."
+        labels: ["Gerúndio"]
+        rel:
+          - ["podendo", "könnend", "poder - Gerundium"]
+          - ["escolher", "wählen", "Verb"]
+          - ["café", "Kaffee", "Substantiv - Getränk"]
+
+  - title: "Dizer"
+    explanation: |
+      **Dizer** bedeutet **sagen** und wird verwendet für:
+      - Etwas mitteilen
+      - Berichten, erzählen
+      - Oft mit "que" (dass)
+
+      **Konjugation Präsens**:
+      - eu digo (ich sage)
+      - tu dizes (du sagst)
+      - ele/ela/você diz (er/sie sagt, Sie sagen)
+      - nós dizemos (wir sagen)
+      - vós dizeis (ihr sagt)
+      - eles/elas dizem (sie sagen)
+      - **Gerúndio**: dizendo (sagend)
+    examples:
+      - q: "Eu digo a verdade."
+        a: "Ich sage die Wahrheit."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["digo", "sage", "dizer - ich sage"]
+          - ["a verdade", "die Wahrheit", "Substantiv"]
+          - ["verdade", "Wahrheit", "Substantiv"]
+
+      - q: "Tu dizes sempre isso."
+        a: "Du sagst das immer."
+        labels: ["Präsens", "2. Person Singular"]
+        rel:
+          - ["dizes", "sagst", "dizer - du sagst"]
+          - ["sempre", "immer", "Adverb - Häufigkeit"]
+          - ["isso", "das", "Pronomen"]
+
+      - q: "Ela diz que sim."
+        a: "Sie sagt ja."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["diz", "sagt", "dizer - er/sie/es sagt"]
+          - ["que", "dass", "Konjunktion"]
+          - ["sim", "ja", "Adverb"]
+
+      - q: "Nós dizemos olá."
+        a: "Wir sagen Hallo."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["dizemos", "sagen", "dizer - wir sagen"]
+          - ["olá", "Hallo", "Gruß"]
+
+      - q: "Vós dizeis coisas engraçadas."
+        a: "Ihr sagt lustige Dinge."
+        labels: ["Präsens", "2. Person Plural"]
+        rel:
+          - ["dizeis", "sagt", "dizer - ihr sagt"]
+          - ["coisas", "Dinge", "Substantiv"]
+          - ["engraçadas", "lustige", "Adjektiv"]
+
+      - q: "Eles dizem que não."
+        a: "Sie sagen nein."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["dizem", "sagen", "dizer - sie sagen"]
+          - ["não", "nein / nicht", "Negation"]
+
+      - q: "Dizendo isto, ele saiu."
+        a: "Das sagend, ging er hinaus."
+        labels: ["Gerúndio"]
+        rel:
+          - ["dizendo", "sagend", "dizer - Gerundium"]
+          - ["isto", "dies", "Pronomen"]
+          - ["saiu", "ging hinaus", "sair - Vergangenheit"]
+
+  - title: "Dar"
+    explanation: |
+      **Dar** bedeutet **geben** und wird verwendet für:
+      - Etwas überreichen
+      - Schenken
+      - Viele Redewendungen (dar um passeio = spazieren gehen)
+
+      **Konjugation Präsens**:
+      - eu dou (ich gebe)
+      - tu dás (du gibst)
+      - ele/ela/você dá (er/sie gibt, Sie geben)
+      - nós damos (wir geben)
+      - vós dais (ihr gebt)
+      - eles/elas dão (sie geben)
+      - **Gerúndio**: dando (gebend)
+    examples:
+      - q: "Eu dou um presente."
+        a: "Ich gebe ein Geschenk."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["dou", "gebe", "dar - ich gebe"]
+          - ["um presente", "ein Geschenk", "Substantiv"]
+          - ["presente", "Geschenk", "Substantiv"]
+
+      - q: "Tu dás o livro ao professor."
+        a: "Du gibst das Buch dem Lehrer."
+        labels: ["Präsens", "2. Person Singular"]
+        rel:
+          - ["dás", "gibst", "dar - du gibst"]
+          - ["o livro", "das Buch", "Substantiv"]
+          - ["ao professor", "dem Lehrer", "Dativ"]
+
+      - q: "Ele dá aulas de música."
+        a: "Er gibt Musikunterricht."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["dá", "gibt", "dar - er/sie/es gibt"]
+          - ["aulas", "Unterricht", "Substantiv"]
+          - ["música", "Musik", "Substantiv"]
+
+      - q: "Nós damos as boas-vindas."
+        a: "Wir heißen willkommen."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["damos", "geben", "dar - wir geben"]
+          - ["as boas-vindas", "willkommen", "Ausdruck"]
+
+      - q: "Vós dais esmola?"
+        a: "Gebt ihr Almosen?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["dais", "gebt", "dar - ihr gebt"]
+          - ["esmola", "Almosen", "Substantiv"]
+
+      - q: "Eles dão comida aos pobres."
+        a: "Sie geben den Armen Essen."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["dão", "geben", "dar - sie geben"]
+          - ["comida", "Essen", "Substantiv"]
+          - ["aos pobres", "den Armen", "Dativ"]
+
+      - q: "Dando tudo, consigo vencer."
+        a: "Indem ich alles gebe, kann ich gewinnen."
+        labels: ["Gerúndio"]
+        rel:
+          - ["dando", "gebend", "dar - Gerundium"]
+          - ["tudo", "alles", "Pronomen"]
+          - ["vencer", "gewinnen", "Verb"]
+
+  - title: "Pedidos com Poder"
+    explanation: |
+      **Poder** wird häufig für **höfliche Bitten** verwendet:
+      - Posso...? = Kann ich...? / Darf ich...?
+      - Pode...? = Können Sie...? / Dürfen Sie...?
+      - Poderia...? = Könnten Sie...? (noch höflicher)
+    examples:
+      - q: "Posso entrar?"
+        a: "Darf ich eintreten?"
+        labels: ["Höflichkeit", "Bitte"]
+        rel:
+          - ["posso", "darf ich", "poder - Erlaubnis"]
+          - ["entrar", "eintreten", "Verb"]
+
+      - q: "Pode repetir, por favor?"
+        a: "Können Sie das bitte wiederholen?"
+        labels: ["Höflichkeit", "Bitte"]
+        rel:
+          - ["pode", "können Sie", "poder - höflich"]
+          - ["repetir", "wiederholen", "Verb"]
+          - ["por favor", "bitte", "Höflichkeitsform"]
+
+      - q: "Podemos sentar aqui?"
+        a: "Können wir uns hier hinsetzen?"
+        labels: ["Höflichkeit", "Bitte"]
+        rel:
+          - ["podemos", "können wir", "poder"]
+          - ["sentar", "sich setzen", "Verb"]
+
+      - q: "Posso fazer uma pergunta?"
+        a: "Darf ich eine Frage stellen?"
+        labels: ["Höflichkeit", "Bitte"]
+        rel:
+          - ["posso fazer", "darf ich stellen", "Modalverb + Verb"]
+          - ["uma pergunta", "eine Frage", "Substantiv"]
+          - ["pergunta", "Frage", "Substantiv"]
+
+      - q: "Pode dar-me as horas?"
+        a: "Können Sie mir sagen, wie spät es ist?"
+        labels: ["Höflichkeit", "Redewendung"]
+        rel:
+          - ["pode dar-me", "können Sie mir geben", "Ausdruck"]
+          - ["as horas", "die Uhrzeit", "Substantiv"]

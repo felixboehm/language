@@ -1,0 +1,232 @@
+number: 9
+title: "Ankommen und Verpflichtung - Ankommen, Vorbeigehen, Müssen"
+description: "Die Verben chegar, passar und dever mit allen Konjugationen"
+sections:
+  - title: "Chegar"
+    explanation: |
+      **Chegar** bedeutet **ankommen/erreichen**:
+      - Ankommen, eintreffen
+      - Erreichen, ausreichen
+      - Chegar a = nach/zu... kommen
+
+      **Konjugation Präsens**:
+      - eu chego (ich komme an)
+      - tu chegas (du kommst an)
+      - ele/ela/você chega (er/sie kommt an)
+      - nós chegamos (wir kommen an)
+      - vós chegais (ihr kommt an)
+      - eles/elas chegam (sie kommen an)
+      - **Gerúndio**: chegando (ankommend)
+    examples:
+      - q: "Eu chego às sete."
+        a: "Ich komme um sieben an."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["chego", "komme an", "chegar - ich komme"]
+          - ["às sete", "um sieben", "Zeitangabe"]
+
+      - q: "Tu chegas tarde."
+        a: "Du kommst spät an."
+        labels: ["Präsens", "2. Person Singular"]
+        rel:
+          - ["chegas", "kommst an", "chegar - du kommst"]
+          - ["tarde", "spät", "Zeitangabe"]
+
+      - q: "Ele chega amanhã."
+        a: "Er kommt morgen an."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["chega", "kommt an", "chegar - er/sie kommt"]
+          - ["amanhã", "morgen", "Zeitangabe"]
+
+      - q: "Nós chegamos a Lisboa."
+        a: "Wir kommen in Lissabon an."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["chegamos", "kommen an", "chegar - wir kommen"]
+          - ["Lisboa", "Lissabon", "Stadt"]
+
+      - q: "Vós chegais cedo?"
+        a: "Kommt ihr früh an?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["chegais", "kommt an", "chegar - ihr kommt"]
+          - ["cedo", "früh", "Zeitangabe"]
+
+      - q: "Eles chegam de avião."
+        a: "Sie kommen mit dem Flugzeug an."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["chegam", "kommen an", "chegar - sie kommen"]
+          - ["avião", "Flugzeug", "Substantiv - Verkehr"]
+
+      - q: "Chegando lá, telefono-te."
+        a: "Dort ankommend, rufe ich dich an."
+        labels: ["Gerúndio"]
+        rel:
+          - ["chegando", "ankommend", "chegar - Gerundium"]
+          - ["lá", "dort", "Ort"]
+
+  - title: "Passar"
+    explanation: |
+      **Passar** hat viele Bedeutungen:
+      - Vorbeigehen, passieren
+      - Verbringen (Zeit)
+      - Bestehen (Prüfung)
+      - Bügeln (roupa)
+
+      **Konjugation Präsens**:
+      - eu passo (ich gehe vorbei)
+      - tu passas (du gehst vorbei)
+      - ele/ela/você passa (er/sie geht vorbei)
+      - nós passamos (wir gehen vorbei)
+      - vós passais (ihr geht vorbei)
+      - eles/elas passam (sie gehen vorbei)
+      - **Gerúndio**: passando (vorbeigehend)
+    examples:
+      - q: "Eu passo pela escola."
+        a: "Ich gehe an der Schule vorbei."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["passo", "gehe vorbei", "passar - ich passiere"]
+          - ["escola", "Schule", "Substantiv"]
+
+      - q: "Tu passas férias aqui?"
+        a: "Verbringst du hier Ferien?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["passas", "verbringst", "passar - du verbringst"]
+          - ["férias", "Ferien", "Substantiv"]
+
+      - q: "Ela passa no exame."
+        a: "Sie besteht die Prüfung."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["passa", "besteht", "passar - er/sie besteht"]
+          - ["exame", "Prüfung", "Substantiv"]
+
+      - q: "Nós passamos bem."
+        a: "Es geht uns gut."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["passamos bem", "geht uns gut", "Ausdruck"]
+          - ["bem", "gut", "Adverb"]
+
+      - q: "Vós passais por aqui?"
+        a: "Kommt ihr hier vorbei?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["passais", "kommt vorbei", "passar - ihr geht vorbei"]
+          - ["por aqui", "hier", "Ort"]
+
+      - q: "Eles passam o fim de semana fora."
+        a: "Sie verbringen das Wochenende auswärts."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["passam", "verbringen", "passar - sie verbringen"]
+          - ["fim de semana", "Wochenende", "Zeitangabe"]
+          - ["fora", "auswärts", "Ort"]
+
+      - q: "Passando mal, vou ao médico."
+        a: "Wenn es mir schlecht geht, gehe ich zum Arzt."
+        labels: ["Gerúndio"]
+        rel:
+          - ["passando", "gehend", "passar - Gerundium"]
+          - ["mal", "schlecht", "Adverb"]
+
+  - title: "Dever"
+    explanation: |
+      **Dever** bedeutet **müssen/sollen** oder **schulden**:
+      - Verpflichtung, Pflicht (müssen)
+      - Geld schulden
+      - Wahrscheinlichkeit (deve ser = muss wohl sein)
+
+      **Konjugation Präsens**:
+      - eu devo (ich muss/schulde)
+      - tu deves (du musst/schuldest)
+      - ele/ela/você deve (er/sie muss/schuldet)
+      - nós devemos (wir müssen/schulden)
+      - vós deveis (ihr müsst/schuldet)
+      - eles/elas devem (sie müssen/schulden)
+      - **Gerúndio**: devendo (müssend/schuldend)
+    examples:
+      - q: "Eu devo estudar."
+        a: "Ich muss lernen."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["devo", "muss", "dever - ich muss"]
+          - ["estudar", "lernen", "Verb"]
+
+      - q: "Tu deves dinheiro?"
+        a: "Schuldest du Geld?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["deves", "schuldest", "dever - du schuldest"]
+          - ["dinheiro", "Geld", "Substantiv"]
+
+      - q: "Ele deve trabalhar."
+        a: "Er muss arbeiten."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["deve", "muss", "dever - er/sie muss"]
+          - ["trabalhar", "arbeiten", "Verb"]
+
+      - q: "Nós devemos ir."
+        a: "Wir müssen gehen."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["devemos", "müssen", "dever - wir müssen"]
+          - ["ir", "gehen", "Verb"]
+
+      - q: "Vós deveis respeito."
+        a: "Ihr schuldet Respekt."
+        labels: ["Präsens", "2. Person Plural"]
+        rel:
+          - ["deveis", "schuldet", "dever - ihr schuldet"]
+          - ["respeito", "Respekt", "Substantiv"]
+
+      - q: "Eles devem chegar cedo."
+        a: "Sie müssen früh ankommen."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["devem", "müssen", "dever - sie müssen"]
+          - ["cedo", "früh", "Zeitangabe"]
+
+      - q: "Devendo muito, pago aos poucos."
+        a: "Viel schuldend, zahle ich nach und nach."
+        labels: ["Gerúndio"]
+        rel:
+          - ["devendo", "schuldend", "dever - Gerundium"]
+          - ["aos poucos", "nach und nach", "Ausdruck"]
+
+  - title: "Expressões de Tempo"
+    explanation: |
+      **Nützliche Ausdrücke**:
+      - Chegar a tempo = rechtzeitig ankommen
+      - Passar o tempo = die Zeit verbringen
+      - Não chega = reicht nicht
+      - Que se passa? = Was ist los?
+    examples:
+      - q: "Chego sempre a tempo."
+        a: "Ich komme immer rechtzeitig."
+        labels: ["Ausdruck"]
+        rel:
+          - ["a tempo", "rechtzeitig", "Zeitangabe"]
+
+      - q: "O dinheiro não chega."
+        a: "Das Geld reicht nicht."
+        labels: ["Ausdruck"]
+        rel:
+          - ["não chega", "reicht nicht", "Redewendung"]
+
+      - q: "Como passa o tempo!"
+        a: "Wie die Zeit vergeht!"
+        labels: ["Ausdruck"]
+        rel:
+          - ["passa o tempo", "vergeht die Zeit", "Ausdruck"]
+
+      - q: "O que se passa aqui?"
+        a: "Was ist hier los?"
+        labels: ["Ausdruck", "Frage"]
+        rel:
+          - ["que se passa", "was ist los", "Redewendung"]

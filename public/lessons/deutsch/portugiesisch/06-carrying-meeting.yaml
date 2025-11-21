@@ -1,0 +1,244 @@
+number: 6
+title: "Tragen und Begegnen - Bringen, Tragen, Finden"
+description: "Die Verben trazer, levar und encontrar mit allen Konjugationen"
+sections:
+  - title: "Trazer"
+    explanation: |
+      **Trazer** bedeutet **bringen** (zum Sprecher hin):
+      - Etwas zum Sprecher bringen
+      - Mit sich bringen
+      - Verursachen, herbeiführen
+
+      **Konjugation Präsens**:
+      - eu trago (ich bringe)
+      - tu trazes (du bringst)
+      - ele/ela/você traz (er/sie bringt)
+      - nós trazemos (wir bringen)
+      - vós trazeis (ihr bringt)
+      - eles/elas trazem (sie bringen)
+      - **Gerúndio**: trazendo (bringend)
+    examples:
+      - q: "Eu trago o livro."
+        a: "Ich bringe das Buch."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["trago", "bringe", "trazer - ich bringe"]
+          - ["livro", "Buch", "Substantiv"]
+
+      - q: "Tu trazes a comida?"
+        a: "Bringst du das Essen?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["trazes", "bringst", "trazer - du bringst"]
+          - ["comida", "Essen", "Substantiv"]
+
+      - q: "Ele traz boas notícias."
+        a: "Er bringt gute Nachrichten."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["traz", "bringt", "trazer - er/sie bringt"]
+          - ["boas notícias", "gute Nachrichten", "Ausdruck"]
+          - ["notícias", "Nachrichten", "Substantiv"]
+
+      - q: "Nós trazemos presentes."
+        a: "Wir bringen Geschenke."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["trazemos", "bringen", "trazer - wir bringen"]
+          - ["presentes", "Geschenke", "Substantiv"]
+
+      - q: "Vós trazeis os documentos?"
+        a: "Bringt ihr die Dokumente?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["trazeis", "bringt", "trazer - ihr bringt"]
+          - ["documentos", "Dokumente", "Substantiv"]
+
+      - q: "Eles trazem problemas."
+        a: "Sie bringen Probleme."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["trazem", "bringen", "trazer - sie bringen"]
+          - ["problemas", "Probleme", "Substantiv"]
+
+      - q: "Trazendo ajuda, salvamos vidas."
+        a: "Indem wir Hilfe bringen, retten wir Leben."
+        labels: ["Gerúndio"]
+        rel:
+          - ["trazendo", "bringend", "trazer - Gerundium"]
+          - ["ajuda", "Hilfe", "Substantiv"]
+          - ["vidas", "Leben", "Substantiv"]
+
+  - title: "Levar"
+    explanation: |
+      **Levar** bedeutet **tragen/nehmen** (vom Sprecher weg):
+      - Etwas mitnehmen, wegtragen
+      - Jemanden mitnehmen (Auto)
+      - Zeit brauchen (leva tempo)
+
+      **Konjugation Präsens**:
+      - eu levo (ich nehme/trage)
+      - tu levas (du nimmst/trägst)
+      - ele/ela/você leva (er/sie nimmt/trägt)
+      - nós levamos (wir nehmen/tragen)
+      - vós levais (ihr nehmt/tragt)
+      - eles/elas levam (sie nehmen/tragen)
+      - **Gerúndio**: levando (nehmend/tragend)
+    examples:
+      - q: "Eu levo o carro."
+        a: "Ich nehme das Auto."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["levo", "nehme", "levar - ich nehme"]
+          - ["carro", "Auto", "Substantiv - Fahrzeug"]
+
+      - q: "Tu levas a mala?"
+        a: "Trägst du den Koffer?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["levas", "trägst", "levar - du trägst"]
+          - ["mala", "Koffer", "Substantiv"]
+
+      - q: "Ela leva as crianças à escola."
+        a: "Sie bringt die Kinder zur Schule."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["leva", "bringt", "levar - er/sie bringt"]
+          - ["crianças", "Kinder", "Substantiv"]
+          - ["escola", "Schule", "Substantiv"]
+
+      - q: "Nós levamos tempo."
+        a: "Wir brauchen Zeit."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["levamos", "brauchen", "levar - wir nehmen"]
+          - ["tempo", "Zeit", "Substantiv"]
+
+      - q: "Vós levais os sacos?"
+        a: "Tragt ihr die Taschen?"
+        labels: ["Präsens", "2. Person Plural", "Frage"]
+        rel:
+          - ["levais", "tragt", "levar - ihr tragt"]
+          - ["sacos", "Taschen", "Substantiv"]
+
+      - q: "Eles levam uma vida feliz."
+        a: "Sie führen ein glückliches Leben."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["levam", "führen", "levar - sie führen"]
+          - ["vida", "Leben", "Substantiv"]
+          - ["feliz", "glücklich", "Adjektiv"]
+
+      - q: "Levando isto em conta, decido."
+        a: "Dies berücksichtigend, entscheide ich."
+        labels: ["Gerúndio"]
+        rel:
+          - ["levando", "nehmend", "levar - Gerundium"]
+          - ["em conta", "in Betracht", "Ausdruck"]
+
+  - title: "Encontrar"
+    explanation: |
+      **Encontrar** bedeutet **finden/treffen**:
+      - Etwas finden
+      - Jemanden treffen (zufällig oder geplant)
+      - Sich befinden
+
+      **Konjugation Präsens**:
+      - eu encontro (ich finde/treffe)
+      - tu encontras (du findest/triffst)
+      - ele/ela/você encontra (er/sie findet/trifft)
+      - nós encontramos (wir finden/treffen)
+      - vós encontrais (ihr findet/trefft)
+      - eles/elas encontram (sie finden/treffen)
+      - **Gerúndio**: encontrando (findend/treffend)
+    examples:
+      - q: "Eu encontro o caminho."
+        a: "Ich finde den Weg."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["encontro", "finde", "encontrar - ich finde"]
+          - ["caminho", "Weg", "Substantiv"]
+
+      - q: "Tu encontras a solução?"
+        a: "Findest du die Lösung?"
+        labels: ["Präsens", "2. Person Singular", "Frage"]
+        rel:
+          - ["encontras", "findest", "encontrar - du findest"]
+          - ["solução", "Lösung", "Substantiv"]
+
+      - q: "Ela encontra amigos no café."
+        a: "Sie trifft Freunde im Café."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["encontra", "trifft", "encontrar - er/sie trifft"]
+          - ["amigos", "Freunde", "Substantiv"]
+          - ["café", "Café", "Substantiv - Ort"]
+
+      - q: "Nós encontramos dificuldades."
+        a: "Wir stoßen auf Schwierigkeiten."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["encontramos", "stoßen auf", "encontrar - wir finden"]
+          - ["dificuldades", "Schwierigkeiten", "Substantiv"]
+
+      - q: "Vós encontrais sempre desculpas."
+        a: "Ihr findet immer Ausreden."
+        labels: ["Präsens", "2. Person Plural"]
+        rel:
+          - ["encontrais", "findet", "encontrar - ihr findet"]
+          - ["sempre", "immer", "Adverb"]
+          - ["desculpas", "Ausreden", "Substantiv"]
+
+      - q: "Eles encontram-se às sete."
+        a: "Sie treffen sich um sieben."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["encontram-se", "treffen sich", "encontrar-se - reflexiv"]
+          - ["às sete", "um sieben", "Zeitangabe"]
+
+      - q: "Encontrando a chave, abro a porta."
+        a: "Den Schlüssel findend, öffne ich die Tür."
+        labels: ["Gerúndio"]
+        rel:
+          - ["encontrando", "findend", "encontrar - Gerundium"]
+          - ["chave", "Schlüssel", "Substantiv"]
+          - ["porta", "Tür", "Substantiv"]
+
+  - title: "Trazer vs Levar"
+    explanation: |
+      **Wichtiger Unterschied**:
+      - **Trazer**: zum Sprecher HIN (bring to me)
+      - **Levar**: vom Sprecher WEG (take away from me)
+
+      Wie im Deutschen: bringen vs. mitnehmen
+    examples:
+      - q: "Trago o vinho para a festa."
+        a: "Ich bringe den Wein zur Party (ich gehe auch hin)."
+        labels: ["Trazer", "Richtung"]
+        rel:
+          - ["trago", "bringe", "trazer - hin"]
+          - ["vinho", "Wein", "Substantiv - Getränk"]
+          - ["festa", "Party", "Substantiv"]
+
+      - q: "Levo o lixo para fora."
+        a: "Ich bringe den Müll raus."
+        labels: ["Levar", "Richtung"]
+        rel:
+          - ["levo", "bringe", "levar - weg"]
+          - ["lixo", "Müll", "Substantiv"]
+          - ["para fora", "nach draußen", "Richtung"]
+
+      - q: "Podes trazer-me água?"
+        a: "Kannst du mir Wasser bringen?"
+        labels: ["Trazer", "Bitte"]
+        rel:
+          - ["trazer-me", "mir bringen", "zu mir"]
+          - ["água", "Wasser", "Substantiv - Getränk"]
+
+      - q: "Vou levar o cachorro ao veterinário."
+        a: "Ich bringe den Hund zum Tierarzt."
+        labels: ["Levar", "Richtung"]
+        rel:
+          - ["levar", "bringen", "levar - wegbringen"]
+          - ["cachorro", "Hund", "Substantiv - Tier"]
+          - ["veterinário", "Tierarzt", "Substantiv - Beruf"]

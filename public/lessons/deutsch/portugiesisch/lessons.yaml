@@ -1,8 +1,19 @@
 # Portuguese lessons with German interface
+# Phase 1: Verb Mastery (Lessons 1-15) - 50 core verbs
 lessons:
-  - 01-basic-verbs
-  - 02-modal-verbs
-  - 03-daily-activities
-  - 04-past-tense
-  - 05-gerundium
-  - 06-passive-subjunctive
+  - 01-essential-verbs
+  - 02-action-verbs
+  - 03-modal-communication
+  - 04-perception-knowledge
+  - 05-desire-preference
+  - 06-carrying-meeting
+  - 07-thinking-speaking
+  - 08-looking-asking
+  - 09-arriving-obligation
+  - 10-following-beginning
+  # Lessons 11-15 to be created:
+  # - 11-needing-finding: Precisar, Achar, Sentir
+  # - 12-calling-waiting: Chamar, Esperar, Deixar
+  # - 13-finishing-living: Acabar, Tornar, Viver
+  # - 14-working-moving: Trabalhar, Andar, Correr
+  # - 15-daily-verbs-review: Comer, Beber, Dormir, Acordar + Review
