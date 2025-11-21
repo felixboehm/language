@@ -12,8 +12,3 @@
 
   This is a more complex implementation that requires additional testing on iOS devices. The current implementation will work on desktop and will read
   audio on mobile, but may pause when the screen locks.
-
-
-
-fix audio: when pressing pause, and then play again, it starts from lesson beginning instead of where we paused. should continue where we paused
-
