@@ -1,8 +1,8 @@
 number: 1
-title: "Basic Verbs - Ser and Estar"
+title: "Grundlegende Verben"
 description: "Learn the fundamental Portuguese verbs for 'to be' - permanent vs temporary states"
 sections:
-  - title: "SER - Permanentes Sein"
+  - title: "SER"
     explanation: |
       **SER** wird für permanente oder inhärente Eigenschaften verwendet:
       - Identität (Nationalität, Beruf)
@@ -37,7 +37,7 @@ sections:
           - ["são", "sind (sie)", "verb - ser"]
           - ["programadores", "Programmierer", "noun"]
   
-  - title: "ESTAR - Temporäres Sein"
+  - title: "ESTAR"
     explanation: |
       **ESTAR** wird für temporäre Zustände oder Orte verwendet:
       - Emotionen und Gefühle
@@ -74,7 +74,7 @@ sections:
           - ["férias", "Urlaub", "noun"]
           - ["em", "in/im", "preposition"]
   
-  - title: "TER - Haben"
+  - title: "TER"
     explanation: |
       **TER** bedeutet "haben" und wird verwendet für:
       - Besitz
@@ -112,7 +112,7 @@ sections:
           - ["filhos", "Kinder", "noun"]
           - ["três", "drei", "number"]
   
-  - title: "FAZER - Tun/Machen"
+  - title: "FAZER"
     explanation: |
       **FAZER** bedeutet "tun" oder "machen":
       - Dinge herstellen oder kreieren
@@ -143,7 +143,7 @@ sections:
           - ["fazemos", "machen (wir)", "verb - fazer"]
           - ["compras", "Einkäufe", "noun"]
   
-  - title: "IR - Gehen"
+  - title: "IR"
     explanation: |
       **IR** bedeutet "gehen":
       - Zu Orten gehen

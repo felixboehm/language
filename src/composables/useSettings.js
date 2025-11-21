@@ -9,7 +9,6 @@ const settings = ref({
   audioSpeed: 1.0, // Audio playback speed: 0.6, 0.8, 1.0
   readAnswers: true, // Whether to read the answer/translation during auto-play
   hideLearnedExamples: true, // Whether to hide examples where all items are learned
-  selectedVoices: {}, // Voice name per language code, e.g., { 'pt-PT': 'Joana', 'de-DE': 'Anna' }
   showDebugOverlay: false // Show debug overlay for audio playback
 })
 
@@ -35,10 +34,6 @@ function loadSettings() {
   if (saved) {
     try {
       const parsed = JSON.parse(saved)
-      // Ensure selectedVoices exists and is an object
-      if (!parsed.selectedVoices) {
-        parsed.selectedVoices = {}
-      }
       settings.value = parsed
       applyDarkMode(settings.value.darkMode)
     } catch (e) {
@@ -85,10 +80,6 @@ function initializeWatchers() {
   watch(() => settings.value.hideLearnedExamples, () => {
     saveSettings()
   })
-
-  watch(() => settings.value.selectedVoices, () => {
-    saveSettings()
-  }, { deep: true })
 
   watch(() => settings.value.showDebugOverlay, () => {
     saveSettings()

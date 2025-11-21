@@ -47,19 +47,22 @@ language/
 │       └── useSettings.js # Settings persistence logic
 ├── public/
 │   └── lessons/           # YAML lesson content (deployed as-is)
-│       ├── index.yaml     # Root index - lists available learning languages
-│       ├── deutsch/       # Learning in German
-│       │   ├── index.yaml             # Lists topics (portugiesisch, englisch)
+│       ├── languages.yaml # Root index - lists available languages
+│       ├── deutsch/       # German language folder
+│       │   ├── topics.yaml            # Lists topics (portugiesisch, englisch)
 │       │   ├── portugiesisch/
-│       │   │   ├── index.yaml         # Lists lesson files
+│       │   │   ├── lessons.yaml       # Lists lesson files
 │       │   │   ├── 01-basic-verbs.yaml
 │       │   │   ├── 02-modal-verbs.yaml
 │       │   │   └── 03-daily-activities.yaml
 │       │   └── englisch/
+│       │       ├── lessons.yaml
 │       │       └── 01-greetings.yaml
 │       └── README.md      # Lesson system documentation
 ├── docs/
-│   └── lesson-schema.md   # Complete YAML lesson schema documentation
+│   ├── lesson-schema.md   # Individual lesson YAML schema documentation
+│   ├── yaml-schemas.md    # Index YAML schemas (languages/topics/lessons)
+│   └── audio-system.md    # Audio playback documentation
 ├── tests/
 │   ├── basic.test.js      # Unit tests
 │   ├── dark-mode.test.js  # Dark mode toggle tests
@@ -109,8 +112,8 @@ pnpm test:e2e
 **Main Components**:
 - `App.vue` - Root component with unified navigation (back button, dynamic title, settings button)
 - `Home.vue` - Language selection page (route: `/`)
-- `LessonsOverview.vue` - Lessons grid page (route: `/lessons/:learning/:teaching`)
-- `LessonDetail.vue` - Individual lesson page (route: `/lesson/:learning/:teaching/:number`)
+- `LessonsOverview.vue` - Lessons grid page (route: `/lessons/:language/:topic`)
+- `LessonDetail.vue` - Individual lesson page (route: `/lesson/:language/:topic/:number`)
 - `Settings.vue` - Settings page (route: `/settings`)
 
 **Composables** (Reusable logic):
@@ -127,8 +130,8 @@ pnpm test:e2e
 
 **Routing**:
 - `#/` - Home page (language selection)
-- `#/lessons/:learning/:teaching` - Lessons overview grid
-- `#/lesson/:learning/:teaching/:number` - Lesson detail view
+- `#/lessons/:language/:topic` - Lessons overview grid
+- `#/lesson/:language/:topic/:number` - Lesson detail view
 - `#/settings` - Settings panel
 
 Uses hash-based routing (`createWebHashHistory`) for GitHub Pages compatibility.
@@ -136,17 +139,18 @@ Uses hash-based routing (`createWebHashHistory`) for GitHub Pages compatibility.
 **Navigation Pattern**:
 - **Dynamic Title**: Changes based on route
   - Home: "🌍 Language Learning"
-  - Overview: Teaching topic name (e.g., "Portugiesisch")
+  - Overview: Topic name (e.g., "Portugiesisch")
   - Detail: Lesson title (e.g., "Basic Verbs - Ser and Estar")
   - Settings: "⚙️ Settings"
 - **Back Button**: Visible on all pages except home
 - **Settings Button**: Always visible in top-right corner
 
 **YAML Loading Flow**:
-1. Load `lessons/index.yaml` → get learning languages
-2. User selects learning language → load `lessons/{lang}/index.yaml` → get topics
-3. User selects topic → navigate to `/lessons/{lang}/{topic}`
-4. Load all lessons for topic → fetch and parse YAML files with js-yaml
+1. Load `lessons/languages.yaml` → get available languages
+2. User selects language → load `lessons/{language}/topics.yaml` → get topics
+3. User selects topic → navigate to `/lessons/{language}/{topic}`
+4. Load `lessons/{language}/{topic}/lessons.yaml` → get lesson files
+5. Load all lessons for topic → fetch and parse YAML files with js-yaml
 
 ### YAML Lesson Schema
 
@@ -170,14 +174,15 @@ sections:
 ```
 
 **Key Concepts**:
-- **Two-level folder hierarchy**: `lessons/<learning-language>/<teaching-topic>/`
-  - Example: `deutsch/portugiesisch/` = Learn Portuguese in German
-  - Example: `english/math-algebra/` = Learn math in English
-- **Labels**: Optional categorization (e.g. for grammer, like "Futur", "Passiv")
+- **Three-level hierarchy**: Language → Topic → Lesson
+  - `lessons/<language>/<topic>/`
+  - Example: `deutsch/portugiesisch/` = Portuguese topic in German language
+  - Example: `english/math-algebra/` = Math topic in English language
+- **Labels**: Optional categorization (e.g. for grammar, like "Futur", "Passiv")
 - **Related items (`rel`)**: Vocabulary with first element as unique identifier
 - **Markdown support**: Section explanations support markdown formatting
 
-See `docs/lesson-schema.md` for complete schema documentation.
+See `docs/lesson-schema.md` for individual lesson documentation and `docs/yaml-schemas.md` for index file schemas.
 
 ### Third-Party Libraries
 
@@ -226,27 +231,43 @@ No lesson progress tracking is currently implemented.
 
 ### Adding a New Lesson
 
-1. Choose or create the appropriate folder: `public/lessons/<learning>/<teaching>/`
+1. Choose or create the appropriate folder: `public/lessons/<language>/<topic>/`
 2. Create a YAML file following the schema (see `docs/lesson-schema.md`)
-3. Add the filename to `public/lessons/<learning>/<teaching>/index.yaml`:
+3. Add the filename to `public/lessons/<language>/<topic>/lessons.yaml`:
    ```yaml
    lessons:
-     - 01-basics.yaml
-     - 02-your-new-lesson.yaml
+     - 01-basics
+     - 02-your-new-lesson
    ```
 
-### Adding a New Language Pair
+### Adding a New Topic
 
-1. Create folder structure: `public/lessons/<learning>/<teaching>/`
-2. Add language to `public/lessons/index.yaml` if it's a new learning language
-3. Create `public/lessons/<learning>/index.yaml` with topics list:
+1. Create folder structure: `public/lessons/<language>/<topic>/`
+2. Add topic to `public/lessons/<language>/topics.yaml`:
    ```yaml
    topics:
-     - portugiesisch
-     - your-new-topic
+     - folder: portugiesisch
+       code: pt-PT
+     - folder: your-new-topic
+       code: de-DE
    ```
-4. Create `public/lessons/<learning>/<teaching>/index.yaml` with lesson files
-5. Add lesson YAML files
+3. Create `public/lessons/<language>/<topic>/lessons.yaml` with lesson files
+4. Add lesson YAML files
+
+### Adding a New Language
+
+1. Add language to `public/lessons/languages.yaml`:
+   ```yaml
+   languages:
+     - folder: deutsch
+       code: de-DE
+     - folder: your-new-language
+       code: xx-XX
+   ```
+2. Create `public/lessons/<language>/topics.yaml` with topics list
+3. Create topic folders and lesson files
+
+See `docs/yaml-schemas.md` for detailed documentation on all index file schemas.
 
 ## Testing
 
