@@ -28,6 +28,17 @@ function buildReadingQueue(lesson, learning, teaching, settings) {
 
   console.log(`🎵 Building audio queue from: ${audioBase}`)
 
+  // Add lesson title at the beginning (if available)
+  if (lesson.title) {
+    queue.push({
+      type: 'lesson-title',
+      text: lesson.title,
+      audioUrl: `${audioBase}/title.mp3`,
+      sectionIdx: -1,
+      exampleIdx: -1
+    })
+  }
+
   lesson.sections.forEach((section, sectionIdx) => {
     // Add section title first
     queue.push({

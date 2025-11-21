@@ -52,24 +52,35 @@ public/audio/
 ├── {language}/
 │   └── {topic}/
 │       └── {lesson-filename}/
-│           ├── title.mp3           # Lesson title (in topic language)
-│           ├── 0-title.mp3         # Section 0 title (in topic language)
-│           ├── 1-title.mp3         # Section 1 title (in topic language)
-│           ├── 0-0-q.mp3          # Section 0, Example 0, Question (in topic language)
-│           ├── 0-0-a.mp3          # Section 0, Example 0, Answer (in base language)
-│           ├── 0-1-q.mp3          # Section 0, Example 1, Question (in topic language)
-│           └── 0-1-a.mp3          # Section 0, Example 1, Answer (in base language)
+│           ├── title.mp3           # Lesson title (in BASE language)
+│           ├── 0-title.mp3         # Section 0 title (in TOPIC language)
+│           ├── 1-title.mp3         # Section 1 title (in TOPIC language)
+│           ├── 0-0-q.mp3          # Section 0, Example 0, Question (in TOPIC language)
+│           ├── 0-0-a.mp3          # Section 0, Example 0, Answer (in BASE language)
+│           ├── 0-1-q.mp3          # Section 0, Example 1, Question (in TOPIC language)
+│           └── 0-1-a.mp3          # Section 0, Example 1, Answer (in BASE language)
 ```
 
 **Filename Format:**
-- **Lesson title**: `title.mp3` (in topic language)
-- **Section titles**: `{sectionIdx}-title.mp3` (in topic language)
-- **Questions**: `{sectionIdx}-{exampleIdx}-q.mp3` (in topic language)
-- **Answers**: `{sectionIdx}-{exampleIdx}-a.mp3` (in base language)
+- **Lesson title**: `title.mp3`
+- **Section titles**: `{sectionIdx}-title.mp3`
+- **Questions**: `{sectionIdx}-{exampleIdx}-q.mp3`
+- **Answers**: `{sectionIdx}-{exampleIdx}-a.mp3`
 
-**Language Usage:**
-- **Topic language** (e.g., Portuguese): Used for lesson title, section titles, and questions
-- **Base language** (e.g., German): Used for answers (translations)
+**Language Usage by Field:**
+
+| Field | Language | Voice | Example (deutsch/portugiesisch) |
+|-------|----------|-------|--------------------------------|
+| **Lesson title** (`title`) | **Base** | `learning_voice` | German (Anna) |
+| **Section title** (`sections[].title`) | **Topic** | `teaching_voice` | Portuguese (Joana) |
+| **Question** (`sections[].examples[].q`) | **Topic** | `teaching_voice` | Portuguese (Joana) |
+| **Answer** (`sections[].examples[].a`) | **Base** | `learning_voice` | German (Anna) |
+
+**Why this language mapping?**
+- **Lesson title** is read in the base language because it's metadata/navigation
+- **Section titles** introduce the topic content, so they use the topic language
+- **Questions** are in the language being taught (topic language)
+- **Answers** are translations in the base/interface language
 
 #### Example
 
@@ -123,12 +134,14 @@ public/audio/deutsch/portugiesisch/01-basic-verbs/
 #### Reading Queue
 
 The queue includes:
-1. **Lesson title** (if present)
+1. **Lesson title** (`title.mp3` - in base language)
 2. For each section:
-   - **Section title**
+   - **Section title** (`{sectionIdx}-title.mp3` - in topic language)
    - For each example:
-     - **Question** (in teaching language)
-     - **Answer** (in learning language, if `readAnswers` enabled)
+     - **Question** (`{sectionIdx}-{exampleIdx}-q.mp3` - in topic language)
+     - **Answer** (`{sectionIdx}-{exampleIdx}-a.mp3` - in base language, if `readAnswers` enabled)
+
+The lesson title is played first to announce the lesson, followed by section content.
 
 #### Pause Logic
 

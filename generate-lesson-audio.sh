@@ -149,7 +149,7 @@ process_lesson() {
   local files_generated=0
   local files_skipped=0
 
-  # Extract and generate title audio (in topic/teaching language)
+  # Extract and generate title audio (in base/learning language)
   local title=$(yq eval '.title' "$lesson_file")
   if [[ "$title" != "null" && -n "$title" ]]; then
     local final_file="$audio_dir/title.mp3"
@@ -159,7 +159,7 @@ process_lesson() {
 
       local temp_file="$audio_dir/title.aiff"
 
-      say -v "$teaching_voice" "$title" -o "$temp_file" 2>/dev/null
+      say -v "$learning_voice" "$title" -o "$temp_file" 2>/dev/null
 
       if [[ "$HAS_FFMPEG" == true ]]; then
         ffmpeg -i "$temp_file" -codec:a libmp3lame -qscale:a 2 "$final_file" -y 2>/dev/null
