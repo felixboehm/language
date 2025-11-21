@@ -3,14 +3,17 @@
 # Generate audio files for YAML lessons
 # Uses yq for YAML parsing, macOS 'say' for TTS, and ffmpeg for MP3 conversion
 #
+# New folder-based structure:
+#   lessons/{learning}/{teaching}/{lesson-folder}/content.yaml
+#   lessons/{learning}/{teaching}/{lesson-folder}/audio/ (output)
+#
 # Usage:
-#   ./generate-lesson-audio.sh                    # Generate all lessons
-#   ./generate-lesson-audio.sh -f                 # Force regenerate all
-#   ./generate-lesson-audio.sh path/to/lesson.yaml # Generate single lesson
-#   ./generate-lesson-audio.sh -f path/to/lesson.yaml # Force single lesson
+#   ./generate-audio.sh                           # Generate all lessons
+#   ./generate-audio.sh -f                        # Force regenerate all
+#   ./generate-audio.sh path/to/lesson-folder/    # Generate single lesson
+#   ./generate-audio.sh -f path/to/lesson-folder/ # Force single lesson
 
 LESSONS_DIR="public/lessons"
-OUTPUT_DIR="public/audio"
 FORCE_REGENERATE=false
 SINGLE_LESSON=""
 
@@ -118,20 +121,27 @@ get_voice() {
   echo "Alex"
 }
 
-# Function to process a single lesson file
+# Function to process a single lesson folder
 process_lesson() {
-  local lesson_file="$1"
+  local lesson_folder="$1"
+  local lesson_file="$lesson_folder/content.yaml"
+
+  # Check if content.yaml exists
+  if [[ ! -f "$lesson_file" ]]; then
+    echo "⚠️  Warning: No content.yaml found in $lesson_folder"
+    return
+  fi
 
   # Extract path components
-  local rel_path="${lesson_file#$LESSONS_DIR/}"
+  local rel_path="${lesson_folder#$LESSONS_DIR/}"
   local learning=$(echo "$rel_path" | cut -d'/' -f1)
   local teaching=$(echo "$rel_path" | cut -d'/' -f2)
-  local filename=$(basename "$lesson_file" .yaml)
+  local folder_name=$(basename "$lesson_folder")
 
-  echo "📚 Processing: $learning/$teaching/$filename"
+  echo "📚 Processing: $learning/$teaching/$folder_name"
 
-  # Create output directory
-  local audio_dir="$OUTPUT_DIR/$learning/$teaching/$filename"
+  # Output directory is inside the lesson folder
+  local audio_dir="$lesson_folder/audio"
   mkdir -p "$audio_dir"
 
   # Get voices for this lesson
@@ -252,16 +262,18 @@ process_lesson() {
 
 # Main execution
 if [[ -n "$SINGLE_LESSON" ]]; then
-  # Process single lesson
-  if [[ ! -f "$SINGLE_LESSON" ]]; then
-    echo "❌ Error: File not found: $SINGLE_LESSON"
+  # Process single lesson folder
+  # Remove trailing slash if present
+  SINGLE_LESSON="${SINGLE_LESSON%/}"
+
+  if [[ ! -d "$SINGLE_LESSON" ]]; then
+    echo "❌ Error: Directory not found: $SINGLE_LESSON"
     exit 1
   fi
 
-  # Check if it's a lesson file (not index/topics/languages)
-  basename_file=$(basename "$SINGLE_LESSON")
-  if [[ "$basename_file" == "index.yaml" || "$basename_file" == "languages.yaml" || "$basename_file" == "lessons.yaml" || "$basename_file" == "topics.yaml" ]]; then
-    echo "❌ Error: Cannot process $basename_file - this is a metadata file, not a lesson"
+  if [[ ! -f "$SINGLE_LESSON/content.yaml" ]]; then
+    echo "❌ Error: No content.yaml found in $SINGLE_LESSON"
+    echo "   This should be a lesson folder containing content.yaml"
     exit 1
   fi
 
@@ -269,38 +281,39 @@ if [[ -n "$SINGLE_LESSON" ]]; then
 
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo "✅ Complete!"
-  echo "   Output directory: $OUTPUT_DIR/"
+  echo "   Audio files saved in: $SINGLE_LESSON/audio/"
 else
-  # Process all lessons
+  # Process all lessons (find all content.yaml files)
   total_files=0
   processed_files=0
 
-  while IFS= read -r -d '' lesson_file; do
-    # Skip index files and language definition files
-    basename_file=$(basename "$lesson_file")
-    if [[ "$basename_file" == "index.yaml" || "$basename_file" == "languages.yaml" || "$basename_file" == "lessons.yaml" || "$basename_file" == "topics.yaml" ]]; then
-      continue
-    fi
+  while IFS= read -r -d '' content_file; do
+    # Get the lesson folder (parent directory of content.yaml)
+    lesson_folder=$(dirname "$content_file")
 
     ((total_files++))
-    process_lesson "$lesson_file"
+    process_lesson "$lesson_folder"
     ((processed_files++))
-  done < <(find "$LESSONS_DIR" -name "*.yaml" -type f -print0)
+  done < <(find "$LESSONS_DIR" -name "content.yaml" -type f -print0)
 
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo "✅ Complete!"
   echo "   Processed $processed_files lessons"
-  echo "   Output directory: $OUTPUT_DIR/"
   echo ""
 
-  # Show directory structure
+  # Show example directory structure
   if command -v tree &> /dev/null; then
-    echo "Directory structure:"
-    tree -L 3 "$OUTPUT_DIR" | head -20
+    echo "Example directory structure:"
+    # Find first lesson folder and show its structure
+    first_lesson=$(find "$LESSONS_DIR" -name "content.yaml" -type f | head -1 | xargs dirname)
+    if [[ -n "$first_lesson" ]]; then
+      tree -L 1 "$first_lesson"
+    fi
   else
-    echo "Audio files:"
-    find "$OUTPUT_DIR" -type f | head -20
-    local total=$(find "$OUTPUT_DIR" -type f | wc -l)
-    echo "   ... ($total files total)"
+    echo "Example audio files:"
+    first_audio=$(find "$LESSONS_DIR" -path "*/audio/*.mp3" -type f | head -5)
+    if [[ -n "$first_audio" ]]; then
+      echo "$first_audio"
+    fi
   fi
 fi

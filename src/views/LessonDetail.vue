@@ -21,7 +21,7 @@
         <!-- Explanation -->
         <div
           v-if="section.explanation"
-          class="bg-gray-100 dark:bg-gray-900 p-4 rounded mb-4 text-gray-700 dark:text-gray-300"
+          class="bg-gray-100 dark:bg-gray-900 p-4 rounded mb-4 prose prose-sm dark:prose-invert max-w-none"
           v-html="marked(section.explanation)">
         </div>
 

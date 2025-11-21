@@ -1,6 +1,33 @@
 import { ref } from 'vue'
 import yaml from 'js-yaml'
 
+// Helper function to resolve IPFS URLs to HTTP gateway URLs
+function resolveUrl(urlOrPath) {
+  if (typeof urlOrPath === 'string' && urlOrPath.startsWith('ipfs://')) {
+    // Convert IPFS URL to HTTP gateway URL
+    const ipfsHash = urlOrPath.replace('ipfs://', '')
+    return `https://ipfs.io/ipfs/${ipfsHash}`
+  }
+  return urlOrPath
+}
+
+// Helper function to parse source (string, folder object, or url object)
+function parseSource(source) {
+  if (typeof source === 'string') {
+    // Backward compatible: string is treated as folder
+    return { type: 'folder', path: source }
+  }
+  if (typeof source === 'object') {
+    if (source.folder) {
+      return { type: 'folder', path: source.folder, code: source.code }
+    }
+    if (source.url) {
+      return { type: 'url', path: resolveUrl(source.url), code: source.code }
+    }
+  }
+  return null
+}
+
 export function useLessons() {
   const availableContent = ref({})
   const languageCodes = ref({}) // Store language codes
@@ -25,11 +52,17 @@ export function useLessons() {
       const codes = {}
 
       for (const lang of data.languages) {
-        const folder = typeof lang === 'string' ? lang : lang.folder
-        const code = typeof lang === 'string' ? null : lang.code
-        content[folder] = {}
-        codes[folder] = code
-        console.log(`  ✓ Language: ${folder} (${code || 'no code'})`)
+        const source = parseSource(lang)
+        if (!source) {
+          console.warn(`⚠️ Invalid language source:`, lang)
+          continue
+        }
+
+        // Use path as the key (for folders, it's the folder name; for URLs, it's the full URL)
+        const key = source.path
+        content[key] = {}
+        codes[key] = source.code || null
+        console.log(`  ✓ Language: ${key} (${source.type}) (${source.code || 'no code'})`)
       }
 
       availableContent.value = content
@@ -56,7 +89,17 @@ export function useLessons() {
         }
       }
 
-      const response = await fetch(`lessons/${lang}/topics.yaml`)
+      // Construct topics.yaml URL based on whether lang is a folder or URL
+      let topicsUrl
+      if (lang.startsWith('http://') || lang.startsWith('https://')) {
+        // Language is a URL
+        topicsUrl = `${lang}/topics.yaml`
+      } else {
+        // Language is a folder
+        topicsUrl = `lessons/${lang}/topics.yaml`
+      }
+
+      const response = await fetch(topicsUrl)
 
       if (!response.ok) {
         throw new Error(`Failed to fetch topics.yaml for ${lang}: ${response.status}`)
@@ -72,11 +115,16 @@ export function useLessons() {
       }
 
       for (const topic of data.topics) {
-        const folder = typeof topic === 'string' ? topic : topic.folder
-        const code = typeof topic === 'string' ? null : topic.code
-        availableContent.value[lang][folder] = []
-        topicCodes.value[lang][folder] = code
-        console.log(`  ✓ Topic: ${folder} (${code || 'no code'})`)
+        const source = parseSource(topic)
+        if (!source) {
+          console.warn(`⚠️ Invalid topic source:`, topic)
+          continue
+        }
+
+        const key = source.path
+        availableContent.value[lang][key] = []
+        topicCodes.value[lang][key] = source.code || null
+        console.log(`  ✓ Topic: ${key} (${source.type}) (${source.code || 'no code'})`)
       }
 
       console.log(`✅ Topics loaded for ${lang}`)
@@ -99,7 +147,20 @@ export function useLessons() {
         }
       }
 
-      const response = await fetch(`lessons/${lang}/${topic}/lessons.yaml`)
+      // Construct lessons.yaml URL
+      let lessonsUrl
+      if (topic.startsWith('http://') || topic.startsWith('https://')) {
+        // Topic is a URL
+        lessonsUrl = `${topic}/lessons.yaml`
+      } else if (lang.startsWith('http://') || lang.startsWith('https://')) {
+        // Language is a URL, topic is a folder
+        lessonsUrl = `${lang}/${topic}/lessons.yaml`
+      } else {
+        // Both are folders
+        lessonsUrl = `lessons/${lang}/${topic}/lessons.yaml`
+      }
+
+      const response = await fetch(lessonsUrl)
 
       if (!response.ok) {
         throw new Error(`Failed to fetch lessons.yaml for ${lang}/${topic}: ${response.status}`)
@@ -116,16 +177,40 @@ export function useLessons() {
     }
   }
 
-  async function loadLesson(lang, topic, filename) {
+  async function loadLesson(lang, topic, filenameOrSource) {
     try {
-      console.log(`📄 Loading lesson: ${lang}/${topic}/${filename}`)
+      const sourceDisplay = typeof filenameOrSource === 'string'
+        ? filenameOrSource
+        : JSON.stringify(filenameOrSource)
+      console.log(`📄 Loading lesson: ${lang}/${topic}/${sourceDisplay}`)
 
-      // Add .yaml extension if not present
-      const fullFilename = filename.endsWith('.yaml') ? filename : `${filename}.yaml`
-      const response = await fetch(`lessons/${lang}/${topic}/${fullFilename}`)
+      // Parse lesson source (can be string, folder object, or url object)
+      const source = parseSource(filenameOrSource)
+      if (!source) {
+        console.error(`❌ Invalid lesson source:`, filenameOrSource)
+        return null
+      }
+
+      // Construct content.yaml URL
+      let lessonPath
+      if (source.type === 'url') {
+        // Lesson is a URL
+        lessonPath = `${source.path}/content.yaml`
+      } else if (topic.startsWith('http://') || topic.startsWith('https://')) {
+        // Topic is a URL, lesson is a folder
+        lessonPath = `${topic}/${source.path}/content.yaml`
+      } else if (lang.startsWith('http://') || lang.startsWith('https://')) {
+        // Language is a URL, others are folders
+        lessonPath = `${lang}/${topic}/${source.path}/content.yaml`
+      } else {
+        // All are folders
+        lessonPath = `lessons/${lang}/${topic}/${source.path}/content.yaml`
+      }
+
+      const response = await fetch(lessonPath)
 
       if (!response.ok) {
-        console.error(`❌ Failed to fetch lesson ${fullFilename}: ${response.status}`)
+        console.error(`❌ Failed to fetch lesson ${lessonPath}: ${response.status}`)
         return null
       }
 
@@ -134,13 +219,15 @@ export function useLessons() {
 
       if (lesson) {
         console.log(`  ✓ Lesson loaded: #${lesson.number} - ${lesson.title}`)
+        // Store the source path for audio loading
+        lesson._source = source
       } else {
-        console.error(`  ❌ Failed to parse lesson: ${fullFilename}`)
+        console.error(`  ❌ Failed to parse lesson: ${filenameOrSource}`)
       }
 
       return lesson
     } catch (error) {
-      console.error(`❌ Error loading lesson ${filename}:`, error)
+      console.error(`❌ Error loading lesson ${filenameOrSource}:`, error)
       return null
     }
   }
@@ -166,7 +253,8 @@ export function useLessons() {
         const lesson = await loadLesson(lang, topic, filename)
         if (lesson) {
           // Add filename (without .yaml extension) to lesson object for audio path
-          lesson._filename = filename.replace(/\.yaml$/, '')
+          const source = parseSource(filename)
+          lesson._filename = source ? source.path.replace(/\.yaml$/, '') : filename.replace(/\.yaml$/, '')
           lessons.push(lesson)
         }
       }

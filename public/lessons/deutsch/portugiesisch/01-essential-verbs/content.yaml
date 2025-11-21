@@ -1,0 +1,257 @@
+version: 1
+number: 1
+title: "Grundlegende Verben - Sein und Haben"
+description: "Die wichtigsten Verben ser, estar und ter mit allen Konjugationen"
+sections:
+  - title: "Ser"
+    explanation: |
+      **Ser** wird für **permanente Zustände** verwendet:
+      - Identität, Nationalität, Beruf
+      - Charaktereigenschaften
+      - Zeitangaben, Datum
+
+      **Konjugation Präsens**:
+      - eu sou (ich bin)
+      - tu és (du bist)
+      - ele/ela/você é (er/sie ist, Sie sind)
+      - nós somos (wir sind)
+      - vós sois (ihr seid)
+      - eles/elas são (sie sind)
+      - **Gerúndio**: sendo (seiend)
+    examples:
+      - q: "Eu sou professor."
+        a: "Ich bin Lehrer."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["sou", "bin", "ser - ich bin"]
+          - ["professor", "Lehrer", "Substantiv - Beruf"]
+
+      - q: "Tu és inteligente."
+        a: "Du bist intelligent."
+        labels: ["Präsens", "2. Person Singular"]
+        rel:
+          - ["és", "bist", "ser - du bist"]
+          - ["inteligente", "intelligent", "Adjektiv"]
+
+      - q: "Ela é portuguesa."
+        a: "Sie ist Portugiesin."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["é", "ist", "ser - er/sie/es ist"]
+          - ["portuguesa", "Portugiesin", "Nationalität"]
+
+      - q: "Nós somos estudantes."
+        a: "Wir sind Studenten."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["somos", "sind", "ser - wir sind"]
+          - ["estudantes", "Studenten", "Substantiv - Beruf"]
+
+      - q: "Vós sois amigos."
+        a: "Ihr seid Freunde."
+        labels: ["Präsens", "2. Person Plural"]
+        rel:
+          - ["sois", "seid", "ser - ihr seid"]
+          - ["amigos", "Freunde", "Substantiv - Beziehung"]
+
+      - q: "Eles são médicos."
+        a: "Sie sind Ärzte."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["são", "sind", "ser - sie sind"]
+          - ["médicos", "Ärzte", "Substantiv - Beruf"]
+
+      - q: "Sendo honesto, não gosto."
+        a: "Ehrlich gesagt, mag ich es nicht."
+        labels: ["Gerúndio"]
+        rel:
+          - ["sendo", "seiend", "ser - Gerundium"]
+          - ["honesto", "ehrlich", "Adjektiv"]
+
+  - title: "Estar"
+    explanation: |
+      **Estar** wird für **temporäre Zustände** und **Ortsangaben** verwendet:
+      - Vorübergehende Zustände, Gefühle
+      - Wo sich etwas/jemand befindet
+      - Verlaufsform (estar + Gerundium)
+
+      **Konjugation Präsens**:
+      - eu estou (ich bin)
+      - tu estás (du bist)
+      - ele/ela/você está (er/sie ist, Sie sind)
+      - nós estamos (wir sind)
+      - vós estais (ihr seid)
+      - eles/elas estão (sie sind)
+      - **Gerúndio**: estando (seiend)
+    examples:
+      - q: "Eu estou cansado."
+        a: "Ich bin müde."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["estou", "bin", "estar - ich bin"]
+          - ["cansado", "müde", "Adjektiv - Zustand"]
+
+      - q: "Tu estás em casa."
+        a: "Du bist zu Hause."
+        labels: ["Präsens", "2. Person Singular"]
+        rel:
+          - ["estás", "bist", "estar - du bist"]
+          - ["em casa", "zu Hause", "Ort"]
+
+      - q: "Ele está feliz hoje."
+        a: "Er ist heute glücklich."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["está", "ist", "estar - er/sie/es ist"]
+          - ["feliz", "glücklich", "Adjektiv - Emotion"]
+          - ["hoje", "heute", "Zeitangabe"]
+
+      - q: "Nós estamos no restaurante."
+        a: "Wir sind im Restaurant."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["estamos", "sind", "estar - wir sind"]
+          - ["no restaurante", "im Restaurant", "Ort"]
+
+      - q: "Vós estais ocupados."
+        a: "Ihr seid beschäftigt."
+        labels: ["Präsens", "2. Person Plural"]
+        rel:
+          - ["estais", "seid", "estar - ihr seid"]
+          - ["ocupados", "beschäftigt", "Adjektiv - Zustand"]
+
+      - q: "Eles estão em Lisboa."
+        a: "Sie sind in Lissabon."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["estão", "sind", "estar - sie sind"]
+          - ["em Lisboa", "in Lissabon", "Ort"]
+
+      - q: "Estando doente, fiquei em casa."
+        a: "Da ich krank war, blieb ich zu Hause."
+        labels: ["Gerúndio"]
+        rel:
+          - ["estando", "seiend", "estar - Gerundium"]
+          - ["doente", "krank", "Adjektiv - Gesundheit"]
+
+  - title: "Ter"
+    explanation: |
+      **Ter** bedeutet **haben** und drückt aus:
+      - Besitz
+      - Beziehungen
+      - Verpflichtungen (ter que = müssen)
+      - Alter (tenho 25 anos = ich bin 25 Jahre alt)
+
+      **Konjugation Präsens**:
+      - eu tenho (ich habe)
+      - tu tens (du hast)
+      - ele/ela/você tem (er/sie hat, Sie haben)
+      - nós temos (wir haben)
+      - vós tendes (ihr habt)
+      - eles/elas têm (sie haben)
+      - **Gerúndio**: tendo (habend)
+    examples:
+      - q: "Eu tenho um carro."
+        a: "Ich habe ein Auto."
+        labels: ["Präsens", "1. Person Singular"]
+        rel:
+          - ["tenho", "habe", "ter - ich habe"]
+          - ["um carro", "ein Auto", "Substantiv - Fahrzeug"]
+
+      - q: "Tu tens razão."
+        a: "Du hast recht."
+        labels: ["Präsens", "2. Person Singular"]
+        rel:
+          - ["tens", "hast", "ter - du hast"]
+          - ["razão", "recht", "Substantiv - Ausdruck"]
+
+      - q: "Ela tem dois irmãos."
+        a: "Sie hat zwei Brüder."
+        labels: ["Präsens", "3. Person Singular"]
+        rel:
+          - ["tem", "hat", "ter - er/sie/es hat"]
+          - ["dois", "zwei", "Zahl"]
+          - ["irmãos", "Brüder", "Substantiv - Familie"]
+
+      - q: "Nós temos fome."
+        a: "Wir haben Hunger."
+        labels: ["Präsens", "1. Person Plural"]
+        rel:
+          - ["temos", "haben", "ter - wir haben"]
+          - ["fome", "Hunger", "Substantiv - Bedürfnis"]
+
+      - q: "Vós tendes tempo."
+        a: "Ihr habt Zeit."
+        labels: ["Präsens", "2. Person Plural"]
+        rel:
+          - ["tendes", "habt", "ter - ihr habt"]
+          - ["tempo", "Zeit", "Substantiv"]
+
+      - q: "Eles têm uma casa grande."
+        a: "Sie haben ein großes Haus."
+        labels: ["Präsens", "3. Person Plural"]
+        rel:
+          - ["têm", "haben", "ter - sie haben"]
+          - ["uma casa", "ein Haus", "Substantiv - Wohnung"]
+          - ["grande", "groß", "Adjektiv"]
+
+      - q: "Tendo dinheiro, posso viajar."
+        a: "Wenn ich Geld habe, kann ich reisen."
+        labels: ["Gerúndio"]
+        rel:
+          - ["tendo", "habend", "ter - Gerundium"]
+          - ["dinheiro", "Geld", "Substantiv"]
+          - ["viajar", "reisen", "Verb - Infinitiv"]
+
+  - title: "Ser vs Estar"
+    explanation: |
+      **Wichtiger Unterschied**:
+      - **Ser**: permanent, unveränderlich, Wesenskern
+      - **Estar**: temporär, veränderlich, Zustand
+
+      Beispiele für den Unterschied:
+      - Ser alto = groß sein (Eigenschaft)
+      - Estar alto = hoch sein (Position)
+      - Ser feliz = glücklich sein (Charakter)
+      - Estar feliz = glücklich sein (momentanes Gefühl)
+    examples:
+      - q: "O café é quente."
+        a: "Kaffee ist (generell) heiß."
+        labels: ["Ser", "Eigenschaft"]
+        rel:
+          - ["é", "ist", "ser - Eigenschaft"]
+          - ["café", "Kaffee", "Substantiv - Getränk"]
+          - ["quente", "heiß", "Adjektiv"]
+
+      - q: "O café está quente."
+        a: "Der Kaffee ist (gerade jetzt) heiß."
+        labels: ["Estar", "Zustand"]
+        rel:
+          - ["está", "ist", "estar - temporärer Zustand"]
+
+      - q: "Ela é bonita."
+        a: "Sie ist (von Natur aus) schön."
+        labels: ["Ser", "Eigenschaft"]
+        rel:
+          - ["é", "ist", "ser - dauerhaft"]
+          - ["bonita", "schön", "Adjektiv"]
+
+      - q: "Ela está bonita hoje."
+        a: "Sie sieht heute schön aus."
+        labels: ["Estar", "Zustand"]
+        rel:
+          - ["está", "ist", "estar - heute"]
+
+      - q: "Eu sou de Portugal."
+        a: "Ich bin (stamme) aus Portugal."
+        labels: ["Ser", "Herkunft"]
+        rel:
+          - ["sou", "bin", "ser - Herkunft"]
+          - ["de Portugal", "aus Portugal", "Ort"]
+
+      - q: "Eu estou em Portugal."
+        a: "Ich bin (befinde mich) in Portugal."
+        labels: ["Estar", "Aufenthalt"]
+        rel:
+          - ["estou", "bin", "estar - Aufenthaltsort"]
+          - ["em Portugal", "in Portugal", "Ort"]

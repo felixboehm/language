@@ -24,7 +24,22 @@ function buildReadingQueue(lesson, learning, teaching, settings) {
 
   const baseUrl = import.meta.env.BASE_URL
   const lessonFilename = lesson._filename || `${String(lesson.number).padStart(2, '0')}-lesson`
-  const audioBase = `${baseUrl}audio/${learning}/${teaching}/${lessonFilename}`
+
+  // Determine audio base path based on lesson source
+  let audioBase
+  if (lesson._source && lesson._source.type === 'url') {
+    // Lesson is from URL
+    audioBase = `${lesson._source.path}/audio`
+  } else if (teaching && (teaching.startsWith('http://') || teaching.startsWith('https://'))) {
+    // Topic is from URL
+    audioBase = `${teaching}/${lessonFilename}/audio`
+  } else if (learning && (learning.startsWith('http://') || learning.startsWith('https://'))) {
+    // Language is from URL
+    audioBase = `${learning}/${teaching}/${lessonFilename}/audio`
+  } else {
+    // Local folder structure: audio files are inside the lesson folder
+    audioBase = `${baseUrl}lessons/${learning}/${teaching}/${lessonFilename}/audio`
+  }
 
   console.log(`🎵 Building audio queue from: ${audioBase}`)
 

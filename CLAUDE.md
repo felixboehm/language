@@ -51,13 +51,19 @@ language/
 │       ├── deutsch/       # German language folder
 │       │   ├── topics.yaml            # Lists topics (portugiesisch, englisch)
 │       │   ├── portugiesisch/
-│       │   │   ├── lessons.yaml       # Lists lesson files
-│       │   │   ├── 01-basic-verbs.yaml
-│       │   │   ├── 02-modal-verbs.yaml
-│       │   │   └── 03-daily-activities.yaml
+│       │   │   ├── lessons.yaml       # Lists lesson folder names
+│       │   │   ├── 01-essential-verbs/
+│       │   │   │   ├── content.yaml   # Lesson content
+│       │   │   │   └── audio/         # Audio files for this lesson
+│       │   │   ├── 02-action-verbs/
+│       │   │   │   ├── content.yaml
+│       │   │   │   └── audio/
+│       │   │   └── ...
 │       │   └── englisch/
 │       │       ├── lessons.yaml
-│       │       └── 01-greetings.yaml
+│       │       └── 01-greetings/
+│       │           ├── content.yaml
+│       │           └── audio/
 │       └── README.md      # Lesson system documentation
 ├── docs/
 │   ├── lesson-schema.md   # Individual lesson YAML schema documentation
@@ -149,8 +155,8 @@ Uses hash-based routing (`createWebHashHistory`) for GitHub Pages compatibility.
 1. Load `lessons/languages.yaml` → get available languages
 2. User selects language → load `lessons/{language}/topics.yaml` → get topics
 3. User selects topic → navigate to `/lessons/{language}/{topic}`
-4. Load `lessons/{language}/{topic}/lessons.yaml` → get lesson files
-5. Load all lessons for topic → fetch and parse YAML files with js-yaml
+4. Load `lessons/{language}/{topic}/lessons.yaml` → get lesson folder names
+5. Load all lessons for topic → fetch `{folder}/content.yaml` for each folder and parse with js-yaml
 
 ### YAML Lesson Schema
 
@@ -175,9 +181,13 @@ sections:
 
 **Key Concepts**:
 - **Three-level hierarchy**: Language → Topic → Lesson
-  - `lessons/<language>/<topic>/`
-  - Example: `deutsch/portugiesisch/` = Portuguese topic in German language
-  - Example: `english/math-algebra/` = Math topic in English language
+  - `lessons/<language>/<topic>/<lesson-folder>/`
+  - Example: `deutsch/portugiesisch/01-essential-verbs/` = Portuguese lesson in German language
+  - Example: `english/math-algebra/01-basics/` = Math lesson in English language
+- **Self-contained lessons**: Each lesson folder contains its content and audio files
+  - `content.yaml` - Lesson content
+  - `audio/` - Audio files for pronunciation
+  - Makes lessons portable and distributable (can be hosted on IPFS, CDN, etc.)
 - **Labels**: Optional categorization (e.g. for grammar, like "Futur", "Passiv")
 - **Related items (`rel`)**: Vocabulary with first element as unique identifier
 - **Markdown support**: Section explanations support markdown formatting
@@ -231,14 +241,17 @@ No lesson progress tracking is currently implemented.
 
 ### Adding a New Lesson
 
-1. Choose or create the appropriate folder: `public/lessons/<language>/<topic>/`
-2. Create a YAML file following the schema (see `docs/lesson-schema.md`)
-3. Add the filename to `public/lessons/<language>/<topic>/lessons.yaml`:
+1. Choose or create the appropriate topic folder: `public/lessons/<language>/<topic>/`
+2. Create a new lesson folder: `public/lessons/<language>/<topic>/##-lesson-name/`
+3. Create `content.yaml` in the lesson folder following the schema (see `docs/lesson-schema.md`)
+4. Optionally create an `audio/` subfolder for audio files
+5. Add the folder name to `public/lessons/<language>/<topic>/lessons.yaml`:
    ```yaml
    lessons:
      - 01-basics
      - 02-your-new-lesson
    ```
+6. Generate audio files using `./generate-audio.sh public/lessons/<language>/<topic>/02-your-new-lesson/`
 
 ### Adding a New Topic
 
@@ -251,8 +264,8 @@ No lesson progress tracking is currently implemented.
      - folder: your-new-topic
        code: de-DE
    ```
-3. Create `public/lessons/<language>/<topic>/lessons.yaml` with lesson files
-4. Add lesson YAML files
+3. Create `public/lessons/<language>/<topic>/lessons.yaml` with lesson folder names
+4. Add lesson folders with `content.yaml` files
 
 ### Adding a New Language
 
@@ -265,7 +278,7 @@ No lesson progress tracking is currently implemented.
        code: xx-XX
    ```
 2. Create `public/lessons/<language>/topics.yaml` with topics list
-3. Create topic folders and lesson files
+3. Create topic folders with `lessons.yaml` and lesson folders
 
 See `docs/yaml-schemas.md` for detailed documentation on all index file schemas.
 

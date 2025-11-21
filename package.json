@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",
+    "@tailwindcss/typography": "^0.5.19",
     "@vitejs/plugin-basic-ssl": "^2.1.0",
     "@vitejs/plugin-vue": "^5.0.0",
     "@vitest/ui": "1.6.1",

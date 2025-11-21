@@ -21,13 +21,19 @@ lessons/
 ├── deutsch/                        # Language folder
 │   ├── topics.yaml                # Lists topics for this language
 │   ├── portugiesisch/             # Topic folder
-│   │   ├── lessons.yaml           # Lists lesson files
-│   │   ├── 01-basic-verbs.yaml    # Individual lesson file
-│   │   ├── 02-modal-verbs.yaml
+│   │   ├── lessons.yaml           # Lists lesson folder names
+│   │   ├── 01-basic-verbs/        # Individual lesson folder
+│   │   │   ├── content.yaml       # Lesson content
+│   │   │   └── audio/             # Audio files for this lesson
+│   │   ├── 02-modal-verbs/
+│   │   │   ├── content.yaml
+│   │   │   └── audio/
 │   │   └── ...
 │   └── englisch/
 │       ├── lessons.yaml
-│       └── 01-greetings.yaml
+│       └── 01-greetings/
+│           ├── content.yaml
+│           └── audio/
 └── english/                        # Another language folder
     ├── topics.yaml
     └── german/
@@ -45,17 +51,25 @@ lessons/
 
 ```yaml
 languages:
-  - folder: string              # Required: Folder name for this language
-    code: string                # Required: Language code (BCP 47 format)
+  - string                      # Backward compatible: folder name
+  - folder: string              # Local folder source
+    code: string
+  - url: string                 # Remote URL source (HTTP/HTTPS/IPFS)
+    code: string
 ```
 
 ### Fields
 
 - **languages** (array, required): List of available languages
-  - **folder** (string, required): Directory name for this language (e.g., "deutsch", "english")
-  - **code** (string, required): Language/locale code in BCP 47 format (e.g., "de-DE", "en-US")
-    - Used for Web Speech API (text-to-speech)
-    - Used for the interface/base language voice
+  - **String format** (backward compatible): Treated as a local folder name
+  - **Object format with `folder`**:
+    - **folder** (string, required): Directory name for this language (e.g., "deutsch", "english")
+    - **code** (string, optional): Language/locale code in BCP 47 format (e.g., "de-DE", "en-US")
+  - **Object format with `url`**:
+    - **url** (string, required): Remote URL to the language folder (HTTP, HTTPS, or IPFS)
+    - **code** (string, optional): Language/locale code in BCP 47 format
+
+Language codes are used for Web Speech API (text-to-speech) and the interface/base language voice.
 
 ### Example
 
@@ -63,12 +77,20 @@ languages:
 # Available languages
 # This file lists all available base/interface languages
 languages:
-  - folder: deutsch
-    code: de-DE
+  # String format (backward compatible)
+  - deutsch
+
+  # Object format with folder
   - folder: english
     code: en-US
-  - folder: francais
+
+  # Object format with URL
+  - url: https://example.com/languages/french
     code: fr-FR
+
+  # IPFS URL
+  - url: ipfs://QmExample.../spanish
+    code: es-ES
 ```
 
 ### Usage in Code
@@ -95,17 +117,25 @@ for (const lang of data.languages) {
 
 ```yaml
 topics:
-  - folder: string              # Required: Folder name for this topic
-    code: string                # Required: Language/voice code (BCP 47 format)
+  - string                      # Backward compatible: folder name
+  - folder: string              # Local folder source
+    code: string
+  - url: string                 # Remote URL source (HTTP/HTTPS/IPFS)
+    code: string
 ```
 
 ### Fields
 
 - **topics** (array, required): List of available topics
-  - **folder** (string, required): Directory name for this topic (e.g., "portugiesisch", "math-algebra")
-  - **code** (string, required): Language/locale code for text-to-speech (BCP 47 format)
-    - For language topics: the target language code (e.g., "pt-PT" for Portuguese)
-    - For non-language topics: typically the same as the base language code
+  - **String format** (backward compatible): Treated as a local folder name
+  - **Object format with `folder`**:
+    - **folder** (string, required): Directory name for this topic (e.g., "portugiesisch", "math-algebra")
+    - **code** (string, optional): Language/locale code for text-to-speech (BCP 47 format)
+  - **Object format with `url`**:
+    - **url** (string, required): Remote URL to the topic folder
+    - **code** (string, optional): Language/locale code for text-to-speech
+
+For language topics, use the target language code (e.g., "pt-PT" for Portuguese). For non-language topics, use the base language code.
 
 ### Example
 
@@ -113,13 +143,19 @@ topics:
 # Available topics for German language
 # This file lists all topics available in the German interface
 topics:
+  # Object format with folder
   - folder: portugiesisch
     code: pt-PT
-  - folder: englisch
-    code: en-US
-  - folder: spanisch
+
+  # String format (backward compatible)
+  - englisch
+
+  # Object format with URL
+  - url: https://example.com/topics/spanish
     code: es-ES
-  - folder: math-algebra
+
+  # IPFS URL
+  - url: ipfs://QmExample.../math-algebra
     code: de-DE    # Non-language topic uses base language
 ```
 
@@ -140,40 +176,62 @@ for (const topic of data.topics) {
 
 **Location**: `lessons/<language>/<topic>/lessons.yaml`
 
-**Purpose**: Lists all lesson files available for a specific topic.
+**Purpose**: Lists all lesson folders available for a specific topic.
 
 ### Schema
 
 ```yaml
 lessons:
-  - string                      # Lesson filename (without .yaml extension)
+  - string                      # Backward compatible: folder name
+  - folder: string              # Local folder source
+  - url: string                 # Remote URL source (HTTP/HTTPS/IPFS)
 ```
 
 ### Fields
 
-- **lessons** (array of strings, required): List of lesson filenames
-  - Each entry is a string representing a lesson filename **without** the `.yaml` extension
-  - Files should follow the naming convention: `##-descriptive-name` (e.g., "01-basic-verbs")
-  - Lessons will be loaded and sorted by their `number` field, not by filename order
+- **lessons** (array, required): List of lessons
+  - **String format** (backward compatible): Treated as a local folder name
+  - **Object format with `folder`**: Local lesson folder name (e.g., "01-basic-verbs")
+  - **Object format with `url`**: Remote URL to the lesson folder
+
+Each lesson folder must contain a `content.yaml` file. Lessons are sorted by their `number` field in `content.yaml`.
 
 ### Example
 
 ```yaml
 # Portuguese topic lessons (German language)
 lessons:
+  # String format (backward compatible)
   - 01-basic-verbs
-  - 02-modal-verbs
-  - 03-daily-activities
-  - 04-past-tense
-  - 05-gerundium
-  - 06-passive-subjunctive
+
+  # Object format with folder
+  - folder: 02-modal-verbs
+
+  # Object format with URL
+  - url: https://example.com/lessons/03-daily-activities
+
+  # IPFS URL
+  - url: ipfs://QmExample.../04-past-tense
+```
+
+### Folder Structure
+
+Each lesson folder contains:
+```
+01-basic-verbs/
+├── content.yaml    # Required: Lesson content (YAML format)
+└── audio/          # Optional: Audio files for pronunciation
+    ├── title.mp3
+    ├── 0-title.mp3
+    ├── 0-0-q.mp3
+    └── ...
 ```
 
 ### Naming Conventions
 
 - **Prefix with number**: Use zero-padded numbers (01, 02, ..., 10, 11) for easy ordering
 - **Descriptive names**: Use kebab-case for multi-word names (e.g., "basic-verbs", "daily-activities")
-- **No extension**: Do not include `.yaml` in the filename list (added automatically by the loader)
+- **No trailing slash**: Do not include `/` at the end of folder names
 
 ### Usage in Code
 
@@ -182,13 +240,13 @@ lessons:
 const response = await fetch(`lessons/${lang}/${topic}/lessons.yaml`)
 const data = yaml.load(text)
 
-// data.lessons is an array of strings
+// data.lessons is an array of strings (folder names)
 console.log(data.lessons)  // ["01-basic-verbs", "02-modal-verbs", ...]
 
-// Load each lesson
-for (const filename of data.lessons) {
-  const lesson = await loadLesson(lang, topic, filename)
-  // filename is automatically appended with .yaml
+// Load each lesson from its folder
+for (const folderName of data.lessons) {
+  // Loads from: lessons/{lang}/{topic}/{folderName}/content.yaml
+  const lesson = await loadLesson(lang, topic, folderName)
 }
 ```
 
@@ -213,26 +271,103 @@ The language codes specified in `languages.yaml` and `topics.yaml` are used for 
 
 ### Audio File Structure
 
-Pre-recorded audio files (if available) should follow this structure:
+Audio files are stored **inside each lesson folder** for portability and self-containment:
 
 ```
-public/audio/
-└── <language>/
-    └── <topic>/
-        └── <lesson-filename>/
-            ├── 0-title.mp3                # Section 0 title (in topic language)
-            ├── 0-0-q.mp3                  # Section 0, Example 0, Question (in topic language)
-            ├── 0-0-a.mp3                  # Section 0, Example 0, Answer (in base language)
-            ├── 0-1-q.mp3
-            ├── 0-1-a.mp3
-            ├── 1-title.mp3                # Section 1 title (in topic language)
-            ├── 1-0-q.mp3
-            └── ...
+lessons/<language>/<topic>/<lesson-folder>/
+├── content.yaml
+└── audio/
+    ├── title.mp3                  # Lesson title (in base language)
+    ├── 0-title.mp3                # Section 0 title (in topic language)
+    ├── 0-0-q.mp3                  # Section 0, Example 0, Question (in topic language)
+    ├── 0-0-a.mp3                  # Section 0, Example 0, Answer (in base language)
+    ├── 0-1-q.mp3
+    ├── 0-1-a.mp3
+    ├── 1-title.mp3                # Section 1 title (in topic language)
+    ├── 1-0-q.mp3
+    └── ...
 ```
+
+**Example**: `lessons/deutsch/portugiesisch/01-basic-verbs/audio/`
 
 **Language Usage:**
+- **Lesson title** uses the **base language** (e.g., German in `deutsch/portugiesisch/`)
 - **Section titles** and **questions** use the **topic language** (e.g., Portuguese in `deutsch/portugiesisch/`)
 - **Answers** use the **base language** (e.g., German in `deutsch/portugiesisch/`)
+
+**Benefits of this structure:**
+- Each lesson folder is self-contained and portable
+- Lessons can be distributed independently
+- Easy to host on IPFS, CDN, or any file system with just a folder URL
+- Audio files stay with their content
+
+## URL Sources and Distribution
+
+### Supported URL Types
+
+The application supports three types of content sources:
+
+1. **Local folders** (`folder: "name"`): Content stored locally in the `public/lessons/` directory
+2. **HTTP/HTTPS URLs** (`url: "https://..."`): Content hosted on web servers
+3. **IPFS URLs** (`url: "ipfs://..."`): Content hosted on the InterPlanetary File System
+
+### IPFS Support
+
+IPFS URLs are automatically resolved to HTTP gateway URLs:
+- Format: `ipfs://QmHash.../path`
+- Resolved to: `https://ipfs.io/ipfs/QmHash.../path`
+
+This allows lessons to be hosted on IPFS and accessed through standard HTTP.
+
+### URL Structure
+
+When using URLs, the folder structure is preserved:
+
+```
+# Local folder
+lessons/deutsch/portugiesisch/01-verbs/content.yaml
+
+# HTTP URL
+https://example.com/deutsch/portugiesisch/01-verbs/content.yaml
+
+# IPFS URL (resolved)
+https://ipfs.io/ipfs/QmHash.../deutsch/portugiesisch/01-verbs/content.yaml
+```
+
+### Mixed Sources
+
+You can mix local folders and remote URLs at any level:
+
+```yaml
+languages:
+  - folder: deutsch        # Local folder
+    code: de-DE
+  - url: https://example.com/english  # Remote language
+    code: en-US
+```
+
+```yaml
+topics:
+  - folder: portugiesisch  # Local folder topic
+    code: pt-PT
+  - url: https://example.com/spanish  # Remote topic
+    code: es-ES
+```
+
+```yaml
+lessons:
+  - 01-basics              # Local folder lesson
+  - url: https://example.com/02-advanced  # Remote lesson
+```
+
+### Benefits of URL Sources
+
+1. **Distributed hosting**: Lessons can be hosted anywhere
+2. **Content delivery networks**: Use CDNs for better performance
+3. **Decentralization**: IPFS support for censorship-resistant content
+4. **Collaboration**: Multiple contributors can host their own lessons
+5. **Versioning**: Different URLs can point to different versions
+6. **Scalability**: Large lesson libraries don't need to be stored locally
 
 ## Best Practices
 
@@ -269,8 +404,10 @@ public/audio/
   4. Add lesson files
 
 - **When adding a new lesson**:
-  1. Create lesson YAML file with proper schema (see [lesson-schema.md](lesson-schema.md))
-  2. Add filename to `lessons.yaml`
+  1. Create lesson folder (e.g., `03-new-lesson/`)
+  2. Create `content.yaml` in the folder with proper schema (see [lesson-schema.md](lesson-schema.md))
+  3. Add folder name to `lessons.yaml`
+  4. Optionally create `audio/` subfolder and generate audio files
 
 ## Validation
 
@@ -282,7 +419,8 @@ For each new content addition, ensure these files exist:
 ✓ lessons/languages.yaml exists
 ✓ lessons/<language>/topics.yaml exists
 ✓ lessons/<language>/<topic>/lessons.yaml exists
-✓ All lesson files listed in lessons.yaml exist
+✓ All lesson folders listed in lessons.yaml exist
+✓ Each lesson folder contains content.yaml
 ✓ All YAML files are valid (parseable by js-yaml)
 ```
 
@@ -306,15 +444,23 @@ Warning: Voice not available for language code 'xyz'
 → Use valid BCP 47 codes (en-US, de-DE, etc.)
 ```
 
-**4. Missing .yaml extension**
+**4. Incorrect folder references**
 ```
-# ❌ Wrong - includes extension
+# ❌ Wrong - includes trailing slash or extension
 lessons:
-  - 01-basic-verbs.yaml
+  - 01-basic-verbs/
+  - 02-modal-verbs.yaml
 
-# ✅ Correct - no extension
+# ✅ Correct - just folder names
 lessons:
   - 01-basic-verbs
+  - 02-modal-verbs
+```
+
+**5. Missing content.yaml**
+```
+Error: Failed to fetch lesson .../01-basic-verbs/content.yaml: 404
+→ Ensure each lesson folder contains a content.yaml file
 ```
 
 ## Examples
@@ -342,9 +488,11 @@ lessons:
   - 02-numbers
 ```
 
-**4. Create lesson files:**
-- `lessons/english/german/01-basic-phrases.yaml`
-- `lessons/english/german/02-numbers.yaml`
+**4. Create lesson folders and files:**
+- `lessons/english/german/01-basic-phrases/content.yaml`
+- `lessons/english/german/01-basic-phrases/audio/` (optional)
+- `lessons/english/german/02-numbers/content.yaml`
+- `lessons/english/german/02-numbers/audio/` (optional)
 
 ### Full Example: Adding Math Content
 
@@ -364,7 +512,9 @@ lessons:
   - 02-equations
 ```
 
-**3. Create lesson files with math content**
+**3. Create lesson folders with math content:**
+- `lessons/english/math-algebra/01-basic-operations/content.yaml`
+- `lessons/english/math-algebra/02-equations/content.yaml`
 
 ## See Also
 
