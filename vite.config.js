@@ -2,18 +2,18 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import basicSsl from '@vitejs/plugin-basic-ssl'
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [
     vue(),
-    basicSsl()
+    // Only use SSL in dev mode, not for preview/build
+    ...(command === 'serve' && !process.env.CI ? [basicSsl()] : [])
   ],
   base: '/language/',
   server: {
-    https: true
+    https: command === 'serve' && !process.env.CI
   },
   preview: {
-    port: 5173,
-    https: true
+    port: 5173
   },
   resolve: {
     alias: {
@@ -25,4 +25,4 @@ export default defineConfig({
     environment: 'happy-dom',
     exclude: ['**/node_modules/**', '**/dist/**', '**/e2e/**']
   }
-})
+}))
